@@ -9,13 +9,14 @@ import Icon from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Apptext from "./Apptext";
 import DefaultStyles from "../config/Styles";
+import { Divider } from 'react-native-elements';
 
 function Header({
   rightIcon,
   label,
   leftIcon,
   backgroundColor,
-  contentColor = DefaultStyles.colors.primary,
+  contentColor = DefaultStyles.colors.secondary,
   onPressLeft,
   onPressRight,
   style,
@@ -34,7 +35,7 @@ function Header({
         name={leftIcon}
         color={contentColor}
       />
-      <Apptext style={[DefaultStyles.topheadingTxt, ]}>
+      <Apptext style={[styles.topheadingTxt, ]}>
         {label}
       </Apptext>
       <Icon
@@ -43,12 +44,18 @@ function Header({
         name={rightIcon}
         color={contentColor}
       />
+
     </View>
   );
 }
 const styles = StyleSheet.create({
+  topheadingTxt:{
+    fontFamily:"Poppins-Regular",
+    color:DefaultStyles.colors.secondary,
+    fontSize:16
+  },
   container: {
-    height: wp("20%"),
+    // height: wp("20%"),
     width: wp("95%"),
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20,

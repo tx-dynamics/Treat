@@ -21,8 +21,8 @@ const HomeNavigator = () => {
         screenOptions = {{
             headerShown: false
         }}>
-            {/* <StackNavigator.Screen name="Home" component={Home}/>
-           */}
+            {/* <StackNavigator.Screen name="Home" component={Home}/> */}
+          
 
         </StackNavigator.Navigator>
     )

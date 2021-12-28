@@ -7,12 +7,33 @@ import {
 import Apptext from 'src/components/Apptext';
 import DefaultStyles from "src/config/Styles";
 import HumanHeader from 'src/components/HumanHeader';
-import CheckBox from '@react-native-community/checkbox';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import RadioButtonRN from 'radio-buttons-react-native';
+
 
 const AskProblem = ({ navigation }) => {
 
+    const data = [
+        {
+            label: 'Stress'
+        },
+        {
+            label: 'Lack of appreciation'
+        },
+        {
+            label: 'Burnout'
+        },
+        {
+            label: 'Lack of emotional support'
+        },
+        {
+            label: 'Others'
+        },
+       
+    ];
+
     const [check2, setCheck2] = useState(false);
-        
+
     return (
         <View style={styles.container}>
             <ScrollView >
@@ -22,17 +43,29 @@ const AskProblem = ({ navigation }) => {
                     <Apptext style={[styles.userTxt, { fontFamily: 'Poppins-Medium' }]}>hurdle right now?</Apptext>
                 </View>
                 <View>
-                    {/* <CheckBox
-                        center
-                        title="Click Here"
-                        checkedIcon="dot-circle-o"
-                        uncheckedIcon="circle-o"
-                        checked={check2}
-                        onPress={() => setCheck2(!check2)}
-                    /> */}
+
+                    <RadioButtonRN
+                        data={data}
+                        boxStyle={{backgroundColor:"white",borderColor:"white"}}
+                        circleSize={16}
+                        textStyle={{fontSize:14, fontFamily:"Poppins-Regular", color:DefaultStyles.colors.primary}}
+                        selectedBtn={(e) => console.log(e)}
+                        icon={
+                            <Icon
+                                name="check-circle-o"
+                                size={25}
+                                color="#2c9dd1"
+                            />
+                        }
+                    />
+
                 </View>
             </ScrollView>
-
+            <TouchableOpacity
+          onPress={()  => navigation.navigate("AskSubscription")}
+          style={styles.buttonContainer}>
+          <Apptext style={styles.buttonText}>{"Next"}</Apptext>
+      </TouchableOpacity>
         </View>
     )
 }
@@ -52,7 +85,7 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         marginBottom: wp('10%'),
-        width: wp('93%'),
+        width: wp('65%'),
         justifyContent: 'center',
         alignItems: 'center',
         height: wp('14%'),

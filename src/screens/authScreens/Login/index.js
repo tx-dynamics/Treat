@@ -45,9 +45,11 @@ const SignIn = ({ navigation }) => {
                 onPress={() => navigation.navigate("Agreement")}
             />
             </View>
-            <View style={styles.methods}>
+            <TouchableOpacity
+            onPress={() => navigation.navigate("Home")}
+            style={styles.methods}>
                 <Apptext style={DefaultStyles.lightTxt}>Other Sign-In Methods</Apptext>
-            </View>
+            </TouchableOpacity>
             <View style={styles.socialImgs}>
                 <Image source={require('../../../../assets/facebook.png')} />
                 <Image source={require('../../../../assets/google.png')} />

@@ -22,16 +22,35 @@ const Agreement = ({ navigation }) => {
             <HumanHeader />
             <Apptext style={styles.userTxt}>User Agreement</Apptext>
             <View style={{ alignSelf: 'center' }}>
-                <Apptext style={{ fontFamily: "Poppins" }}>{`By purchasing any (“Program”) from Ashleigh Boyd LLC (“Company”), you (“Client” and collectively, the “Parties”) agree to the following terms of this Purchase Agreement 
+                <Apptext style={{fontSize:12,marginTop:16, fontFamily: "Poppins",marginHorizontal:wp('7%')}}>{`By purchasing any (“Program”) from Ashleigh Boyd LLC (“Company”), you (“Client” and collectively, the “Parties”) agree to the following terms of this Purchase Agreement 
                                     (“Agreement)”: 
+
 
                                     1. SERVICES. 
 
-Company agrees to provide its Program and Client agrees to abide by all policies and procedures as outlined in this agreement as a condition of their participation in the Program.  
+    Company agrees to provide its Program and Client
+    agrees to abide by all policies and procedures as
+    outlined in this agreement as a condition of their
+                        participation in the Program.  
 
-2. DISCLAIMER. 
 
-Participant understands Company is not an agent, publicist, accountant, financial planner, lawyer, therapist, medical doctor or any other licensed or registered professional except registered nurse.  Coaching, which is not directive advice, counseling, or therapy, may address overall goals, specific projects, or general conditions in Client’s life or profession. Coaching services may include setting priorities, establishing goals, identifying resources, brainstorming, creating action plans, strategizing, asking clarifying questions, and providing models, examples, and in-the-moment skills training. Company promises that all information provided by Client will be kept strictly confidential, as permissible by law.  
+                                    2. DISCLAIMER. 
+
+
+    Participant understands Company is not an agent,
+    publicist, accountant, financial planner, lawyer,
+    therapist,medical doctor or any other licensed or
+    registered professional except registered nurse. 
+    Coaching, which is not directive advice, counseling,
+    or therapy, may address overall goals, specific proje
+    -cts,or general conditions in Client’s life or profession.
+    Coaching services may include setting priorities, esta
+    -blishing goals, identifying resources, brainstorming,
+    creating action plans, strategizing, asking clarifying 
+    questions, and providing models, examples, and in-
+    the-moment skills training. Company promises that
+    all information provided by Client will be kept strictly
+    confidential, as permissible by law.  
 
 All content found on the ashleighboyd.com and treatthenurse.com Website, including: text, images, audio, or other formats were created for informational purposes only. The Content is not intended to be a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition. Never disregard professional medical advice or delay in seeking it because of something you have read on this Website. 
 

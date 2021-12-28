@@ -66,7 +66,7 @@ const Signup = ({ navigation }) => {
             </View>
             <View style={styles.bottomLines} >
                 <Apptext style={styles.bottomTxt}> Don't have an account? </Apptext>
-                <TouchableOpacity onPress={() => { navigation.navigate("SignUp") }}>
+                <TouchableOpacity onPress={() => { navigation.navigate("Login") }}>
                     <Apptext style={[styles.bottomTxt,
                     { color: DefaultStyles.colors.secondary, }]}>SIGN IN</Apptext>
                 </TouchableOpacity>
