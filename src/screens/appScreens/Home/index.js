@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import { View,StyleSheet,FlatList ,Image } from 'react-native';
+import { View,StyleSheet,FlatList ,Image, ScrollView, TouchableOpacity } from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -9,6 +9,8 @@ import Apptext from 'src/components/Apptext';
 import Header from 'src/components/Header';
 import { Divider } from 'react-native-elements';
 import HomeBox from 'src/components/HomeBox';
+import HomeHeader from 'src/components/HomeHeader';
+import HomeWideCard from 'src/components/HomeWideCard';
 
 const Home = ({ navigation }) => {
 
@@ -81,13 +83,33 @@ const Home = ({ navigation }) => {
 
     return (
         <View style={[styles.container]}>
-            <Header 
-            label="Debriefing Videos"
-            leftIcon={"keyboard-backspace"}
-            onPressLeft={() => { navigation.goBack() }}
+            <HomeHeader 
+             headrImg={require('../../../../assets/boyImg.png')}
+             headerTitle={"Welcome"}
+             rightHeaderImg={require('../../../../assets/settingIcon.png')}
             />
+            
             <Divider width={1} style={{marginTop:-7}} color="lightgray" />
+        <ScrollView>
+            <View style={{marginTop:wp('9%')}}>
+                <HomeWideCard
+                    backImg={require('../../../../assets/human2.png')}
+                />
+            </View>
+            <View style={styles.cntrTxt}>
+                <Apptext style={styles.grayTxt}>{`“It takes as much energy to wish as it does to plan.” 
 
+                                    Eleanor Roosevelt`} </Apptext>
+            </View>
+                <Apptext style={styles.monthTxt}>JUNE</Apptext>
+            <View style={styles.CalenderBox}>
+            </View>
+            <View style={styles.DirectionView}>
+                <Apptext style={styles.PrsnlTxt}>Your Personal Library</Apptext>
+                <TouchableOpacity>
+                <Apptext style={styles.pinkTxt}>View</Apptext>
+                </TouchableOpacity>
+            </View>
             <FlatList
                 data={DATA}
                 numColumns={2}
@@ -95,6 +117,7 @@ const Home = ({ navigation }) => {
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
                     <HomeBox
+                    yellowBoxTxt={"15 MIN"}
                     leftTitle={item.label}
                     leftImgName={item.Img}
                 />
@@ -102,6 +125,7 @@ const Home = ({ navigation }) => {
                 )}
             />
            
+        </ScrollView>
         </View>
     )
 }
@@ -122,6 +146,43 @@ const styles = StyleSheet.create({
         fontFamily:"Poppins-Medium",
         fontSize:16,
         color:DefaultStyles.colors.secondary
-
+    },
+    cntrTxt:{
+        marginTop:wp('8%'), alignSelf:'center'
+    },
+    grayTxt:{
+        fontSize:10,
+        fontFamily:"Poppins-Regular",
+        color:DefaultStyles.colors.gray
+    },
+    monthTxt:{
+        fontFamily:"Lato-Regular",
+        fontSize:wp('4%'),
+        alignSelf:'center',
+        marginTop:wp('7%'),
+        color:DefaultStyles.colors.secondary
+    },
+    CalenderBox:{
+        width:wp('90%'),
+        marginTop:wp('5%'),
+        height:wp('30%'),
+        alignSelf:'center',
+        backgroundColor:"#ffecf8", borderRadius:20
+    },
+    DirectionView:{
+        flexDirection:'row',
+        justifyContent:'space-between',
+        marginTop:wp('7%'),
+        marginHorizontal:wp('8%')
+    },
+    PrsnlTxt:{
+        color:DefaultStyles.colors.primary,
+        fontFamily:"Poppins-Regular",
+        fontSize:wp('4%')
+    },
+    pinkTxt:{
+        fontSize:10,
+        fontFamily:"Poppins-Medium",
+        color:DefaultStyles.colors.secondary
     }
     });

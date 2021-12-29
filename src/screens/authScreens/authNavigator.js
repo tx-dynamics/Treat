@@ -10,7 +10,7 @@ import VerifyCode from "src/screens/authScreens/VerifyEmail";
 import VerifyEmail from "src/screens/authScreens/Verify/VerifyEmail";
 import ChangePass from "src/screens/authScreens/ChangePass";
 import ConfirmProfile from "src/screens/authScreens/ConfirmProfile";
-import Home from "src/screens/authScreens/Home";
+
 
 const AuthStack = createNativeStackNavigator()
 
@@ -36,7 +36,6 @@ const AuthNavigator = () => {
             
             <AuthStack.Screen name="VerifyEmail" component={VerifyEmail} />
             
-            <AuthStack.Screen name="Home" component={Home} />
         </AuthStack.Navigator>
     )
 }

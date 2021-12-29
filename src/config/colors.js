@@ -1,6 +1,7 @@
 export default {
   primary: "#5a738e",
   secondary: "#C64699",
+  bottomBoxClr:'#878787',
   red:"#F33333",
   tertiary: "#6349EB",
   white: "#ffff",
@@ -25,6 +26,6 @@ export default {
   background1: "#EEE4FC",
   modalcolor: "#D8D3E6",
   modalItem: "#CDC4E7",
-  yellow: "#F6B310",
+  yellow: "#F7AE3E",
   yellowtext: "#FFB402",
 };

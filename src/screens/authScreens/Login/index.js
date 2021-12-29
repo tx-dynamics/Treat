@@ -9,9 +9,14 @@ import DefaultStyles from "src/config/Styles";
 import HumanHeader from 'src/components/HumanHeader';
 import FormInput from 'src/components/FormInput';
 import FormButton from 'src/components/FormButton';
+import { setUser} from 'src/redux/actions/authAction';
+import { useDispatch } from "react-redux";
 
 
 const SignIn = ({ navigation }) => {
+
+    let dispatch = useDispatch();
+
     return (
         <ScrollView style={styles.container}>
             <View style={styles.ImgView}>
@@ -34,7 +39,7 @@ const SignIn = ({ navigation }) => {
                 />
             </View>
             <View style={styles.lightBoxTxt}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate("Agreement")}>
                     <Apptext style={DefaultStyles.lightTxt}> Forgot Password?</Apptext>
                 </TouchableOpacity>
             </View>
@@ -42,11 +47,13 @@ const SignIn = ({ navigation }) => {
 
             <FormButton
                 buttonTitle="Log In"
-                onPress={() => navigation.navigate("Agreement")}
+                onPress={() => {
+                    dispatch(setUser(true)
+                    )}}
             />
             </View>
             <TouchableOpacity
-            onPress={() => navigation.navigate("Home")}
+            // onPress={() => navigation.navigate("Home")}
             style={styles.methods}>
                 <Apptext style={DefaultStyles.lightTxt}>Other Sign-In Methods</Apptext>
             </TouchableOpacity>

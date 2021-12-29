@@ -1,25 +1,20 @@
 import React from "react";
-import { View, StyleSheet, Image } from "react-native";
+import { View, StyleSheet,Image } from "react-native";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-
 import Icon from "react-native-vector-icons/Ionicons";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import Apptext from "./Apptext";
 import DefaultStyles from "../config/Styles";
-import { Divider } from 'react-native-elements';
 
-function Header({
+function TreatHeader({
   rightIcon,
   label,
   leftIcon,
   backgroundColor,
-  contentColor = DefaultStyles.colors.secondary,
+  contentColor = DefaultStyles.colors.primary,
   onPressLeft,
   onPressRight,
-  rightImg,
   style,
 }) {
   return (
@@ -30,42 +25,38 @@ function Header({
         ...style,
       }}
     >
-      <MaterialCommunityIcons
-        size={20}
+      <Icon
+        size={25}
         onPress={onPressLeft}
         name={leftIcon}
         color={contentColor}
       />
-      <Apptext style={[styles.topheadingTxt, ]}>
-        {label}
-      </Apptext>
-      <Image source={rightImg} />
-      {/* <Icon
-        size={30}
+      <View style={styles.midBox}>
+      <Image style={{width:87,height:47,}} source={require('../../assets/Logo.png')} />
+      </View>
+      <Icon
+        size={20}
         onPress={onPressRight}
         name={rightIcon}
         color={contentColor}
-      /> */}
+      />
+    <Image style={{marginTop:wp('3%')}} source={require('../../assets/settingIcon.png')} />
 
     </View>
   );
 }
 const styles = StyleSheet.create({
-  topheadingTxt:{
-    fontFamily:"Poppins-Regular",
-    color:DefaultStyles.colors.secondary,
-    fontSize:16,
-  },
   container: {
-    // height: wp("20%"),
-    width: wp("100%"),
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20,
-    alignItems: "center",
-    justifyContent: "space-between",
+    alignSelf:'center',
     flexDirection: "row",
-    padding: wp('5%'),
+    padding: wp('3%'),
+
   },
+  midBox:{
+    width:wp('80%'),alignItems:'center',
+  }
 });
 
-export default Header;
+export default TreatHeader;
