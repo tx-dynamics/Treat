@@ -17,36 +17,54 @@ const Library = ({ navigation }) => {
         {
             id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
             count: "+5",
-            label: "Introduction",
-            msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            Img: require("../../../../assets/treat1.png"),
+            label: "Video 1",
+            msg: "Lorem ipsum",
+            Img: require("../../../../assets/library1.png"),
             dt: "5 minutes ago",
             move: "Detail"
         },
         {
             id: 'bd7acbewweea-c1b1-46c2-aed5-3ad53abb28ba',
             count: "",
-            label: 'Implementation',
-            msg: "Will do, super, thank you",
-            Img: require("../../../../assets/treat2.png"),
+            label: 'Video 2',
+            msg: "Lorem Ipsum",
+            Img: require("../../../../assets/library2.png"),
             dt: "2 hours ago",
             move: "Detail"
         },
         {
             id: 'bd7acbea-c1bewew1-46c2-aed5-3ad53abb28ba',
             count: "+3",
-            label: "Outline",
-            msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            Img: require("../../../../assets/treat3.png"),
+            label: "Video 3",
+            msg: "Lorem ipsum",
+            Img: require("../../../../assets/library3.png"),
             dt: "3 hours ago",
             move: "Detail"
         },
         {
             id: 'bd7acbea-c1b1-4efwffde6c2-aed5-3ad53abb28ba',
             count: "+22",
-            label: "Education",
-            msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            Img: require("../../../../assets/treat4.png"),
+            label: "Video 4",
+            msg: "Lorem ipsum",
+            Img: require("../../../../assets/library4.png"),
+            dt: "01 Feb",
+            move: "Detail"
+        },
+        {
+            id: 'bd7acbe423a-c1b1-4efwffde6c2-aed5-3ad53abb28ba',
+            count: "+22",
+            label: "Video 5",
+            msg: "Lorem ipsum",
+            Img: require("../../../../assets/library5.png"),
+            dt: "01 Feb",
+            move: "Detail"
+        },
+        {
+            id: 'bd7acbea-c14b1-4efwffde6c2-aed5-3ad53abb28ba',
+            count: "+22",
+            label: "Video 6",
+            msg: "Lorem ipsum",
+            Img: require("../../../../assets/library6.png"),
             dt: "01 Feb",
             move: "Detail"
         },
@@ -64,12 +82,8 @@ const Library = ({ navigation }) => {
             />
             <Divider width={1} style={{marginTop:-7}} color="lightgray" />
         <ScrollView>
-            <Apptext style={styles.monthTxt}>Intro</Apptext>
-            <View style={{marginTop:wp('7%')}}>
-                <HomeWideCard backImg={require('../../../../assets/TreatCover.png')} isLabel={false} />
-            </View>
-
-            <View style={{marginTop:wp('12%')}}>
+            
+            <View style={{marginTop:wp('8%')}}>
             <FlatList   
                 data={DATA}
                 numColumns={2}
@@ -79,6 +93,7 @@ const Library = ({ navigation }) => {
                     <TreatBox
                     leftTitle={item.label}
                     leftImgName={item.Img}
+                    subTxt={item.msg}
                 />
                    
                 )}

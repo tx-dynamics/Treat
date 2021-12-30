@@ -42,15 +42,7 @@ const Framework = ({ navigation }) => {
             dt: "3 hours ago",
             move: "Detail"
         },
-        {
-            id: 'bd7acbea-c1b1-4efwffde6c2-aed5-3ad53abb28ba',
-            count: "4",
-            label: "Education",
-            msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            Img: require("../../../../assets/treat4.png"),
-            dt: "01 Feb",
-            move: "Detail"
-        },
+      
   
 
     ];
@@ -78,6 +70,8 @@ const Framework = ({ navigation }) => {
                 backImg={require('../../../../assets/frameBack.png')}
                 isLabel={false}
                 isSubTxt={true}
+                setSubTxt={`Learn  Biweekly / Monthly new information onbuilding a
+                        foundation to understand yourself`}
                 />
             </View>
 
@@ -89,7 +83,7 @@ const Framework = ({ navigation }) => {
                     <SelectBox
                     onPress={() => {
                         addCategories(item)
-                        // navigation.navigate("Library")
+                        navigation.navigate("Library")
                     }}
                     myStl={isItem.includes(item.id) ? true : false }
                     leftTitle={item.label}

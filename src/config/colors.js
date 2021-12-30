@@ -11,7 +11,7 @@ export default {
   offwhite: "offwhite",
   black: "#000",
   lightgreen: "#EAFAF1",
-  lightred: "#F9EBEA",
+  lightred: "#f7e3f0",
   danger: "#ff5252",
   lightgray: "#F7F7F7",
   lightTxtClr:"#0C0C0C",

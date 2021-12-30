@@ -5,7 +5,7 @@ import DefaultStyles from "src/config/Styles";
 import Apptext from 'src/components/Apptext';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const SelectBox = ({ count, leftTitle,myStl ,onPress, ...rest }) => {
+const OptionsBigBox = ({ count, leftTitle,myStl ,onPress, ...rest }) => {
 
     return (
 
@@ -14,11 +14,17 @@ const SelectBox = ({ count, leftTitle,myStl ,onPress, ...rest }) => {
              style={myStl ? styles.SightingContainer1 : styles.SightingContainer}
               >
             <View style={styles.DirectionView}>
-            <View style={styles.boxWidth}>
+            <View style={myStl ? styles.pinkcircleView : styles.circleView}>
+                <Apptext style={myStl ? styles.countTxt1 : styles.countTxt}>{count}</Apptext>
+                </View>
+                <View style={styles.boxWidth}>
+
+                </View>
+            {/* <View style={styles.boxWidth}>
             <View style={myStl ? styles.whiteCircle : styles.pinkCircle}>
             <Apptext style={myStl ? styles.countStl : styles.countStl1}>{count}</Apptext>
             </View>
-            </View>
+            </View> */}
             <Apptext style={myStl ? styles.SightingText : styles.SightingText1 }>
                 {leftTitle}
             </Apptext>
@@ -29,16 +35,16 @@ const SelectBox = ({ count, leftTitle,myStl ,onPress, ...rest }) => {
     );
 };
 
-export default SelectBox;
+export default OptionsBigBox;
 
 const styles = StyleSheet.create({
   
     SightingContainer:{
         width:wp('90%'),
         marginTop:wp('4%'),
-        borderRadius:12,
+        borderRadius:20,
         alignSelf:'center',
-        backgroundColor:DefaultStyles.colors.white,
+        backgroundColor:'#fef3e4',
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -52,9 +58,9 @@ const styles = StyleSheet.create({
     SightingContainer1:{
         width:wp('90%'),
         marginTop:wp('4%'),
-        borderRadius:12,
+        borderRadius:20,
         alignSelf:'center',
-        backgroundColor:DefaultStyles.colors.secondary,
+        backgroundColor:DefaultStyles.colors.lightred,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -68,46 +74,46 @@ const styles = StyleSheet.create({
     DirectionView:{
         flexDirection:'row',
         alignItems:'center',
-        padding:15,
+        // padding:10,
     },
-    countStl:{
+    
+    circleView: {
+        backgroundColor:DefaultStyles.colors.yellow ,
+        width: wp('11%'),
+        height: wp('11%'),
+        borderRadius: 50,
+        alignItems:'center',
+        justifyContent:'center'
+    },
+    pinkcircleView: {
+        backgroundColor:DefaultStyles.colors.secondary ,
+        width: wp('11%'),
+        height: wp('11%'),
+        borderRadius: 50,
+        alignItems:'center',
+        justifyContent:'center'
+    },
+    countTxt:{
+        color:DefaultStyles.colors.textColor
+    },
+    countTxt1:{
         color:DefaultStyles.colors.white
     },
-    countStl1:{
-        color:DefaultStyles.colors.secondary
-    },
     boxWidth:{
-        width:wp('13%')
+        width:wp('8%')
     },
-    whiteCircle:{
-        width:wp('9%'),
-        borderWidth:2,
-        borderColor:DefaultStyles.colors.white,
-        height:wp('9%'),
-        borderRadius:20,
-        alignItems:'center',
-        justifyContent:'center'
-    },
-    pinkCircle:{
-        width:wp('9%'),
-        borderWidth:2,
-        borderColor:DefaultStyles.colors.secondary,
-        height:wp('9%'),
-        borderRadius:20,
-        alignItems:'center',
-        justifyContent:'center'
-    },
+    
     SightingText1: {
         fontFamily: "Poppins-Regular",
         fontSize: wp('5%'),
         width: wp('65%'),
-        color: DefaultStyles.colors.secondary,
+        color: DefaultStyles.colors.textColor,
     },
     SightingText: {
         fontFamily: "Poppins-Regular",
         fontSize: wp('5%'),
         width: wp('65%'),
-        color: DefaultStyles.colors.white,
+        color: DefaultStyles.colors.textColor,
     },
     innerTxt:{
         fontFamily:'Lato-Regular',

@@ -12,7 +12,7 @@ function TreatHeader({
   label,
   leftIcon,
   backgroundColor,
-  contentColor = DefaultStyles.colors.primary,
+  contentColor = DefaultStyles.colors.secondary,
   onPressLeft,
   onPressRight,
   style,
@@ -29,6 +29,7 @@ function TreatHeader({
         size={25}
         onPress={onPressLeft}
         name={leftIcon}
+        style={{marginTop:wp('2%')}}
         color={contentColor}
       />
       <View style={styles.midBox}>

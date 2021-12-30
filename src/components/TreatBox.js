@@ -6,7 +6,7 @@ import Apptext from 'src/components/Apptext';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const TreatBox = ({ leftTitle, rightTitle, leftImgName,
-    yellowBoxTxt,
+    yellowBoxTxt,subTxt,
     rightImgName, leftOnPress, rightOnPress, ...rest }) => {
 
     return (
@@ -18,7 +18,7 @@ const TreatBox = ({ leftTitle, rightTitle, leftImgName,
                      <View style={styles.grayBoxDirection}>
                     <Apptext style={styles.SightingText}>{leftTitle}</Apptext>
                     </View>
-                <Apptext style={styles.SightingText1}>{leftTitle}</Apptext>
+                <Apptext style={styles.SightingText1}>{subTxt}</Apptext>
                 </ImageBackground>
 
             </TouchableOpacity>

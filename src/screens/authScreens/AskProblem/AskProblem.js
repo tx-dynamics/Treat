@@ -29,7 +29,7 @@ const AskProblem = ({ navigation }) => {
         {
             label: 'Others'
         },
-       
+
     ];
 
     const [check2, setCheck2] = useState(false);
@@ -46,9 +46,9 @@ const AskProblem = ({ navigation }) => {
 
                     <RadioButtonRN
                         data={data}
-                        boxStyle={{backgroundColor:"white",borderColor:"white"}}
+                        boxStyle={{ backgroundColor: "white", borderColor: "white" }}
                         circleSize={16}
-                        textStyle={{fontSize:14, fontFamily:"Poppins-Regular", color:DefaultStyles.colors.primary}}
+                        textStyle={{ fontSize: 14, fontFamily: "Poppins-Regular", color: DefaultStyles.colors.primary }}
                         selectedBtn={(e) => console.log(e)}
                         icon={
                             <Icon
@@ -62,10 +62,10 @@ const AskProblem = ({ navigation }) => {
                 </View>
             </ScrollView>
             <TouchableOpacity
-          onPress={()  => navigation.navigate("AskSubscription")}
-          style={styles.buttonContainer}>
-          <Apptext style={styles.buttonText}>{"Next"}</Apptext>
-      </TouchableOpacity>
+                onPress={() => navigation.navigate("AskSubscription")}
+                style={styles.buttonContainer}>
+                <Apptext style={styles.buttonText}>{"Next"}</Apptext>
+            </TouchableOpacity>
         </View>
     )
 }

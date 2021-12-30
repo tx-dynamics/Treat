@@ -10,7 +10,10 @@ import Podcast from "src/screens/appScreens/Podcast";
 import SoundHealing from "src/screens/appScreens/SoundHealing";
 import ZoomLive from "src/screens/appScreens/ZoomLive";
 import Library from "src/screens/appScreens/Library";
-
+import subTreat from "src/screens/appScreens/TreatTheNurse/subTreat";
+import AuthNavigator from 'src/screens/authScreens/authNavigator'
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
+import TreatVideo from "src/screens/appScreens/TreatTheNurse/TreatVideo";
 import DefaultStyles from "src/config/Styles";
 import {useSelector} from 'react-redux';
 
@@ -18,8 +21,7 @@ import {useSelector} from 'react-redux';
 
 const Tab = createBottomTabNavigator();
 
-import AuthNavigator from 'src/screens/authScreens/authNavigator'
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
+
 
 
 
@@ -35,6 +37,20 @@ const HomeNavigator = () => {
             }}>
             <StackNavigator.Screen name="Home" component={Home}/>
             <StackNavigator.Screen name="Library" component={Library} />
+        </StackNavigator.Navigator>
+    )
+}
+const TreatNavigator = () => {
+
+    return (
+
+        <StackNavigator.Navigator
+            screenOptions={{
+                headerShown: false
+            }}>
+            <StackNavigator.Screen name="TreatTheNurse" component={TreatTheNurse}/>
+            <StackNavigator.Screen name="subTreat" component={subTreat} />
+            <StackNavigator.Screen name="TreatVideo" component={TreatVideo} />
         </StackNavigator.Navigator>
     )
 }
@@ -78,7 +94,7 @@ const MyTabs = () => {
 
             }}>
                 
-            <Tab.Screen name="TabScreen" component={HomeNavigator}
+            <Tab.Screen name="Home" component={HomeNavigator}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         focused ?
@@ -95,7 +111,7 @@ const MyTabs = () => {
                             </View>
                     )
                 }} />
-            <Tab.Screen name="Treat The Nurse" component={TreatTheNurse}
+            <Tab.Screen name="Treat The Nurse" component={TreatNavigator}
                 options={{
                     tabBarIcon: ({focused}) => (
                         focused ?

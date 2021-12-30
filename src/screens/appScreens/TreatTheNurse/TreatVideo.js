@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { View,StyleSheet,FlatList ,Image, ScrollView } from 'react-native';
 import {
     widthPercentageToDP as wp,
@@ -8,17 +8,21 @@ import DefaultStyles from "src/config/Styles";
 import Apptext from 'src/components/Apptext';
 import TreatHeader from 'src/components/TreatHeader';
 import { Divider } from 'react-native-elements';
-import TreatBox from 'src/components/TreatBox';
-import HomeWideCard from 'src/components/HomeWideCard';
+import Card from 'src/components/Card';
+import VideoCard from 'src/components/VideoCard';
 
-const TreatTheNurse = ({ navigation }) => {
+const TreatVideo = ({ navigation }) => {
+    const [isHeart, setHeart] = useState(false);
 
+    const updateHeart = () => {
+        setHeart(!isHeart)
+    }
     const DATA = [
         {
             id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
             count: "+5",
             label: "Introduction",
-            msg: "Lorem ipsum",
+            msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
             Img: require("../../../../assets/treat1.png"),
             dt: "5 minutes ago",
             move: "Detail"
@@ -36,7 +40,7 @@ const TreatTheNurse = ({ navigation }) => {
             id: 'bd7acbea-c1bewew1-46c2-aed5-3ad53abb28ba',
             count: "+3",
             label: "Outline",
-            msg: "Lorem ipsum",
+            msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
             Img: require("../../../../assets/treat3.png"),
             dt: "3 hours ago",
             move: "Detail"
@@ -45,7 +49,7 @@ const TreatTheNurse = ({ navigation }) => {
             id: 'bd7acbea-c1b1-4efwffde6c2-aed5-3ad53abb28ba',
             count: "+22",
             label: "Education",
-            msg: "Lorem ipsum",
+            msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
             Img: require("../../../../assets/treat4.png"),
             dt: "01 Feb",
             move: "Detail"
@@ -56,37 +60,29 @@ const TreatTheNurse = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <TreatHeader />
-            <Divider width={1} style={{marginTop:-7}} color="lightgray" />
-        <ScrollView>
-            <Apptext style={styles.monthTxt}>Intro</Apptext>
-            <View style={{marginTop:wp('7%')}}>
-                <HomeWideCard backImg={require('../../../../assets/TreatCover.png')} isLabel={false} />
-            </View>
-
-            <View style={{marginTop:wp('12%')}}>
-            <FlatList   
-                data={DATA}
-                numColumns={2}
-                horizontal={false}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
-                    <TreatBox
-                    onPress={() => navigation.navigate("subTreat")}
-                    leftTitle={item.label}
-                    leftImgName={item.Img}
-                    subTxt={item.msg}
-                />
-                   
-                )}
+            <TreatHeader
+            leftIcon={"arrow-back"}
+            onPressLeft={() => navigation.goBack()}
             />
-           </View>
+        <ScrollView>
+            <Apptext style={styles.monthTxt}>Video 1</Apptext>
+            <View style={{marginTop:wp('4%')}}>
+               <VideoCard />
+            </View>
+            <View style={{marginTop:wp('10%')}}>
+                <Card
+                videoName={"Video 1"}
+                onPress={updateHeart}
+                boxImg={isHeart ? require('../../../../assets/redHeart.png') : require('../../../../assets/heartBox.png')  }
+                subTxt={"12 Questions"}
+                />
+            </View>
         </ScrollView>
         </View>
     )
 }
 
-export default TreatTheNurse;
+export default TreatVideo;
 
 const styles = StyleSheet.create({
     container: {
@@ -105,10 +101,11 @@ const styles = StyleSheet.create({
 
     },
     monthTxt:{
-        fontFamily:"Lato-Regular",
+        fontFamily:"Poppins-Regular",
         fontSize:wp('5%'),
         alignSelf:'center',
         marginTop:wp('6%'),
-        color:DefaultStyles.colors.secondary
+        color:DefaultStyles.colors.textColor
     },
+  
     });

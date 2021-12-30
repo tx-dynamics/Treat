@@ -1,107 +1,103 @@
-import React, {useEffect} from 'react';
-import { View,StyleSheet,FlatList ,Image } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import { View,StyleSheet,FlatList ,Image, ScrollView } from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import DefaultStyles from "src/config/Styles";
 import Apptext from 'src/components/Apptext';
-import Header from 'src/components/Header';
+import TreatHeader from 'src/components/TreatHeader';
 import { Divider } from 'react-native-elements';
-import HomeBox from 'src/components/HomeBox';
+import SelectBox from 'src/components/SelectBox';
+import HomeWideCard from 'src/components/HomeWideCard';
 
 const Podcast = ({ navigation }) => {
+    const [isItem, setSelectedItem] = useState([]);
 
     const DATA = [
         {
             id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-            count: "+5",
-            label: "Lorem Ipsum",
+            count: "1",
+            label: "Series 1 Guest",
             msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            Img: require("../../../../assets/human1.png"),
+            Img: require("../../../../assets/treat1.png"),
             dt: "5 minutes ago",
             move: "Detail"
         },
         {
             id: 'bd7acbewweea-c1b1-46c2-aed5-3ad53abb28ba',
-            count: "",
-            label: 'Lorem Ipsum',
+            count: "2",
+            label: 'Series 3 Guest',
             msg: "Will do, super, thank you",
-            Img: require("../../../../assets/human2.png"),
+            Img: require("../../../../assets/treat2.png"),
             dt: "2 hours ago",
             move: "Detail"
         },
         {
             id: 'bd7acbea-c1bewew1-46c2-aed5-3ad53abb28ba',
-            count: "+3",
-            label: "Smith",
+            count: "3",
+            label: "Series 3 Guest",
             msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            Img: require("../../../../assets/human1.png"),
+            Img: require("../../../../assets/treat3.png"),
             dt: "3 hours ago",
             move: "Detail"
         },
-        {
-            id: 'bd7acbea-c1b1-4efwffde6c2-aed5-3ad53abb28ba',
-            count: "+22",
-            label: "Aliz",
-            msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            Img: require("../../../../assets/human2.png"),
-            dt: "01 Feb",
-            move: "Detail"
-        },
-        {
-            id: 'bd7acbfsdea-c1b1-46c2-aed5-3ad53abb28ba',
-            count: "+5",
-            label: 'Alexa',
-            msg: "Uploaded a file",
-            Img: require("../../../../assets/human1.png"),
-            dt: "18 Mar",
-            move: "Detail"
-        },
-        {
-            id: 'bd7acddbea-c1b1-46c2-aed5-3ad53abb28ba',
-            count: "+5",
-            label: "John",
-            msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            Img: require("../../../../assets/human2.png"),
-            dt: "01 Feb",
-            move: "Detail"
-        },
-        {
-            id: 'bd7acbeda-c1b1-46c2-aed5-3ad53abb28ba',
-            count: "+5",
-            label: 'Marzena',
-            msg: "potem sie zobaczy",
-            Img: require("../../../../assets/human1.png"),
-            dt: "01 Feb",
-            move: "Detail"
-        },
+      
+  
 
     ];
 
+    const addCategories = async (item) => {
+        var selectedIdss = [...isItem]
+        if (selectedIdss.includes(item.id)) {
+            selectedIdss = selectedIdss.filter(id => id !== item.id)
+        }
+        else {
+            selectedIdss.push(item.id)
+        }
+        await setSelectedItem(selectedIdss)
+    }
+
+
     return (
-        <View style={[styles.container]}>
-            <Header 
-            label="Debriefing Videos"
-            leftIcon={"keyboard-backspace"}
-            onPressLeft={() => { navigation.goBack() }}
+        <View style={styles.container}>
+            <TreatHeader
+            leftIcon={"arrow-back-sharp"}
+            onPressLeft={() => navigation.goBack()}
             />
             <Divider width={1} style={{marginTop:-7}} color="lightgray" />
+        <ScrollView>
+            <Apptext style={styles.monthTxt}>Podcast</Apptext>
+            <View style={{marginTop:wp('5%')}}>
+                <HomeWideCard
+                backImg={require('../../../../assets/podcastCover.png')}
+                isLabel={false}
+                isSubTxt={false}
+                />
+            </View>
+            <Apptext style={styles.cntrTxt}>{`World renowned speakers share first
+    hand knowledge and experiences.`}
+                </Apptext>
 
-            <FlatList
+            <View style={{marginTop:wp('12%')}}>
+            <FlatList   
                 data={DATA}
-                numColumns={2}
-                horizontal={false}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
-                    <HomeBox
+                    <SelectBox
+                    onPress={() => {
+                        addCategories(item)
+                        // navigation.navigate("Library")
+                    }}
+                    myStl={isItem.includes(item.id) ? true : false }
                     leftTitle={item.label}
-                    leftImgName={item.Img}
+                    count={item.count}
                 />
                    
                 )}
             />
-           
+           </View>
+        </ScrollView>
         </View>
     )
 }
@@ -123,5 +119,17 @@ const styles = StyleSheet.create({
         fontSize:16,
         color:DefaultStyles.colors.secondary
 
+    },
+    monthTxt:{
+        fontFamily:"Poppins-Regular",
+        fontSize:wp('5%'),
+        alignSelf:'center',
+        marginTop:wp('6%'),
+    },
+    cntrTxt:{
+        alignSelf:'center',
+        fontFamily:'Poppins-Regular',
+        fontSize:wp('3%'),
+        marginTop:wp('5%')
     }
     });

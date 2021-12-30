@@ -6,7 +6,7 @@ import Apptext from 'src/components/Apptext';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 
-const HomeWideCard = ({ backImg, headerTitle, rightHeaderImg, isLabel = true, leftOnPress,
+const HomeWideCard = ({ backImg,setSubTxt,headerTitle, rightHeaderImg, isLabel = true, leftOnPress,
     isSubTxt = false, rightOnPress, ...rest }) => {
 
     return (
@@ -18,8 +18,7 @@ const HomeWideCard = ({ backImg, headerTitle, rightHeaderImg, isLabel = true, le
                         <Apptext style={styles.innerTxt}>Latest</Apptext>
                     </TouchableOpacity>) : null}
                 {isSubTxt ? (
-                    <Apptext style={styles.subTxt}>{`Learn  Biweekly / Monthly new information onbuilding a
-                     foundation to understand yourself`}</Apptext>
+                    <Apptext style={styles.subTxt}>{setSubTxt}</Apptext>
                 ) : null}
 
             </ImageBackground>
