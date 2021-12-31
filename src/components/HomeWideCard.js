@@ -12,7 +12,7 @@ const HomeWideCard = ({ backImg,setSubTxt,headerTitle, rightHeaderImg, isLabel =
     return (
         <TouchableOpacity>
             <ImageBackground style={styles.MainContainer}
-                imageStyle={{ borderRadius: 15 }} source={backImg}>
+                imageStyle={{ borderRadius: 10 }} source={backImg}>
                 {isLabel ? (
                     <TouchableOpacity style={styles.innerBox}>
                         <Apptext style={styles.innerTxt}>Latest</Apptext>
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         width: wp('90%'),
         alignSelf: 'center',
         height: wp('45%'),
-        borderRadius: 15
+        borderRadius: 10
     },
     innerBox: {
         width: wp('13%'),

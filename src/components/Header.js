@@ -53,18 +53,28 @@ function Header({
 const styles = StyleSheet.create({
   topheadingTxt:{
     fontFamily:"Poppins-Regular",
+    paddingTop:wp('1%'),
     color:DefaultStyles.colors.secondary,
     fontSize:16,
   },
   container: {
     // height: wp("20%"),
     width: wp("100%"),
-    borderBottomRightRadius: 20,
-    borderBottomLeftRadius: 20,
+     borderBottomRightRadius: 1,
+     borderBottomLeftRadius: 1,
     alignItems: "center",
     justifyContent: "space-between",
     flexDirection: "row",
     padding: wp('5%'),
+    shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 0.34,
+        shadowRadius: 6.27,
+        
+        elevation: 3,
   },
 });
 

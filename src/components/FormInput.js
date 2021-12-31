@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         height: wp('15%'),
         marginTop: wp('3%'),
         alignSelf: 'center',
-        paddingLeft: wp('3%'),
+        paddingLeft: wp('1%'),
         paddingTop: wp('1%'),
         
         backgroundColor: "white",

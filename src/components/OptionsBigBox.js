@@ -40,7 +40,7 @@ export default OptionsBigBox;
 const styles = StyleSheet.create({
   
     SightingContainer:{
-        width:wp('90%'),
+        width:wp('85%'),
         marginTop:wp('4%'),
         borderRadius:20,
         alignSelf:'center',
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         elevation: 1,
     },
     SightingContainer1:{
-        width:wp('90%'),
+        width:wp('85%'),
         marginTop:wp('4%'),
         borderRadius:20,
         alignSelf:'center',

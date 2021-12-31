@@ -60,7 +60,6 @@ const SoundHealing = ({ navigation }) => {
             label={"Sound Healing"}
             rightImg={require('../../../../assets/settingIcon.png')}
             />
-            <Divider width={1} style={{marginTop:-7}} color="lightgray" />
         <ScrollView>
             <View style={{marginTop:wp('7%')}}>
                 <HomeWideCard
@@ -72,7 +71,7 @@ const SoundHealing = ({ navigation }) => {
                 />
             </View>
 
-            <View style={{marginTop:wp('12%')}}>
+            <View style={{marginTop:wp('6%')}}>
             <FlatList   
                 data={DATA}
                 numColumns={2}

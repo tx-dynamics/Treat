@@ -51,21 +51,21 @@ const Signup = ({ navigation }) => {
                     <Apptext style={styles.lightTxt}> Agree to terms</Apptext>
                 </TouchableOpacity>
             </View>
-            <View style={{ marginTop: wp('6%') }}>
+            <View style={{ marginTop: wp('5%') }}>
 
                 <FormButton
                     buttonTitle="SIGN UP"
                 />
             </View>
             <View style={styles.methods}>
-                <Apptext style={DefaultStyles.lightTxt}>Other Sign-In Methods</Apptext>
+                <Apptext style={DefaultStyles.lightTxt}>Other Sign-Up Methods</Apptext>
             </View>
             <View style={styles.socialImgs}>
                 <Image source={require('../../../../assets/facebook.png')} />
                 <Image source={require('../../../../assets/google.png')} />
             </View>
             <View style={styles.bottomLines} >
-                <Apptext style={styles.bottomTxt}> Don't have an account? </Apptext>
+                <Apptext style={styles.bottomTxt}> Already have an account? </Apptext>
                 <TouchableOpacity onPress={() => { navigation.navigate("Login") }}>
                     <Apptext style={[styles.bottomTxt,
                     { color: DefaultStyles.colors.secondary, }]}>SIGN IN</Apptext>
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
         backgroundColor: DefaultStyles.colors.white
     },
     ImgView: {
-        justifyContent: 'center', alignItems: 'center', marginTop: wp('25%')
+        justifyContent: 'center', alignItems: 'center', marginTop: wp('22%')
     },
     SignInTxt: {
         fontFamily: "Poppins-Regular",
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     },
     methods: {
         justifyContent: 'center', alignItems: 'center',
-        marginTop: 23
+        marginTop: wp('4%')
     },
     socialImgs: {
         flexDirection: 'row',
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     lightBoxTxt: {
         flexDirection: 'row',
         marginHorizontal: hp('3%'),
-        marginTop: wp('7%'),
+        marginTop: wp('5%'),
         justifyContent: 'center'
     },
     bottomLines: {
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     },
     lightTxt: {
         color: DefaultStyles.colors.primary,
-        fontSize: 15,
+        fontSize: wp('4%'),
         fontFamily: "Poppins-Regular",
         marginTop:5
     },

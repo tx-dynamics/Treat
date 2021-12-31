@@ -13,14 +13,14 @@ import { Divider } from 'react-native-elements';
 
 const VerifyCode = ({ navigation }) => {
     return (
-        <ScrollView style={styles.container}>
-            <Header
+        <View style={styles.container}>
+                <Header
                 label="Verification"
                 leftIcon={"keyboard-backspace"}
                 onPressLeft={() => { navigation.goBack() }}
             />
-            <Divider width={1} style={{marginTop:-5}} color="lightgray" />
-
+      
+        <ScrollView>
             <Image style={{ width: 270, height: 200, marginTop:wp('7%'), alignSelf: 'center' }} source={require('../../../../assets/VerifyCodePic.png')} />
 
             <View style={styles.TxtView} >
@@ -85,6 +85,7 @@ const VerifyCode = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
         </ScrollView>
+        </View>
     )
 }
 

@@ -28,8 +28,6 @@ const styles = StyleSheet.create({
         // width: wp('90%'),
         marginHorizontal:wp('5%'),
         height: wp('20%'),
-        
-        
     },
     directionView: {
         // width:wp('30%') ,

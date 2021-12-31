@@ -36,7 +36,8 @@ const styles = StyleSheet.create({
     SightingContainer:{
         width:wp('90%'),
         marginTop:wp('4%'),
-        borderRadius:12,
+        marginBottom:1,
+        borderRadius:8,
         alignSelf:'center',
         backgroundColor:DefaultStyles.colors.white,
         shadowColor: "#000",
@@ -52,7 +53,8 @@ const styles = StyleSheet.create({
     SightingContainer1:{
         width:wp('90%'),
         marginTop:wp('4%'),
-        borderRadius:12,
+        borderRadius:8,
+        marginBottom:1,
         alignSelf:'center',
         backgroundColor:DefaultStyles.colors.secondary,
         shadowColor: "#000",
@@ -71,28 +73,30 @@ const styles = StyleSheet.create({
         padding:15,
     },
     countStl:{
-        color:DefaultStyles.colors.white
+        color:DefaultStyles.colors.white,
+        padding:1
     },
     countStl1:{
-        color:DefaultStyles.colors.secondary
+        color:DefaultStyles.colors.secondary,
+        padding:1
     },
     boxWidth:{
-        width:wp('13%')
+        width:wp('12%'),
     },
     whiteCircle:{
-        width:wp('9%'),
+        width:wp('8%'),
         borderWidth:2,
         borderColor:DefaultStyles.colors.white,
-        height:wp('9%'),
+        height:wp('8%'),
         borderRadius:20,
         alignItems:'center',
         justifyContent:'center'
     },
     pinkCircle:{
-        width:wp('9%'),
+        width:wp('8%'),
         borderWidth:2,
         borderColor:DefaultStyles.colors.secondary,
-        height:wp('9%'),
+        height:wp('8%'),
         borderRadius:20,
         alignItems:'center',
         justifyContent:'center'

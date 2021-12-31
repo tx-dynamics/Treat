@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 // import {createStackNavigator} from "@react-navigation/stack"
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Platform, Keyboard, Image, View, StyleSheet } from 'react-native';
+import { Platform, Keyboard,Text ,Image, View, StyleSheet } from 'react-native';
 import Home from "src/screens/appScreens/Home";
 import TreatTheNurse from "src/screens/appScreens/TreatTheNurse";
 import FrameWork from "src/screens/appScreens/FrameWork";
@@ -16,7 +16,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-nat
 import TreatVideo from "src/screens/appScreens/TreatTheNurse/TreatVideo";
 import DefaultStyles from "src/config/Styles";
 import {useSelector} from 'react-redux';
-
+import Apptext from 'src/components/Apptext';
 
 
 const Tab = createBottomTabNavigator();
@@ -89,13 +89,16 @@ const MyTabs = () => {
                 tabBarLabelStyle: {
                     fontSize: wp('2%'),
                     fontFamily: "Poppins-Regular",
-                    color: DefaultStyles.colors.primary
+                    color: DefaultStyles.colors.primary 
                 }
 
             }}>
-                
+     
             <Tab.Screen name="Home" component={HomeNavigator}
                 options={{
+                    tabBarLabel: ({focused}) => (
+                        <Apptext style={{fontSize: wp('2%'), fontFamily: "Poppins-Regular",color: focused ? DefaultStyles.colors.secondary : DefaultStyles.colors.primary }}>Home</Apptext>
+                      ),
                     tabBarIcon: ({ focused }) => (
                         focused ?
                             <View style={styles.tabBox1}>
@@ -113,6 +116,10 @@ const MyTabs = () => {
                 }} />
             <Tab.Screen name="Treat The Nurse" component={TreatNavigator}
                 options={{
+                    tabBarLabel: ({focused}) => (
+                        <Apptext style={{fontSize: wp('2%'), fontFamily: "Poppins-Regular",
+                        color: focused ? DefaultStyles.colors.secondary : DefaultStyles.colors.primary }}>Treat The Nurse</Apptext>
+                      ),
                     tabBarIcon: ({focused}) => (
                         focused ?
                         <View style={styles.tabBox1}>
@@ -129,8 +136,12 @@ const MyTabs = () => {
                           
                     )
                 }} />
-                 <Tab.Screen name="FrameWorkNavigator" component={FrameWorkNavigator}
+                 <Tab.Screen name="FrameWork" component={FrameWorkNavigator}
                 options={{
+                    tabBarLabel: ({focused}) => (
+                        <Apptext style={{fontSize: wp('2%'), fontFamily: "Poppins-Regular",
+                        color: focused ? DefaultStyles.colors.secondary : DefaultStyles.colors.primary }}>FrameWork</Apptext>
+                      ),
                     tabBarIcon: ({focused}) => (
                         focused ?
                         <View style={styles.tabBox1}>
@@ -148,6 +159,10 @@ const MyTabs = () => {
                 }} />
                  <Tab.Screen name="Podcast" component={Podcast}
                 options={{
+                    tabBarLabel: ({focused}) => (
+                        <Apptext style={{fontSize: wp('2%'), fontFamily: "Poppins-Regular",
+                        color: focused ? DefaultStyles.colors.secondary : DefaultStyles.colors.primary }}>Podcast</Apptext>
+                      ),
                     tabBarIcon: ({focused}) => (
                         focused ?
                         <View style={styles.tabBox1}>
@@ -165,6 +180,10 @@ const MyTabs = () => {
                 }} />
                  <Tab.Screen name="Zoom Live" component={ZoomLive}
                 options={{
+                    tabBarLabel: ({focused}) => (
+                        <Apptext style={{fontSize: wp('2%'), fontFamily: "Poppins-Regular",
+                        color: focused ? DefaultStyles.colors.secondary : DefaultStyles.colors.primary }}>Zoom Live</Apptext>
+                      ),
                     tabBarIcon: ({focused}) => (
                         focused ? 
                         <View style={styles.tabBox1}>
@@ -182,17 +201,21 @@ const MyTabs = () => {
                 }} />
                  <Tab.Screen name="Sound Healing" component={SoundHealing}
                 options={{
+                    tabBarLabel: ({focused}) => (
+                        <Apptext style={{fontSize: wp('2%'), fontFamily: "Poppins-Regular",
+                        color: focused ? DefaultStyles.colors.secondary : DefaultStyles.colors.primary }}>Sound Healing</Apptext>
+                      ),
                     tabBarIcon: ({focused}) => (
                         focused ?
                         <View style={styles.tabBox1}>
                                 <Image
-                                    source={require('../../assets/tab5.png')}
+                                    source={require('../../assets/tab6.png')}
                                     resizeMode={"contain"} />
                             </View>
                             :
                             <View style={styles.tabBox}>
                             <Image
-                                source={require('../../assets/tab5.png')}
+                                source={require('../../assets/tab6.png')}
                                 resizeMode={"contain"} />
                         </View>
                     )

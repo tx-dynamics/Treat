@@ -43,7 +43,7 @@ const SignIn = ({ navigation }) => {
                     <Apptext style={DefaultStyles.lightTxt}> Forgot Password?</Apptext>
                 </TouchableOpacity>
             </View>
-            <View style={{marginTop: wp('9%')}}>
+            <View style={{marginTop: wp('6%')}}>
 
             <FormButton
                 buttonTitle="Log In"
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
         backgroundColor: DefaultStyles.colors.white
     },
     ImgView: {
-        justifyContent: 'center', alignItems: 'center', marginTop: wp('25%')
+        justifyContent: 'center', alignItems: 'center', marginTop: wp('22%')
     },
     SignInTxt: {
         fontFamily:"Poppins-Regular",

@@ -15,25 +15,49 @@ const index = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
+            <HumanHeader />
             <ScrollView >
-                <HumanHeader />
-
                 <View style={{ alignSelf: 'center' }}>
-                    <Apptext style={{ fontFamily: "Poppins" }}>
-                        {`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultricies ultricies viverra nulla pulvinar lectus eu malesuada. Interdum habitant sed semper morbi nisi. Enim fermentum a sed potenti ornare at luctus. Habitant pellentesque varius vitae accumsan vitae nunc fermentum, nunc.
+                    <Apptext style={{ fontFamily: "Poppins",}}>{`
+        Lorem ipsum dolor sit amet, consectetur
+        adipiscing elit. Sed ultricies ultricies viverra
+        nulla pulvinar lectus eu malesuada. Interdum
+        habitant sed semper morbi nisi. Enim ferme-
+        ntum a sed potenti ornare at luctus. Habitant
+        pellentesque varius vitae accumsan vitae nunc
+        fermentum, nunc.
 
-Urna tellus lorem ullamcorper consequat enim vestibulum cras. Tempor diam odio laoreet semper odio lectus tellus rhoncus augue.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultricies ultricies viverra nulla pulvinar lectus eu malesuada.
-       
-Interdum habitant sed semper morbi nisi. Enim fermentum a sed potenti ornare at luctus. Habitant pellentesque varius vitae accumsan vitae nunc fermentum, nunc. Urna tellus lorem ullamcorper consequat enim vestibulum cras. Tempor diam odio laoreet semper odio lectus tellus rhoncus augue.Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Urna tellus lorem ullamcorper consequat enim
+        vestibulum cras. Tempor diam odio laoreet 
+        semper odio lectus tellus rhoncus augue.
+        Lorem ipsum dolor sit amet, consectetur 
+        adipiscing elit. Sed ultricies ultricies
+        viverra nulla pulvinar lectus eu malesuada.
+            
+        Interdum habitant sed semper morbi nisi. 
+        Enim fermentum a sed potenti ornare at luctus.
+        Habitant pellentesque varius vitae accumsan
+        vitae nunc fermentum, nunc. Urna tellus lorem
+        ullamcorper consequat enim vestibulum cras. 
+        Tempor diam odio laoreet semper odio lectus 
+        tellus rhoncus augue.Lorem ipsum dolor sit 
+        amet, consectetur adipiscing elit.
 
- Sed ultricies ultricies viverra nulla pulvinasr lectus eu malesuada. Interdum habitant sed semper morbi nisi. Enim fermentum a sed potenti ornare at luctus. Habitant pellentesque varius vitae accumsan vitae nunc fermentum, nunc. Urna tellus lorem ullamcorper consequat enim vestibulum cras.`}
+        Sed ultricies ultricies viverra nulla pulvinasr
+        lectus eu malesuada. Interdum habitant sed
+        semper morbi nisi. Enim fermentum a sed 
+        potenti ornare at luctus. Habitant pellentesque
+        varius vitae accumsan vitae nunc fermentum,
+        nunc. Urna tellus lorem ullamcorper consequat
+        enim vestibulum cras.
+        `}
                     </Apptext>
                 </View>
             </ScrollView>
             <Apptext style={[styles.userTxt, { fontSize: 20 }]}>Subscription Options</Apptext>
             <Apptext style={[styles.userTxt, { fontSize: 13, marginTop: 5, color: DefaultStyles.colors.secondary }]}>(Billed as one payment)</Apptext>
          
-         <View style={{flexDirection:'row',justifyContent:'space-evenly'}}>
+         <View style={{flexDirection:'row',justifyContent:'space-evenly', marginHorizontal:wp('5%')}}>
                 <TouchableOpacity
                     onPress={() => navigation.navigate("VerifyEmail")}
                     style={styles.buttonContainer}>
@@ -64,7 +88,8 @@ const styles = StyleSheet.create({
         fontSize: wp('7%'),
         alignSelf: 'center',
         color: DefaultStyles.colors.primary,
-        fontFamily: 'Poppins-Regular'
+        fontFamily: 'Poppins-SemiBold',
+        marginTop:wp('1%')
     },
     buttonContainer: {
         marginTop: wp('13%'),

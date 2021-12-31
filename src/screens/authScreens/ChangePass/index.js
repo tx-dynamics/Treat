@@ -13,13 +13,16 @@ import { Divider } from 'react-native-elements';
 
 const ChangePass = ({ navigation }) => {
     return (
-        <ScrollView style={styles.container}>
+        <View style={styles.container}>
             <Header
                 label="Change Password"
                 leftIcon={"keyboard-backspace"}
                 onPressLeft={() => { navigation.goBack() }}
             />
-            <Divider width={1} style={{marginTop:-5}} color="lightgray" />
+     
+        <ScrollView>
+            
+            {/* <Divider width={1} style={{marginTop:-5}} color="lightgray" /> */}
 
             <View style={styles.headerLogo} >
                 <Image style={{ width: 270, height: 223 }}
@@ -65,6 +68,7 @@ const ChangePass = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
         </ScrollView>
+        </View>
     )
 }
 

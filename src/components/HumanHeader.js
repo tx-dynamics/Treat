@@ -31,7 +31,7 @@ function HumanHeader({
         name={leftIcon}
         color={contentColor}
       />
-      <Image style={{width:139,marginTop:wp('5%') ,height:77}} source={require('../../assets/Logo.png')} />
+      <Image style={{width:139,marginTop:wp('4%') ,height:77}} source={require('../../assets/Logo.png')} />
 
       <Icon
         size={20}
@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     alignSelf:'center',
     flexDirection: "row",
     padding: wp('6%'),
+    
   },
 });
 

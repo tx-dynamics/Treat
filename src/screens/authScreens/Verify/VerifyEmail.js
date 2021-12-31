@@ -23,16 +23,19 @@ const VerifyEmail = ({ navigation }) => {
       }
 
     return (
-        <ScrollView style={styles.container}>
-                 
-            <Header
+        <View style={styles.container}>
+             <Header
                 label="Confirm Email"
                 leftIcon={"keyboard-backspace"}
                 onPressLeft={() => { navigation.goBack() }}
             />
-                  <Divider width={1} style={{marginTop:-5}} color="lightgray" />
+        
+        <ScrollView>
+                  {/* <Divider width={1} style={{marginTop:-5}} color="lightgray" /> */}
 
-            <Image style={{ width: 206, height: 201, alignSelf: 'center' }} source={require('../../../../assets/mbl.png')} />
+            <Image style={{ width: 206, height: 201,
+                    marginTop:wp('9%'),
+                 alignSelf: 'center' }} source={require('../../../../assets/mbl.png')} />
 
             <View style={styles.TxtView} >
 
@@ -44,7 +47,7 @@ const VerifyEmail = ({ navigation }) => {
                     Enter your Email, we will send it to you!
                 </Apptext>
             </View>
-            <View style={{flexDirection:'row',marginTop:wp('7%'), justifyContent:'space-evenly'}}>
+            <View style={{flexDirection:'row',marginTop:wp('4%'),marginHorizontal:wp('4%') ,justifyContent:'space-evenly'}}>
                 <TouchableOpacity 
                 onPress={() => setVisible(true)} style={styles.inputContainer}>
                 <CountryPicker
@@ -63,7 +66,7 @@ const VerifyEmail = ({ navigation }) => {
                     placeholderText="example@gmail.com"
                     myClr={DefaultStyles.colors.white}
                     myRadius={5}
-                    myWidth={wp('70%')}
+                    myWidth={wp('66%')}
                     autoCapitalize="none"
                     autoCorrect={false}
                 />
@@ -77,6 +80,7 @@ const VerifyEmail = ({ navigation }) => {
             </View>
 
         </ScrollView>
+        </View>
     )
 }
 

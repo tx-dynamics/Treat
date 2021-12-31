@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, FlatList, Image,TouchableOpacity, ScrollView, TextInput } from 'react-native';
+import { View, StyleSheet, FlatList, Image, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -64,7 +64,38 @@ const subTreat = ({ navigation }) => {
 
 
     ];
+    const DATAL = [
+        {
+            id: 'bd37acbea-c1b1-46c2-aed5-3ad53abb28ba',
+            count: "1",
+            label: "Never",
+            msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            Img: require("../../../../assets/treat1.png"),
+            dt: "5 minutes ago",
+            move: "Detail"
+        },
+        {
+            id: 'bd7acb3444ewweea-c1b1-46c2-aed5-3ad53abb28ba',
+            count: "2",
+            label: 'Rarely',
+            msg: "Will do, super, thank you",
+            Img: require("../../../../assets/treat2.png"),
+            dt: "2 hours ago",
+            move: "Detail"
+        },
+        {
+            id: 'bd7acb21ea-c1bewew1-46c2-aed5-3ad53abb28ba',
+            count: "3",
+            label: "Sometimes",
+            msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            Img: require("../../../../assets/treat3.png"),
+            dt: "3 hours ago",
+            move: "Detail"
+        },
 
+
+
+    ];
     const addCategories = async (item) => {
         var selectedIdss = [...isItem]
         if (selectedIdss.includes(item.id)) {
@@ -78,9 +109,9 @@ const subTreat = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <TreatHeader />
-            <Divider width={1} style={{ marginTop: -7 }} color="lightgray" />
+            {/* <Divider width={1} style={{ marginTop: -7 }} color="lightgray" /> */}
             <ScrollView>
-                <Apptext style={styles.monthTxt}>The Daily Debriefing Analysis</Apptext>
+                <Apptext style={styles.monthTxt}>Treat The Nurse Analysis</Apptext>
                 <View>
                     <Apptext style={styles.moreTxt} >{"When you [Help] people you have direct contact with their lives.As you may found, compassion for those you [Help] can affect you in positive and negetive ways. Below are some questions aboutyour experiences, both positive and negetive as a [helper]. Consider each of the following questions about you and your current work situation. Select the number that honestly reflects how frequently you experienced these things in last 30 days."} </Apptext>
                 </View>
@@ -94,7 +125,7 @@ const subTreat = ({ navigation }) => {
                 <View style={{ marginTop: wp('14%') }}>
 
                     <FlatList
-                        data={DATA}
+                        data={DATAL}
                         numColumns={3}
                         horizontal={false}
                         keyExtractor={(item) => item.id}
@@ -106,6 +137,18 @@ const subTreat = ({ navigation }) => {
 
                         )}
                     />
+                </View>
+                <View style={{width:wp('80%')}}>
+                <View style={{width:wp('40%'),flexDirection:'row', alignSelf:'center' }}>
+                    <OptionsBox
+                        count={"4"}
+                        label={"Often"}
+                    />
+                    <OptionsBox
+                        count={"5"}
+                        label={"Very Often"}
+                    />
+                </View>
                 </View>
                 <View>
                     <Apptext style={styles.blueTxt} >{`1_ I am preaccopied with more than one
@@ -170,6 +213,7 @@ const styles = StyleSheet.create({
         fontFamily: "Lato-Regular",
         fontSize: wp('3%'),
         alignSelf: 'center',
+        textAlign: 'center',
         color: '#2591ad',
         marginTop: wp('5%'),
         width: wp('86%'),

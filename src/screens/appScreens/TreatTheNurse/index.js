@@ -57,14 +57,14 @@ const TreatTheNurse = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <TreatHeader />
-            <Divider width={1} style={{marginTop:-7}} color="lightgray" />
+            {/* <Divider width={1} style={{marginTop:-7}} color="lightgray" /> */}
         <ScrollView>
             <Apptext style={styles.monthTxt}>Intro</Apptext>
             <View style={{marginTop:wp('7%')}}>
                 <HomeWideCard backImg={require('../../../../assets/TreatCover.png')} isLabel={false} />
             </View>
 
-            <View style={{marginTop:wp('12%')}}>
+            <View style={{marginTop:wp('6%')}}>
             <FlatList   
                 data={DATA}
                 numColumns={2}
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
         fontFamily:"Lato-Regular",
         fontSize:wp('5%'),
         alignSelf:'center',
-        marginTop:wp('6%'),
+        marginTop:wp('2%'),
         color:DefaultStyles.colors.secondary
     },
     });

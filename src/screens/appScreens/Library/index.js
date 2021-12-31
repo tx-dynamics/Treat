@@ -80,10 +80,9 @@ const Library = ({ navigation }) => {
             rightImg={require('../../../../assets/settingIcon.png')}
             onPressLeft={() => navigation.goBack()}
             />
-            <Divider width={1} style={{marginTop:-7}} color="lightgray" />
         <ScrollView>
             
-            <View style={{marginTop:wp('8%')}}>
+            <View style={{marginTop:wp('6%')}}>
             <FlatList   
                 data={DATA}
                 numColumns={2}

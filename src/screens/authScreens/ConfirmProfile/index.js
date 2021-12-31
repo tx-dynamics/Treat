@@ -23,12 +23,11 @@ const ConfirmProfile = ({ navigation }) => {
             <Header 
             label="Password Changed"
             />
-            <Divider width={1} style={{marginTop:-5}} color="lightgray" />
 
             <View style={[styles.headerLogo, {flex:1,marginTop:-100 }]} >
                 <Image source={require('../../../../assets/confirm.png')} />
-                <Apptext style={[styles.text2, {marginTop:hp('5%')}]}>Password changed</Apptext>
-                <Apptext style={[styles.text2, {alignSelf:'center'}]}>      Successfully!</Apptext>
+                <Apptext style={[styles.text2, {marginTop:hp('5%')}]}>      Password Changed</Apptext>
+                <Apptext style={[styles.text2, {alignSelf:'center'}]}>              Successfully!</Apptext>
             </View>
         </View>
     )
@@ -46,7 +45,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
       },
     text2:{
-        width:158,
+        width:wp('60%'),
         fontFamily:"Poppins-Medium",
         fontSize:16,
         color:DefaultStyles.colors.secondary

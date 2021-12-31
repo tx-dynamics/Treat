@@ -54,10 +54,9 @@ const ZoomLive = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <TreatHeader />
-            <Divider width={1} style={{marginTop:-7}} color="lightgray" />
         <ScrollView>
             <Image style={styles.imgStl} source={require('../../../../assets/ZoomScreen.png')} />
-            <View style={{marginTop:wp('7%')}}>
+            <View style={{marginTop:wp('7%'), marginBottom:wp('5%')}}>
             <FlatList   
                 data={DATA}
                 keyExtractor={(item) => item.id}

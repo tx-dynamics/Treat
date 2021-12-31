@@ -7,7 +7,7 @@ import {
 import Apptext from 'src/components/Apptext';
 import DefaultStyles from "src/config/Styles";
 import HumanHeader from 'src/components/HumanHeader';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/AntDesign';
 import RadioButtonRN from 'radio-buttons-react-native';
 
 
@@ -38,23 +38,25 @@ const AskProblem = ({ navigation }) => {
         <View style={styles.container}>
             <ScrollView >
                 <HumanHeader />
-                <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
+                <View style={{ flexDirection: 'row', 
+        marginLeft:wp('2%'),alignSelf: 'center' }}>
                     <Apptext style={styles.userTxt}>What is your biggest </Apptext>
-                    <Apptext style={[styles.userTxt, { fontFamily: 'Poppins-Medium' }]}>hurdle right now?</Apptext>
+                    <Apptext style={[styles.userTxt, { fontFamily: 'Poppins-SemiBold' }]}>hurdle right now?</Apptext>
                 </View>
-                <View>
-
+                <View style={{marginTop:wp('14%')}}>
                     <RadioButtonRN
                         data={data}
-                        boxStyle={{ backgroundColor: "white", borderColor: "white" }}
-                        circleSize={16}
-                        textStyle={{ fontSize: 14, fontFamily: "Poppins-Regular", color: DefaultStyles.colors.primary }}
+                        boxStyle={{backgroundColor: "white",marginTop:-15,borderColor: "white" }}
+                        circleSize={10}
+                        deactiveColor="#f9c26e"
+                        textStyle={{ fontSize: 14, fontFamily: "Poppins-Regular",
+                        color: DefaultStyles.colors.primary }}
                         selectedBtn={(e) => console.log(e)}
                         icon={
                             <Icon
-                                name="check-circle-o"
-                                size={25}
-                                color="#2c9dd1"
+                                name="checkcircleo"
+                                size={16}
+                                color={'#f9c26e'}
                             />
                         }
                     />
@@ -78,13 +80,13 @@ const styles = StyleSheet.create({
         backgroundColor: DefaultStyles.colors.white
     },
     userTxt: {
-        fontSize: 17,
+        fontSize: wp('4.5%'),
         alignSelf: 'center',
         color: DefaultStyles.colors.primary,
         fontFamily: 'Poppins-Regular'
     },
     buttonContainer: {
-        marginBottom: wp('10%'),
+        marginBottom: wp('13%'),
         width: wp('65%'),
         justifyContent: 'center',
         alignItems: 'center',

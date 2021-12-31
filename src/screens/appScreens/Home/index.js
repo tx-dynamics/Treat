@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import { View,StyleSheet,FlatList ,Image, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, FlatList, Image, ScrollView, TouchableOpacity } from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -11,6 +11,9 @@ import { Divider } from 'react-native-elements';
 import HomeBox from 'src/components/HomeBox';
 import HomeHeader from 'src/components/HomeHeader';
 import HomeWideCard from 'src/components/HomeWideCard';
+import CalendarStrip from 'react-native-calendar-strip';
+import moment from 'moment';
+import { color } from 'react-native-elements/dist/helpers';
 
 const Home = ({ navigation }) => {
 
@@ -81,51 +84,76 @@ const Home = ({ navigation }) => {
 
     ];
 
+    const [isHeart, setHeart] = useState(true);
+
+    const updateHeart = () => {
+        setHeart(!isHeart)
+    }
     return (
         <View style={[styles.container]}>
-            <HomeHeader 
-             headrImg={require('../../../../assets/boyImg.png')}
-             headerTitle={"Welcome"}
-             rightHeaderImg={require('../../../../assets/settingIcon.png')}
+            <HomeHeader
+                headrImg={require('../../../../assets/boyImg.png')}
+                headerTitle={"Welcome"}
+                rightHeaderImg={require('../../../../assets/settingIcon.png')}
             />
-            
-            <Divider width={1} style={{marginTop:-7}} color="lightgray" />
-        <ScrollView>
-            <View style={{marginTop:wp('9%')}}>
-                <HomeWideCard
-                    backImg={require('../../../../assets/human2.png')}
-                />
-            </View>
-            <View style={styles.cntrTxt}>
-                <Apptext style={styles.grayTxt}>{`“It takes as much energy to wish as it does to plan.” 
 
+            {/* <Divider width={1} style={{marginTop:-7}} color="lightgray" /> */}
+            <ScrollView>
+                <View style={{ marginTop: wp('9%') }}>
+                    <HomeWideCard
+                        backImg={require('../../../../assets/human2.png')}
+                    />
+                </View>
+                <View style={styles.cntrTxt}>
+                    <Apptext style={styles.grayTxt}>{`“It takes as much energy to wish as it does to plan.” 
                                     Eleanor Roosevelt`} </Apptext>
-            </View>
+                </View>
                 <Apptext style={styles.monthTxt}>JUNE</Apptext>
-            <View style={styles.CalenderBox}>
-            </View>
-            <View style={styles.DirectionView}>
-                <Apptext style={styles.PrsnlTxt}>Your Personal Library</Apptext>
-                <TouchableOpacity>
-                <Apptext style={styles.pinkTxt}>View</Apptext>
-                </TouchableOpacity>
-            </View>
-            <FlatList
-                data={DATA}
-                numColumns={2}
-                horizontal={false}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
-                    <HomeBox
-                    yellowBoxTxt={"15 MIN"}
-                    leftTitle={item.label}
-                    leftImgName={item.Img}
-                />
+                <View style={styles.CalenderBox}>
                    
-                )}
-            />
-           
-        </ScrollView>
+                    <CalendarStrip
+                        scrollable={true}
+                        showMonth={false}
+                        numDaysInWeek={7}
+                        style={{ height: wp('30%'), paddingTop: 5, paddingBottom: 5 }}
+                        dayContainerStyle={{backgroundColor:"white", height:35, width:35}}
+                        highlightDateContainerStyle={{backgroundColor:DefaultStyles.colors.secondary, }}
+                        highlightDateNameStyle={{color:"white"}}
+                        highlightDateNumberStyle={{color:"white"}}
+                        calendarColor={'transparent'}
+                        calendarHeaderStyle={{color: 'white'}}
+                        dateNumberStyle={{color: 'black'}}
+                        dateNameStyle={{color: 'black'}}
+                        iconContainer={{flex: 0.1,color:'transparent',}}
+                    />
+                </View>
+                <View style={styles.DirectionView}>
+                    <Apptext style={styles.PrsnlTxt}>Your Personal Library</Apptext>
+                    <TouchableOpacity>
+                        <Apptext style={styles.pinkTxt}>View All</Apptext>
+                    </TouchableOpacity>
+                </View>
+                <FlatList
+                    data={DATA}
+                    numColumns={2}
+                    style={{
+                        marginBottom: wp('3%')
+                    }}
+                    horizontal={false}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                        <HomeBox
+                            yellowBoxTxt={"15 MIN"}
+                            leftTitle={item.label}
+                            leftImgName={item.Img}
+                            heartImg={isHeart ? require('../../../../assets/heart.png') : require('../../../../assets/smallRedHeart.png')}
+                            onPress={updateHeart}
+                        />
+
+                    )}
+                />
+
+            </ScrollView>
         </View>
     )
 }
@@ -140,49 +168,49 @@ const styles = StyleSheet.create({
     headerLogo: {
         alignItems: 'center',
         justifyContent: 'center',
-      },
-    text2:{
-        width:158,
-        fontFamily:"Poppins-Medium",
-        fontSize:16,
-        color:DefaultStyles.colors.secondary
     },
-    cntrTxt:{
-        marginTop:wp('8%'), alignSelf:'center'
+    text2: {
+        width: 158,
+        fontFamily: "Poppins-Medium",
+        fontSize: 16,
+        color: DefaultStyles.colors.secondary
     },
-    grayTxt:{
-        fontSize:10,
-        fontFamily:"Poppins-Regular",
-        color:DefaultStyles.colors.gray
+    cntrTxt: {
+        marginTop: wp('8%'), alignSelf: 'center'
     },
-    monthTxt:{
-        fontFamily:"Lato-Regular",
-        fontSize:wp('4%'),
-        alignSelf:'center',
-        marginTop:wp('7%'),
-        color:DefaultStyles.colors.secondary
+    grayTxt: {
+        fontSize: 10,
+        fontFamily: "Poppins-Regular",
+        color: DefaultStyles.colors.gray
     },
-    CalenderBox:{
-        width:wp('90%'),
-        marginTop:wp('5%'),
-        height:wp('30%'),
-        alignSelf:'center',
-        backgroundColor:"#ffecf8", borderRadius:20
+    monthTxt: {
+        fontFamily: "Lato-Regular",
+        fontSize: wp('4%'),
+        alignSelf: 'center',
+        marginTop: wp('7%'),
+        color: DefaultStyles.colors.secondary
     },
-    DirectionView:{
-        flexDirection:'row',
-        justifyContent:'space-between',
-        marginTop:wp('7%'),
-        marginHorizontal:wp('8%')
+    CalenderBox: {
+        width: wp('90%'),
+        marginTop: wp('5%'),
+        height: wp('30%'),
+        alignSelf: 'center',
+        backgroundColor: "#ffecf8", borderRadius: 20
     },
-    PrsnlTxt:{
-        color:DefaultStyles.colors.primary,
-        fontFamily:"Poppins-Regular",
-        fontSize:wp('4%')
+    DirectionView: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: wp('9%'),
+        marginHorizontal: wp('8%')
     },
-    pinkTxt:{
-        fontSize:10,
-        fontFamily:"Poppins-Medium",
-        color:DefaultStyles.colors.secondary
+    PrsnlTxt: {
+        color: DefaultStyles.colors.primary,
+        fontFamily: "Poppins-Regular",
+        fontSize: wp('4%')
+    },
+    pinkTxt: {
+        fontSize: 10,
+        fontFamily: "Poppins-Medium",
+        color: DefaultStyles.colors.secondary
     }
-    });
+});

@@ -29,6 +29,18 @@ const styles = StyleSheet.create({
     MainContainer: {
         width:wp('100%'),
         height:wp('18%'),
+        borderBottomRightRadius: 1,
+        borderBottomLeftRadius: 1,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 0.34,
+        shadowRadius: 6.27,
+        
+        elevation: 3,
+  
     },
     imgBox:{
         width:wp('13%'),

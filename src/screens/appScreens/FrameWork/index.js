@@ -62,7 +62,6 @@ const Framework = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <TreatHeader />
-            <Divider width={1} style={{marginTop:-7}} color="lightgray" />
         <ScrollView>
             <Apptext style={styles.monthTxt}>Framework</Apptext>
             <View style={{marginTop:wp('7%')}}>
@@ -75,7 +74,7 @@ const Framework = ({ navigation }) => {
                 />
             </View>
 
-            <View style={{marginTop:wp('13%')}}>
+            <View style={{marginTop:wp('13%'), marginBottom:wp('5%')}}>
             <FlatList   
                 data={DATA}
                 keyExtractor={(item) => item.id}

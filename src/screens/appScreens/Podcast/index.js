@@ -61,14 +61,10 @@ const Podcast = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <TreatHeader
-            leftIcon={"arrow-back-sharp"}
-            onPressLeft={() => navigation.goBack()}
-            />
-            <Divider width={1} style={{marginTop:-7}} color="lightgray" />
+            <TreatHeader />
         <ScrollView>
             <Apptext style={styles.monthTxt}>Podcast</Apptext>
-            <View style={{marginTop:wp('5%')}}>
+            <View style={{marginTop:wp('3%')}}>
                 <HomeWideCard
                 backImg={require('../../../../assets/podcastCover.png')}
                 isLabel={false}
@@ -79,7 +75,7 @@ const Podcast = ({ navigation }) => {
     hand knowledge and experiences.`}
                 </Apptext>
 
-            <View style={{marginTop:wp('12%')}}>
+            <View style={{marginTop:wp('8%'), marginBottom:wp('5%')}}>
             <FlatList   
                 data={DATA}
                 keyExtractor={(item) => item.id}

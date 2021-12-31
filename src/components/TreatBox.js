@@ -14,7 +14,7 @@ const TreatBox = ({ leftTitle, rightTitle, leftImgName,
             <TouchableOpacity onPress={leftOnPress} style={styles.SightingContainer} {...rest}>
 
                 <ImageBackground style={styles.imgContainer}
-                    imageStyle={{ borderRadius: 18 }} source={leftImgName}>
+                    imageStyle={{ borderRadius: 12 }} source={leftImgName}>
                      <View style={styles.grayBoxDirection}>
                     <Apptext style={styles.SightingText}>{leftTitle}</Apptext>
                     </View>
@@ -33,11 +33,11 @@ export default TreatBox;
 const styles = StyleSheet.create({
     MainContainer: {
         flexDirection: 'row',
-        marginLeft: wp('6%'),
-        marginTop: wp('4%'),
+        marginLeft: wp('8%'),
+        marginTop: wp('3%'),
     },
     SightingContainer: {
-        width: wp('42%'),
+        width: wp('40%'),
         height: wp('47%'),
         shadowColor: "#000",
         shadowOffset: {
@@ -47,10 +47,10 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 1,
-        borderRadius: 20
+        borderRadius: 12
     },
     imgContainer: {
-        width: wp('42%'),
+        width: wp('40%'),
         height: wp('47%'),
     },
     SightingText: {

@@ -10,7 +10,10 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const HomeBox = ({ leftTitle, rightTitle, leftImgName,
     yellowBoxTxt,
-    rightImgName, leftOnPress, rightOnPress, ...rest }) => {
+    rightImgName, 
+    heartImg,
+    onPress,
+    leftOnPress, rightOnPress, ...rest }) => {
 
     return (
         <View style={styles.MainContainer}>
@@ -24,8 +27,8 @@ const HomeBox = ({ leftTitle, rightTitle, leftImgName,
                 </ImageBackground>
                 <View style={styles.grayBoxDirection}>
                     <Apptext style={styles.SightingText}>{leftTitle}</Apptext>
-                    <TouchableOpacity>
-                        <Image style={{ marginTop: wp('2%') }} source={require('../../assets/heart.png')} />
+                    <TouchableOpacity onPress={onPress} >
+                        <Image style={{ marginTop: wp('2%') }} source={heartImg} />
                     </TouchableOpacity>
                 </View>
                 <Apptext style={styles.SightingText1}>{leftTitle}</Apptext>
@@ -44,7 +47,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         // width: wp('40%'),
         marginLeft: wp('6%'),
-        marginTop: wp('4%'),
+        marginTop: wp('3%'),
     },
     SightingContainer: {
         width: wp('42%'),
@@ -69,6 +72,7 @@ const styles = StyleSheet.create({
     imgContainer: {
         width: wp('42%'),
         height: wp('41%'),
+        
     },
     SightingText: {
         fontFamily: "Poppins-Regular",
@@ -113,7 +117,7 @@ const styles = StyleSheet.create({
     innerBox:{
         width:wp('11%'),
         marginTop:10,
-        marginHorizontal:17,
+        marginHorizontal:wp('2%'),
         height:wp('4%'),
         borderRadius:6,
         backgroundColor:DefaultStyles.colors.yellow,
