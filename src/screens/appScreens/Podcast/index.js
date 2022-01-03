@@ -61,7 +61,9 @@ const Podcast = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <TreatHeader />
+            <TreatHeader
+            onPressRight={() => navigation.navigate("Settings")}
+             />
         <ScrollView>
             <Apptext style={styles.monthTxt}>Podcast</Apptext>
             <View style={{marginTop:wp('3%')}}>
@@ -83,7 +85,7 @@ const Podcast = ({ navigation }) => {
                     <SelectBox
                     onPress={() => {
                         addCategories(item)
-                        // navigation.navigate("Library")
+                        navigation.navigate("PodCastVideo")
                     }}
                     myStl={isItem.includes(item.id) ? true : false }
                     leftTitle={item.label}

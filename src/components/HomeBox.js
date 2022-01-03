@@ -5,9 +5,6 @@ import DefaultStyles from "src/config/Styles";
 import Apptext from 'src/components/Apptext';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-
-
-
 const HomeBox = ({ leftTitle, rightTitle, leftImgName,
     yellowBoxTxt,
     rightImgName, 

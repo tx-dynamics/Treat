@@ -79,6 +79,7 @@ const Library = ({ navigation }) => {
             leftIcon={"arrow-left"}
             rightImg={require('../../../../assets/settingIcon.png')}
             onPressLeft={() => navigation.goBack()}
+            onPressRight={() => navigation.navigate("Settings")}
             />
         <ScrollView>
             

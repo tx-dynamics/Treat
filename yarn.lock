@@ -1602,6 +1602,13 @@
     "mime-types" "~2.1.24"
     "negotiator" "0.6.2"
 
+"accordion-collapse-react-native@^1.1.0":
+  "integrity" "sha512-CjBUU6rFfdt7nvGWVio7eILf8K7SN0DyNiBe0m9uqGS6ize7A/Z4xTOmEEQ/LIvuQYVswM4b5TWldKgcE1NLMg=="
+  "resolved" "https://registry.npmjs.org/accordion-collapse-react-native/-/accordion-collapse-react-native-1.1.0.tgz"
+  "version" "1.1.0"
+  dependencies:
+    "lodash.get" "4.4.2"
+
 "acorn-globals@^6.0.0":
   "integrity" "sha512-ZQl7LOWaF5ePqqcX4hLuv/bLXYQNfNWw2c0/yX/TsPRKamzHcTGQnlCjHT3TsmkOUVEPS3crCxiPfdzE/Trlhg=="
   "resolved" "https://registry.npmjs.org/acorn-globals/-/acorn-globals-6.0.0.tgz"
@@ -4956,6 +4963,11 @@
   "resolved" "https://registry.npmjs.org/lodash.frompairs/-/lodash.frompairs-4.0.1.tgz"
   "version" "4.0.1"
 
+"lodash.get@4.4.2":
+  "integrity" "sha1-LRd/ZS+jHpObRDjVNBSZ36OCXpk="
+  "resolved" "https://registry.npmjs.org/lodash.get/-/lodash.get-4.4.2.tgz"
+  "version" "4.4.2"
+
 "lodash.isequal@^4.5.0":
   "integrity" "sha1-QVxEePK8wwEgwizhDtMib30+GOA="
   "resolved" "https://registry.npmjs.org/lodash.isequal/-/lodash.isequal-4.5.0.tgz"
@@ -6281,6 +6293,11 @@
   "resolved" "https://registry.npmjs.org/react-native-size-matters/-/react-native-size-matters-0.3.1.tgz"
   "version" "0.3.1"
 
+"react-native-track-player@^2.1.2":
+  "integrity" "sha512-tZw9/4Ft7EtKtWDZuregBEXjXv++7WT7BvaXDk+lKCL/e3FQI5zyiwECfM18sk6raeMs7ItBxNsDKryCf9mMUA=="
+  "resolved" "https://registry.npmjs.org/react-native-track-player/-/react-native-track-player-2.1.2.tgz"
+  "version" "2.1.2"
+
 "react-native-vector-icons@^9.0.0", "react-native-vector-icons@>7.0.0":
   "integrity" "sha512-qKX5d5/TafHmI4B7UOSZCL3BAGh7ZfF30iLwRgxBkKfZl2lKSuHp8Ottj9OyWh9b5fFtlg+LtyvZrns3g2kh+w=="
   "resolved" "https://registry.npmjs.org/react-native-vector-icons/-/react-native-vector-icons-9.0.0.tgz"
@@ -6320,7 +6337,7 @@
     "prop-types" "^15.6.0"
     "react-timer-mixin" "^0.13.4"
 
-"react-native-windows@>=0.62":
+"react-native-windows@>=0.62", "react-native-windows@>=0.63.0":
   "integrity" "sha512-iHsKgZBXasyXyKmbEeSNEivEnwR7EBm5H9pJRxeV2VLLug216TL6BKRqouwEP4Bw2/lbtrW5Wzb5oayGvTFRUg=="
   "resolved" "https://registry.npmjs.org/react-native-windows/-/react-native-windows-0.66.5.tgz"
   "version" "0.66.5"
@@ -6361,7 +6378,7 @@
     "whatwg-fetch" "^3.0.0"
     "ws" "^6.1.4"
 
-"react-native@*", "react-native@^0.66.0", "react-native@>= 0.30.0", "react-native@>= 0.62", "react-native@>=0.35", "react-native@>=0.47.1", "react-native@0.66.0", "react-native@0.66.4":
+"react-native@*", "react-native@^0.66.0", "react-native@>= 0.30.0", "react-native@>= 0.62", "react-native@>=0.35", "react-native@>=0.47.1", "react-native@>=0.60.0-rc.2", "react-native@>=0.61.5", "react-native@0.66.0", "react-native@0.66.4":
   "integrity" "sha512-9vx5dlSfQlKbbDtr8+xMon6qsmSu7jvjdXWZpEKh3XVKpUidbbODv7048gwVKX8YAel1egeR7hN8vzSeI6ssTw=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.66.4.tgz"
   "version" "0.66.4"
@@ -6438,7 +6455,7 @@
   "resolved" "https://registry.npmjs.org/react-timer-mixin/-/react-timer-mixin-0.13.4.tgz"
   "version" "0.13.4"
 
-"react@*", "react@^16.0.0 || ^17.0.0", "react@^16.13.1", "react@^16.3.0", "react@^16.8.0 || ^17.0.0", "react@^16.8.3 || ^17", "react@^17.0.0", "react@>= 15.2.1", "react@>=16.5.1", "react@>=16.8", "react@16.x.x", "react@17.0.2":
+"react@*", "react@^16.0.0 || ^17.0.0", "react@^16.13.1", "react@^16.3.0", "react@^16.8.0 || ^17.0.0", "react@^16.8.3 || ^17", "react@^17.0.0", "react@>= 15.2.1", "react@>=16.5.1", "react@>=16.8", "react@>=16.8.6", "react@>=16.9.0", "react@16.x.x", "react@17.0.2":
   "integrity" "sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
   "version" "17.0.2"

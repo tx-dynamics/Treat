@@ -59,6 +59,7 @@ const SoundHealing = ({ navigation }) => {
             <Header 
             label={"Sound Healing"}
             rightImg={require('../../../../assets/settingIcon.png')}
+            onPressRight={navigation.navigate("Settings")}
             />
         <ScrollView>
             <View style={{marginTop:wp('7%')}}>
@@ -71,7 +72,7 @@ const SoundHealing = ({ navigation }) => {
                 />
             </View>
 
-            <View style={{marginTop:wp('6%')}}>
+            <View>
             <FlatList   
                 data={DATA}
                 numColumns={2}
@@ -79,6 +80,7 @@ const SoundHealing = ({ navigation }) => {
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
                     <TreatBox
+                    onPress={() => navigation.navigate("Audios")}
                     leftTitle={item.label}
                     leftImgName={item.Img}
                     subTxt={item.msg}

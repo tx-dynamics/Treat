@@ -7,16 +7,22 @@ import Home from "src/screens/appScreens/Home";
 import TreatTheNurse from "src/screens/appScreens/TreatTheNurse";
 import FrameWork from "src/screens/appScreens/FrameWork";
 import Podcast from "src/screens/appScreens/Podcast";
+import PodCastVideo from "src/screens/appScreens/Podcast/PodCastVideo";
 import SoundHealing from "src/screens/appScreens/SoundHealing";
+import Audios from "src/screens/appScreens/SoundHealing/Audios";
 import ZoomLive from "src/screens/appScreens/ZoomLive";
 import Library from "src/screens/appScreens/Library";
 import subTreat from "src/screens/appScreens/TreatTheNurse/subTreat";
+import ProfileInformation from "src/screens/appScreens/Profile/ProfileInformation";
 import AuthNavigator from 'src/screens/authScreens/authNavigator'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import TreatVideo from "src/screens/appScreens/TreatTheNurse/TreatVideo";
 import DefaultStyles from "src/config/Styles";
 import {useSelector} from 'react-redux';
 import Apptext from 'src/components/Apptext';
+import Settings from "src/screens/appScreens/Settings";
+import Support from "src/screens/appScreens/Help&Support/Support";
+import Contact from "src/screens/appScreens/Help&Support/Contact";
 
 
 const Tab = createBottomTabNavigator();
@@ -37,6 +43,12 @@ const HomeNavigator = () => {
             }}>
             <StackNavigator.Screen name="Home" component={Home}/>
             <StackNavigator.Screen name="Library" component={Library} />
+            <StackNavigator.Screen name="Settings" component={Settings} />
+            <StackNavigator.Screen name="ProfileInformation" component={ProfileInformation} />
+            
+            <StackNavigator.Screen name="Support" component={Support} />
+            
+            <StackNavigator.Screen name="Contact" component={Contact} />
         </StackNavigator.Navigator>
     )
 }
@@ -68,18 +80,47 @@ const FrameWorkNavigator = () => {
         </StackNavigator.Navigator>
     )
 }
+const PodCastNavigator = () => {
+
+    return (
+
+        <StackNavigator.Navigator
+            screenOptions={{
+                headerShown: false
+            }}>
+                
+            <StackNavigator.Screen name="Podcast" component={Podcast} />
+            <StackNavigator.Screen name="PodCastVideo" component={PodCastVideo} />
+        </StackNavigator.Navigator>
+    )
+}
+const SoundHealingNavigator = () => {
+
+    return (
+
+        <StackNavigator.Navigator
+            screenOptions={{
+                headerShown: false
+            }}>
+                
+            <StackNavigator.Screen name="SoundHealing" component={SoundHealing} />
+            <StackNavigator.Screen name="Audios" component={Audios} />
+        </StackNavigator.Navigator>
+    )
+}
 
 
 const MyTabs = () => {
 
     return (
         <Tab.Navigator
-            tabBarOptions={{
-                keyboardHidesTabBar: true,
-            }}
+            // tabBarOptions={{
+            //     keyboardHidesTabBar: true,
+            // }}
             screenOptions={{
                 headerShown: false,
                 tabBarActiveTintColor: DefaultStyles.colors.textColor,
+                keyboardHidesTabBar: true,
                 tabBarStyle: {
                     borderTopWidth: 0,
                     backgroundColor: DefaultStyles.colors.white,
@@ -94,7 +135,7 @@ const MyTabs = () => {
 
             }}>
      
-            <Tab.Screen name="Home" component={HomeNavigator}
+            <Tab.Screen name="HomeNavigator" component={HomeNavigator}
                 options={{
                     tabBarLabel: ({focused}) => (
                         <Apptext style={{fontSize: wp('2%'), fontFamily: "Poppins-Regular",color: focused ? DefaultStyles.colors.secondary : DefaultStyles.colors.primary }}>Home</Apptext>
@@ -157,7 +198,7 @@ const MyTabs = () => {
                             </View>
                     )
                 }} />
-                 <Tab.Screen name="Podcast" component={Podcast}
+                 <Tab.Screen name="PodCastNavigator" component={PodCastNavigator}
                 options={{
                     tabBarLabel: ({focused}) => (
                         <Apptext style={{fontSize: wp('2%'), fontFamily: "Poppins-Regular",
@@ -199,7 +240,7 @@ const MyTabs = () => {
                         </View>
                     )
                 }} />
-                 <Tab.Screen name="Sound Healing" component={SoundHealing}
+                 <Tab.Screen name="SoundHealingNavigator" component={SoundHealingNavigator}
                 options={{
                     tabBarLabel: ({focused}) => (
                         <Apptext style={{fontSize: wp('2%'), fontFamily: "Poppins-Regular",

@@ -13,7 +13,6 @@ import HomeHeader from 'src/components/HomeHeader';
 import HomeWideCard from 'src/components/HomeWideCard';
 import CalendarStrip from 'react-native-calendar-strip';
 import moment from 'moment';
-import { color } from 'react-native-elements/dist/helpers';
 
 const Home = ({ navigation }) => {
 
@@ -95,6 +94,7 @@ const Home = ({ navigation }) => {
                 headrImg={require('../../../../assets/boyImg.png')}
                 headerTitle={"Welcome"}
                 rightHeaderImg={require('../../../../assets/settingIcon.png')}
+                onPress={() => navigation.navigate("Settings")}
             />
 
             {/* <Divider width={1} style={{marginTop:-7}} color="lightgray" /> */}
@@ -163,7 +163,7 @@ export default Home;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: DefaultStyles.colors.white
+        // backgroundColor: DefaultStyles.colors.white
     },
     headerLogo: {
         alignItems: 'center',

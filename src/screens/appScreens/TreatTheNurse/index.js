@@ -56,7 +56,9 @@ const TreatTheNurse = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <TreatHeader />
+            <TreatHeader
+            onPressRight={() => navigation.navigate("Settings")}
+            />
             {/* <Divider width={1} style={{marginTop:-7}} color="lightgray" /> */}
         <ScrollView>
             <Apptext style={styles.monthTxt}>Intro</Apptext>
@@ -64,7 +66,7 @@ const TreatTheNurse = ({ navigation }) => {
                 <HomeWideCard backImg={require('../../../../assets/TreatCover.png')} isLabel={false} />
             </View>
 
-            <View style={{marginTop:wp('6%')}}>
+            <View>
             <FlatList   
                 data={DATA}
                 numColumns={2}

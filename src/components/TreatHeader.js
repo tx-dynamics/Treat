@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet,Image } from "react-native";
+import { View, StyleSheet,Image, TouchableOpacity } from "react-native";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -42,7 +42,9 @@ function TreatHeader({
         name={rightIcon}
         color={contentColor}
       />
+    <TouchableOpacity onPress={onPressRight}>
     <Image style={{marginTop:wp('3%'), marginLeft:-46}} source={require('../../assets/settingIcon.png')} />
+    </TouchableOpacity>
 
     </View>
   );

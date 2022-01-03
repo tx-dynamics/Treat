@@ -11,29 +11,46 @@ import { Divider } from 'react-native-elements';
 import SelectBox from 'src/components/SelectBox';
 import HomeWideCard from 'src/components/HomeWideCard';
 
-const ZoomLive = ({ navigation }) => {
+const PodCastVideo = ({ navigation }) => {
     const [isItem, setSelectedItem] = useState([]);
 
     const DATA = [
         {
             id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
             count: "1",
-            label: "Join Now",
-            msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            Img: require("../../../../assets/treat1.png"),
+            label: "Video 1",
+            msg: "Lorem ipsum",
+            Img: require("../../../../assets/video1.png"),
             dt: "5 minutes ago",
             move: "Detail"
         },
         {
             id: 'bd7acbewweea-c1b1-46c2-aed5-3ad53abb28ba',
             count: "2",
-            label: 'Archieved Meetings',
-            msg: "Will do, super, thank you",
-            Img: require("../../../../assets/treat2.png"),
+            label: 'Video 2',
+            msg: "Will do,",
+            Img: require("../../../../assets/video2.png"),
             dt: "2 hours ago",
             move: "Detail"
         },
-     
+        {
+            id: 'bd7acbea-c1bewew1-46c2-aed5-3ad53abb28ba',
+            count: "3",
+            label: "Video 3",
+            msg: "Lorem ipsum ",
+            Img: require("../../../../assets/video3.png"),
+            dt: "3 hours ago",
+            move: "Detail"
+        },
+        {
+            id: 'bd7acbea-c1bewe33w1-46c2-aed5-3ad53abb28ba',
+            count: "3",
+            label: "Video 4",
+            msg: "Lorem ipsum",
+            Img: require("../../../../assets/video4.png"),
+            dt: "3 hours ago",
+            move: "Detail"
+        },
       
   
 
@@ -53,35 +70,38 @@ const ZoomLive = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <TreatHeader 
+            <TreatHeader
             onPressRight={() => navigation.navigate("Settings")}
             />
         <ScrollView>
-            <Image style={styles.imgStl} source={require('../../../../assets/ZoomScreen.png')} />
-            <View style={{marginTop:wp('7%'), marginBottom:wp('5%')}}>
+            <Apptext style={styles.monthTxt}>Series 1 Guest : Guest Name</Apptext>
+            <View style={{marginTop:wp('8%')}}>
             <FlatList   
                 data={DATA}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
-                    <SelectBox
-                    onPress={() => {
-                        addCategories(item)
-                        // navigation.navigate("Library")
-                    }}
-                    myStl={isItem.includes(item.id) ? true : false }
-                    leftTitle={item.label}
-                    count={item.count}
-                />
+                    <HomeWideCard
+                    backImg={item.Img}
+                    isLabel={false}
+                    isSubTxt={false}
+                    isLeftTxt={true}
+                    isSubLeftTxt={true}
+                    setLeftTxt={item.label}
+                    setSubLeftTxt={item.msg}
+                    />
                    
                 )}
             />
-           </View>
+              
+            </View>
+
+
         </ScrollView>
         </View>
     )
 }
 
-export default ZoomLive;
+export default PodCastVideo;
 
 const styles = StyleSheet.create({
     container: {
@@ -105,14 +125,4 @@ const styles = StyleSheet.create({
         alignSelf:'center',
         marginTop:wp('6%'),
     },
-    cntrTxt:{
-        alignSelf:'center',
-        fontFamily:'Poppins-Regular',
-        fontSize:wp('3%'),
-        marginTop:wp('5%')
-    },
-    imgStl:{
-        width:241, height:304, alignSelf:'center',
-        marginTop:wp('5%')
-    }
     });

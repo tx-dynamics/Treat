@@ -6,7 +6,9 @@ import Apptext from 'src/components/Apptext';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 
-const HomeWideCard = ({ backImg,setSubTxt,headerTitle, rightHeaderImg, isLabel = true, leftOnPress,
+const HomeWideCard = ({ backImg, setSubTxt, headerTitle,setLeftTxt,
+    isSubLeftTxt = false,setSubLeftTxt,rightHeaderImg,
+    isLeftTxt = false, isLabel = true, leftOnPress,
     isSubTxt = false, rightOnPress, ...rest }) => {
 
     return (
@@ -17,6 +19,15 @@ const HomeWideCard = ({ backImg,setSubTxt,headerTitle, rightHeaderImg, isLabel =
                     <TouchableOpacity style={styles.innerBox}>
                         <Apptext style={styles.innerTxt}>Latest</Apptext>
                     </TouchableOpacity>) : null}
+                    {isLeftTxt ? (
+                        <View style={{marginHorizontal:wp('5%'), position:"absolute", bottom:0}}>
+                            <Apptext style={styles.leftStl}>{setLeftTxt}</Apptext>
+                           {isSubLeftTxt ? (
+                            <Apptext style={styles.leftSubStl}>{setSubLeftTxt}</Apptext>
+                           ) : null}
+
+                        </View>
+                    ) : null}
                 {isSubTxt ? (
                     <Apptext style={styles.subTxt}>{setSubTxt}</Apptext>
                 ) : null}
@@ -34,7 +45,8 @@ const styles = StyleSheet.create({
         width: wp('90%'),
         alignSelf: 'center',
         height: wp('45%'),
-        borderRadius: 10
+        borderRadius: 10,
+        marginBottom: wp('6%')
     },
     innerBox: {
         width: wp('13%'),
@@ -51,12 +63,24 @@ const styles = StyleSheet.create({
         fontSize: wp('2.5%'),
         color: DefaultStyles.colors.white
     },
-    subTxt:{
-        color:DefaultStyles.colors.white,
-        fontSize:wp('2.5%'),
-        marginTop:wp('32%'),
+    subTxt: {
+        color: DefaultStyles.colors.white,
+        fontSize: wp('2.5%'),
+        marginTop: wp('32%'),
+        fontFamily: "Poppins-Regular",
+        alignSelf: 'center'
+    },
+    leftStl:{
         fontFamily:"Poppins-Regular",
-        alignSelf:'center'
+        fontSize:wp('4%'),
+        lineHeight:wp('9%'),
+        color:DefaultStyles.colors.white
+    },
+    leftSubStl:{
+        fontFamily:"Poppins-Regular",
+        fontSize:wp('3%'),
+        marginBottom:wp('4%'),
+        color:DefaultStyles.colors.white
     }
 
 });

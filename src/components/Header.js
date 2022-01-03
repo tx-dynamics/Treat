@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -39,7 +39,9 @@ function Header({
       <Apptext style={[styles.topheadingTxt, ]}>
         {label}
       </Apptext>
+      <TouchableOpacity onPress={onPressRight}>
       <Image source={rightImg} />
+      </TouchableOpacity>
       {/* <Icon
         size={30}
         onPress={onPressRight}

@@ -7,17 +7,19 @@ import {
 import DefaultStyles from "src/config/Styles";
 import Apptext from 'src/components/Apptext';
 import TreatHeader from 'src/components/TreatHeader';
-import { Divider } from 'react-native-elements';
-import SelectBox from 'src/components/SelectBox';
-import HomeWideCard from 'src/components/HomeWideCard';
+import Card from 'src/components/Card';
+import AudioCard from 'src/components/AudioCard';
 
-const Framework = ({ navigation }) => {
-    const [isItem, setSelectedItem] = useState([]);
+const Audios = ({ navigation }) => {
+    const [isHeart, setHeart] = useState(false);
 
+    const updateHeart = () => {
+        setHeart(!isHeart)
+    }
     const DATA = [
         {
             id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-            count: "1",
+            count: "+5",
             label: "Introduction",
             msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
             Img: require("../../../../assets/treat1.png"),
@@ -26,7 +28,7 @@ const Framework = ({ navigation }) => {
         },
         {
             id: 'bd7acbewweea-c1b1-46c2-aed5-3ad53abb28ba',
-            count: "2",
+            count: "",
             label: 'Implementation',
             msg: "Will do, super, thank you",
             Img: require("../../../../assets/treat2.png"),
@@ -35,71 +37,55 @@ const Framework = ({ navigation }) => {
         },
         {
             id: 'bd7acbea-c1bewew1-46c2-aed5-3ad53abb28ba',
-            count: "3",
+            count: "+3",
             label: "Outline",
             msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
             Img: require("../../../../assets/treat3.png"),
             dt: "3 hours ago",
             move: "Detail"
         },
-      
+        {
+            id: 'bd7acbea-c1b1-4efwffde6c2-aed5-3ad53abb28ba',
+            count: "+22",
+            label: "Education",
+            msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            Img: require("../../../../assets/treat4.png"),
+            dt: "01 Feb",
+            move: "Detail"
+        },
   
 
     ];
 
-    const addCategories = async (item) => {
-        var selectedIdss = [...isItem]
-        if (selectedIdss.includes(item.id)) {
-            selectedIdss = selectedIdss.filter(id => id !== item.id)
-        }
-        else {
-            selectedIdss.push(item.id)
-        }
-        await setSelectedItem(selectedIdss)
-    }
-
-
     return (
         <View style={styles.container}>
             <TreatHeader
+            leftIcon={"arrow-back"}
+            onPressLeft={() => navigation.goBack()}
             onPressRight={() => navigation.navigate("Settings")}
+
             />
         <ScrollView>
-            <Apptext style={styles.monthTxt}>Framework</Apptext>
-            <View style={{marginTop:wp('7%')}}>
-                <HomeWideCard
-                backImg={require('../../../../assets/frameBack.png')}
-                isLabel={false}
-                isSubTxt={true}
-                setSubTxt={`Learn  Biweekly / Monthly new information onbuilding a
-                        foundation to understand yourself`}
+            <Apptext style={styles.monthTxt}>Video 1</Apptext>
+            <View style={{marginTop:wp('4%')}}>
+               <AudioCard
+                backImg={require('../../../../assets/TreatCover.png')}
+               />
+            </View>
+            <View style={{marginTop:wp('10%')}}>
+                <Card
+                videoName={"Video 1"}
+                onPress={updateHeart}
+                boxImg={isHeart ? require('../../../../assets/redHeart.png') : require('../../../../assets/heartBox.png')  }
+                subTxt={"12 Questions"}
                 />
             </View>
-
-            <View style={{marginTop:wp('6%'), marginBottom:wp('5%')}}>
-            <FlatList   
-                data={DATA}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
-                    <SelectBox
-                    onPress={() => {
-                        addCategories(item)
-                        navigation.navigate("Library")
-                    }}
-                    myStl={isItem.includes(item.id) ? true : false }
-                    leftTitle={item.label}
-                    count={item.count}
-                />
-                   
-                )}
-            />
-           </View>
         </ScrollView>
         </View>
     )
 }
 
-export default Framework;
+export default Audios;
 
 const styles = StyleSheet.create({
     container: {
@@ -118,9 +104,11 @@ const styles = StyleSheet.create({
 
     },
     monthTxt:{
-        fontFamily:"Lato-Regular",
+        fontFamily:"Poppins-Regular",
         fontSize:wp('5%'),
         alignSelf:'center',
         marginTop:wp('6%'),
+        color:DefaultStyles.colors.textColor
     },
+  
     });

@@ -108,7 +108,10 @@ const subTreat = ({ navigation }) => {
     }
     return (
         <View style={styles.container}>
-            <TreatHeader />
+            <TreatHeader
+            
+            onPressRight={() => navigation.navigate("Settings")}
+            />
             {/* <Divider width={1} style={{ marginTop: -7 }} color="lightgray" /> */}
             <ScrollView>
                 <Apptext style={styles.monthTxt}>Treat The Nurse Analysis</Apptext>

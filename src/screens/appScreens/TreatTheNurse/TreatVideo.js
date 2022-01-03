@@ -63,6 +63,7 @@ const TreatVideo = ({ navigation }) => {
             <TreatHeader
             leftIcon={"arrow-back"}
             onPressLeft={() => navigation.goBack()}
+            onPressRight={() => navigation.navigate("Settings")}
             />
         <ScrollView>
             <Apptext style={styles.monthTxt}>Video 1</Apptext>

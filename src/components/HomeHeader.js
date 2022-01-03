@@ -6,7 +6,7 @@ import Apptext from 'src/components/Apptext';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 
-const HomeHeader = ({headrImg,headerTitle,rightHeaderImg, leftOnPress, rightOnPress, ...rest }) => {
+const HomeHeader = ({headrImg,headerTitle,rightHeaderImg,onPress, leftOnPress, rightOnPress, ...rest }) => {
 
     return (
         <View style={styles.MainContainer}>
@@ -16,7 +16,11 @@ const HomeHeader = ({headrImg,headerTitle,rightHeaderImg, leftOnPress, rightOnPr
             </ImageBackground>
            </TouchableOpacity>
            <Apptext style={styles.headerTxt}>{headerTitle}</Apptext>
+           <TouchableOpacity
+           onPress={onPress}
+           >
            <Image style={{marginTop:wp('5%')}} source={rightHeaderImg} />
+           </TouchableOpacity>
            </View>
         </View>
 
