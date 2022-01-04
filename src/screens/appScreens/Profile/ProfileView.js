@@ -12,35 +12,33 @@ import { Collapse, CollapseHeader, CollapseBody, AccordionList } from 'accordion
 
 
 
-const Contact = ({ navigation }) => {
+const ProfileView = ({ navigation }) => {
 
 
     return (
         <View style={styles.container}>
             <Header
-                label={"Contact"}
+                label={"Profile"}
 
             />
             <ScrollView>
-                <View style={{flexDirection:'row',justifyContent:'space-between', marginHorizontal:wp('5%') }}>
-                <View style={[styles.inputContainer, {width:wp('30%')}]} >
+                <TouchableOpacity style={styles.circleImg} >
+                    <Image source={require('../../../../assets/boy.png')}  />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.txtView}>
+                    <Apptext style={styles.Txt}>Edit Profile</Apptext>
+                </TouchableOpacity>
+                <View style={[styles.inputContainer]} >
+
+                    <View>
                         <TextInput
                             style={styles.HumanInput}
                             numberOfLines={1}
-                            placeholder={"First Name"}
+                            placeholder={"Name"}
                             placeholderTextColor={'#929292'}
 
                         />
-                </View>
-                <View style={[styles.inputContainer, {width:wp('30%')}]} >
-                        <TextInput
-                            style={styles.HumanInput}
-                            numberOfLines={1}
-                            placeholder={"Last Name"}
-                            placeholderTextColor={'#929292'}
-
-                        />
-                </View>
+                    </View>
                 </View>
                 <View style={[styles.inputContainer]} >
 
@@ -54,46 +52,59 @@ const Contact = ({ navigation }) => {
                         />
                     </View>
                 </View>
-                <View style={[styles.inputContainer, { height: wp('35%') }]} >
+                <View style={[styles.inputContainer]} >
 
                     <View>
                         <TextInput
                             style={styles.HumanInput}
                             numberOfLines={1}
-                            placeholder={"Message"}
+                            placeholder={"Identification Number"}
                             placeholderTextColor={'#929292'}
 
                         />
                     </View>
                 </View>
-                <View style={[styles.inputContainer, { height: wp('45%') }]} >
+                <View style={[styles.inputContainer]} >
 
                     <View>
                         <TextInput
                             style={styles.HumanInput}
                             numberOfLines={1}
-                            placeholder={"Additional Details"}
+                            placeholder={"Date of birth"}
                             placeholderTextColor={'#929292'}
 
                         />
                     </View>
                 </View>
-                <TouchableOpacity
-                onPress={() => navigation.navigate('Contact')}
-                style={styles.btnView}>
-                <Apptext style={styles.btnTxt}>Send Message</Apptext>
-                </TouchableOpacity>
+
             </ScrollView>
         </View>
     )
 }
 
-export default Contact;
+export default ProfileView;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: DefaultStyles.colors.white
+    },
+    circleImg:{
+        width:70,
+        height:70,
+        marginTop:wp('5%'),
+        borderRadius:50,
+        alignSelf:'center'
+    },
+    txtView:{
+        alignSelf:'center',
+        marginBottom:wp('7%'),
+        marginTop:wp('4%')
+    },
+    Txt:{
+        fontFamily:'Poppins',
+        fontSize:wp('3.5%'),
+        color: DefaultStyles.colors.secondary
     },
     HumanInput: {
         width: wp('70%'),
@@ -101,7 +112,7 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         width: wp('90%'),
-        marginTop: wp('6%'),
+        marginTop: wp('4%'),
         marginBottom: 5,
         alignSelf: 'center',
         paddingLeft: wp('1%'),
@@ -120,21 +131,6 @@ const styles = StyleSheet.create({
 
         elevation: 3,
     },
-    btnView: {
-        width: wp('90%'),
-        height: wp('17%'),
-        backgroundColor: DefaultStyles.colors.secondary,
-        borderRadius: 8,
-        alignSelf: 'center',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: wp('40%'),
-        marginBottom: wp('10%')
-    },
-    btnTxt: {
-        fontFamily: 'Poppins-Regular',
-        fontSize: 16,
-        color: DefaultStyles.colors.white
-    }
+  
 
 });

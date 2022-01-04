@@ -31,7 +31,7 @@ const Support = ({ navigation }) => {
     Feel free to get in touch with us`}</Apptext>
                 </View>
                 <TouchableOpacity
-                // onPress={() => navigation.navigate('Contact')}
+                onPress={() => navigation.navigate('Contact')}
                 style={styles.btnView}>
                 <Apptext style={styles.btnTxt}>Contact Us</Apptext>
                 </TouchableOpacity>

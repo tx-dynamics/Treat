@@ -93,6 +93,7 @@ const Home = ({ navigation }) => {
             <HomeHeader
                 headrImg={require('../../../../assets/boyImg.png')}
                 headerTitle={"Welcome"}
+                leftOnPress={() => navigation.navigate('withoutBottomTabnavigator', {screen:'ProfileView'})}
                 rightHeaderImg={require('../../../../assets/settingIcon.png')}
                 onPress={() => navigation.navigate("Settings")}
             />

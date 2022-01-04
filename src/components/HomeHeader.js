@@ -11,7 +11,7 @@ const HomeHeader = ({headrImg,headerTitle,rightHeaderImg,onPress, leftOnPress, r
     return (
         <View style={styles.MainContainer}>
             <View style={{flexDirection:'row',}}>
-           <TouchableOpacity>
+           <TouchableOpacity onPress={leftOnPress}>
             <ImageBackground style={styles.imgBox} source={headrImg}>
             </ImageBackground>
            </TouchableOpacity>

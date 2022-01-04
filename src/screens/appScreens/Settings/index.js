@@ -22,7 +22,7 @@ const Settings = ({ navigation }) => {
             <ScrollView>
             <View style={{ marginTop: wp('2%'), marginBottom: wp('5%') }}>
                 <TouchableOpacity
-                    onPress={() => navigation.navigate("ProfileInformation")}
+                    onPress={() => navigation.navigate('withoutBottomTabnavigator', {screen:"ProfileInformation"})}
                     style={styles.SightingContainer}>
 
                     <View style={styles.DirectionView}>
@@ -40,6 +40,7 @@ const Settings = ({ navigation }) => {
                 </TouchableOpacity>
                 {/* ******************************* */}
                 <TouchableOpacity
+                    onPress={() =>  navigation.navigate('withoutBottomTabnavigator', {screen:"VerifyEmail"})}
                     style={styles.SightingContainer}>
 
                     <View style={styles.DirectionView}>
@@ -57,6 +58,7 @@ const Settings = ({ navigation }) => {
                 </TouchableOpacity>
                 {/* ******************************* */}
                 <TouchableOpacity
+                    onPress={() => navigation.navigate('withoutBottomTabnavigator', {screen:'Fvrts'})}
                     style={styles.SightingContainer}>
 
                     <View style={styles.DirectionView}>
@@ -74,6 +76,7 @@ const Settings = ({ navigation }) => {
                 </TouchableOpacity>
                 {/* ******************************* */}
                 <TouchableOpacity
+                      onPress={() => navigation.navigate('withoutBottomTabnavigator', {screen:'WorkSchedule'})}
                     style={styles.SightingContainer}>
 
                     <View style={styles.DirectionView}>
@@ -91,8 +94,8 @@ const Settings = ({ navigation }) => {
                 </TouchableOpacity>
                 {/* ******************************* */}
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('Support')}
-                    style={styles.SightingContainer}>
+                      onPress={() => navigation.navigate('withoutBottomTabnavigator', {screen:'Support'})}
+                      style={styles.SightingContainer}>
 
                     <View style={styles.DirectionView}>
                         <View style={styles.boxWidth}>
@@ -109,6 +112,7 @@ const Settings = ({ navigation }) => {
                 </TouchableOpacity>
                 {/* ******************************* */}
                 <TouchableOpacity
+                    onPress={() => navigation.navigate('withoutBottomTabnavigator', {screen:'AskSubscription'})}
                     style={styles.SightingContainer}>
 
                     <View style={styles.DirectionView}>
@@ -126,6 +130,7 @@ const Settings = ({ navigation }) => {
                 </TouchableOpacity>
                 {/* ******************************* */}
                 <TouchableOpacity
+                onPress={() => navigation.navigate('withoutBottomTabnavigator', {screen:'Login'})}
                     style={styles.SightingContainer}>
 
                     <View style={styles.DirectionView}>
