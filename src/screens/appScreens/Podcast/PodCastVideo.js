@@ -72,6 +72,8 @@ const PodCastVideo = ({ navigation }) => {
         <View style={styles.container}>
             <TreatHeader
             onPressRight={() => navigation.navigate("Settings")}
+            onPressLeft={() => navigation.goBack()}
+
             />
         <ScrollView>
             <Apptext style={styles.monthTxt}>Series 1 Guest : Guest Name</Apptext>

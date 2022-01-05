@@ -10,6 +10,10 @@ import VerifyCode from "src/screens/authScreens/VerifyEmail";
 import VerifyEmail from "src/screens/authScreens/Verify/VerifyEmail";
 import ChangePass from "src/screens/authScreens/ChangePass";
 import ConfirmProfile from "src/screens/authScreens/ConfirmProfile";
+import AskPaymentOption from "src/screens/authScreens/Payment/AskPaymentOption";
+import CardPayment from 'src/screens/authScreens/Payment/CardPayment';
+import CreditCard from 'src/screens/authScreens/Payment/CreditCard';
+import PaymentDone from "src/screens/authScreens/Payment/PaymentDone";
 
 
 const AuthStack = createNativeStackNavigator()
@@ -35,6 +39,14 @@ const AuthNavigator = () => {
             <AuthStack.Screen name="ConfirmProfile" component={ConfirmProfile} />
             
             <AuthStack.Screen name="VerifyEmail" component={VerifyEmail} />
+            
+            <AuthStack.Screen name="AskPaymentOption" component={AskPaymentOption} />
+            
+            <AuthStack.Screen name="CardPayment" component={CardPayment} />
+            
+            <AuthStack.Screen name="CreditCard" component={CreditCard} />
+            
+            <AuthStack.Screen name="PaymentDone" component={PaymentDone} />
             
         </AuthStack.Navigator>
     )

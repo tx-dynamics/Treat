@@ -19,7 +19,8 @@ const ProfileView = ({ navigation }) => {
         <View style={styles.container}>
             <Header
                 label={"Profile"}
-
+                rightImg={require('../../../../assets/tick.png')}
+                onPressLeft={() => navigation.goBack()}
             />
             <ScrollView>
                 <TouchableOpacity style={styles.circleImg} >
@@ -58,6 +59,7 @@ const ProfileView = ({ navigation }) => {
                         <TextInput
                             style={styles.HumanInput}
                             numberOfLines={1}
+                            keyboardType='number-pad'
                             placeholder={"Identification Number"}
                             placeholderTextColor={'#929292'}
 

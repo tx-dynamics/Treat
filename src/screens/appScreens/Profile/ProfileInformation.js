@@ -20,11 +20,11 @@ const ProfileInformation = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <Header
-                label={"Profile Info"}
-
+                label="Profile Info"
+                onPressLeft={() => navigation.goBack()}
             />
             <ScrollView>
-                <View style={{ marginTop: wp('12%'), marginBottom: wp('5%') }}>
+                <View style={{ marginTop: wp('6%'), marginBottom: wp('5%') }}>
                     <TouchableOpacity
                         style={styles.SightingContainer}>
                         <View style={styles.DirectionView}>
@@ -49,7 +49,7 @@ const ProfileInformation = ({ navigation }) => {
                         </View>
                     </TouchableOpacity>
                     {/* ******************************* */}
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => setUp(!isUp)}>
                         <Collapse style={styles.SightingContainer}>
                             <CollapseHeader>
                                 <View style={styles.DirectionView}>
@@ -58,12 +58,17 @@ const ProfileInformation = ({ navigation }) => {
                                             {"Name"}
                                         </Apptext>
                                     </View>
-                                    <Image
-                                    source={require('../../../../assets/down.png')} />
+                                    {
+                                        isUp ?
+                                            <Image source={require('../../../../assets/up.png')} />
+                                            :
+                                            <Image source={require('../../../../assets/down.png')} />
+
+                                    }
                                 </View>
                             </CollapseHeader>
                             <CollapseBody style={styles.CollapsedView}>
-                                <View style={styles.inputView}> 
+                                <View style={styles.inputView}>
                                     <TextInput
                                         placeholder='User Name'
                                         style={styles.input}
@@ -87,11 +92,11 @@ const ProfileInformation = ({ navigation }) => {
                                         </Apptext>
                                     </View>
                                     <Image
-                                    source={require('../../../../assets/down.png')} />
+                                        source={require('../../../../assets/down.png')} />
                                 </View>
                             </CollapseHeader>
                             <CollapseBody style={styles.CollapsedView}>
-                                <View style={styles.inputView}> 
+                                <View style={styles.inputView}>
                                     <TextInput
                                         placeholder='Email'
                                         style={styles.input}
@@ -115,13 +120,14 @@ const ProfileInformation = ({ navigation }) => {
                                         </Apptext>
                                     </View>
                                     <Image
-                                    source={require('../../../../assets/down.png')} />
+                                        source={require('../../../../assets/down.png')} />
                                 </View>
                             </CollapseHeader>
                             <CollapseBody style={styles.CollapsedView}>
-                                <View style={styles.inputView}> 
+                                <View style={styles.inputView}>
                                     <TextInput
                                         placeholder='Identification Number'
+                                        keyboardType='number-pad'
                                         style={styles.input}
                                     />
                                     <Apptext style={styles.editTxt}>Edit</Apptext>
@@ -208,7 +214,7 @@ const styles = StyleSheet.create({
     DirectionView: {
         flexDirection: 'row',
         alignItems: 'center',
-        padding: wp('6%'),
+        padding: wp('4%'),
         paddingLeft: wp('3%')
     },
     countStl: {

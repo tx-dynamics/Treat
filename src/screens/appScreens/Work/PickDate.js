@@ -43,6 +43,7 @@ const PickDate = ({ navigation }) => {
             <Header
                 label={"Work Schedule"}
                 rightImg={require('../../../../assets/tick.png')}
+                onPressLeft={() => navigation.goBack()}
             />
             <ScrollView >
                 {/* <View style={{ flexDirection: 'row', }}>
@@ -51,7 +52,6 @@ const PickDate = ({ navigation }) => {
                 <View style={{marginTop: wp('6%'), width: 300, height: 200, alignSelf: 'center' }}>
                     <Calendar
                         hideArrows={true}
-                        
                         theme={{
                             textMonthFontSize: wp('5%'),
                             textMonthFontFamily: 'Poppins',
@@ -64,7 +64,7 @@ const PickDate = ({ navigation }) => {
                             todayTextColor: DefaultStyles.colors.white,
                             todayBackgroundColor:DefaultStyles.colors.secondary,
                             dayTextColor: "#2d4150",
-                            dotColor: DefaultStyles.colors.primary,
+                            // dotColor: DefaultStyles.colors.primary,
                             textMonthFontWeight: "bold",
                             //textMonthFontSize:12,
                             textDayFontWeight: "700",

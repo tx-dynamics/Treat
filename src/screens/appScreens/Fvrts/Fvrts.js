@@ -61,6 +61,7 @@ const Fvrts = ({ navigation }) => {
         <View style={styles.container}>
             <Header
                 label={"Favorites"}
+                onPressLeft={() => navigation.goBack()}
             />
 <ScrollView>
             <View style={{ marginTop: wp('8%') }} >

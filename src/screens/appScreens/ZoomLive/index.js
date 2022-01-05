@@ -54,7 +54,9 @@ const ZoomLive = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <TreatHeader 
+            isback={false}
             onPressRight={() => navigation.navigate("Settings")}
+            onPressLeft={() => navigation.goBack()}
             />
         <ScrollView>
             <Image style={styles.imgStl} source={require('../../../../assets/ZoomScreen.png')} />

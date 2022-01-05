@@ -60,14 +60,13 @@ const Audios = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <TreatHeader
-            leftIcon={"arrow-back"}
             onPressLeft={() => navigation.goBack()}
             onPressRight={() => navigation.navigate("Settings")}
 
             />
         <ScrollView>
-            <Apptext style={styles.monthTxt}>Video 1</Apptext>
-            <View style={{marginTop:wp('4%')}}>
+            {/* <Apptext style={styles.monthTxt}>Video 1</Apptext> */}
+            <View style={{marginTop:wp('8%')}}>
                <AudioCard
                 backImg={require('../../../../assets/TreatCover.png')}
                />

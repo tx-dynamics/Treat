@@ -18,12 +18,13 @@ const Contact = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <Header
-                label={"Contact"}
-
+                label={"Contact Us"}
+                onPressLeft={() => navigation.goBack()}
             />
             <ScrollView>
-                <View style={{flexDirection:'row',justifyContent:'space-between', marginHorizontal:wp('5%') }}>
-                <View style={[styles.inputContainer, {width:wp('30%')}]} >
+                <View style={{flexDirection:'row',justifyContent:'space-between',
+                 marginHorizontal:wp('8%') }}>
+                <View style={[styles.inputContainer, {width:wp('35%')}]} >
                         <TextInput
                             style={styles.HumanInput}
                             numberOfLines={1}
@@ -32,7 +33,7 @@ const Contact = ({ navigation }) => {
 
                         />
                 </View>
-                <View style={[styles.inputContainer, {width:wp('30%')}]} >
+                <View style={[styles.inputContainer, {width:wp('35%')}]} >
                         <TextInput
                             style={styles.HumanInput}
                             numberOfLines={1}
@@ -79,7 +80,7 @@ const Contact = ({ navigation }) => {
                     </View>
                 </View>
                 <TouchableOpacity
-                onPress={() => navigation.navigate('Contact')}
+                onPress={() => navigation.navigate('Support')}
                 style={styles.btnView}>
                 <Apptext style={styles.btnTxt}>Send Message</Apptext>
                 </TouchableOpacity>
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
         paddingLeft: wp('5%'),
     },
     inputContainer: {
-        width: wp('90%'),
+        width: wp('85%'),
         marginTop: wp('6%'),
         marginBottom: 5,
         alignSelf: 'center',

@@ -16,6 +16,7 @@ function Header({
   label,
   leftIcon,
   backgroundColor,
+  isBack = true,
   contentColor = DefaultStyles.colors.secondary,
   onPressLeft,
   onPressRight,
@@ -30,53 +31,56 @@ function Header({
         ...style,
       }}
     >
-      <MaterialCommunityIcons
+      {/* <MaterialCommunityIcons
         size={20}
         onPress={onPressLeft}
         name={leftIcon}
         color={contentColor}
-      />
-      <Apptext style={[styles.topheadingTxt, ]}>
+      /> */}
+      <TouchableOpacity 
+      onPress={onPressLeft} 
+      style={{width:wp('6%')}}>
+      {isBack ? (
+        <Image source={require('../../assets/back.png')} />
+      ) : null}
+      </TouchableOpacity>
+      <Apptext style={[styles.topheadingTxt,]}>
         {label}
       </Apptext>
       <TouchableOpacity onPress={onPressRight}>
-      <Image source={rightImg} />
+        <Image source={rightImg} />
       </TouchableOpacity>
-      {/* <Icon
-        size={30}
-        onPress={onPressRight}
-        name={rightIcon}
-        color={contentColor}
-      /> */}
+
 
     </View>
   );
 }
 const styles = StyleSheet.create({
-  topheadingTxt:{
-    fontFamily:"Poppins-Regular",
-    paddingTop:wp('1%'),
-    color:DefaultStyles.colors.secondary,
-    fontSize:16,
+  topheadingTxt: {
+    fontFamily: "Poppins-Regular",
+    paddingTop: wp('1%'),
+    marginLeft: -15,
+    color: DefaultStyles.colors.secondary,
+    fontSize: 16,
   },
   container: {
     // height: wp("20%"),
     width: wp("100%"),
-     borderBottomRightRadius: 1,
-     borderBottomLeftRadius: 1,
+    borderBottomRightRadius: 1,
+    borderBottomLeftRadius: 1,
     alignItems: "center",
     justifyContent: "space-between",
     flexDirection: "row",
     padding: wp('5%'),
     shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 5,
-        },
-        shadowOpacity: 0.34,
-        shadowRadius: 6.27,
-        
-        elevation: 3,
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+
+    elevation: 3,
   },
 });
 

@@ -19,7 +19,13 @@ const Card = ({ videoName, boxImg, subTxt, leftTitle,myStl ,onPress, ...rest }) 
                 </View>
             </View>
             <Apptext style={styles.subTxt} >{subTxt}</Apptext>
-            <Apptext style={styles.para}>Lorem Ipsum  is simply  dummy text   of  the printing  and    typesetting   industry.  Lorem Ipsum  has   been   the   industry's  standard dummy  text  ever  since the 1500s, when an unknown  printer took a galley  of  type  and scrambled it to make a type specimen book.</Apptext>
+            <Apptext style={styles.para}>Lorem Ipsum  is simply  dummy text   of
+              the printing  and    typesetting   industry.  Lorem Ipsum  has   been 
+                the   industry's  standard dummy  text  ever  since the 1500s, when an
+                 unknown  printer took a galley  of  type  and scrambled it to make a 
+                 type specimen book.
+                 
+                 </Apptext>
         </View>
 
 
@@ -35,15 +41,16 @@ const styles = StyleSheet.create({
         width:wp('90%'),
         borderRadius:8,
         height:wp('70%'),
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.34,
-        shadowRadius: 6.27,
+        // shadowColor: "#000",
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 2,
+        // },
+        // shadowOpacity: 0.34,
+        // shadowRadius: 6.27,
         
-        elevation: 2,
+        // elevation: 2,
+        elevation:1
     },
     directionView:{
         marginHorizontal:wp('7%'),
@@ -73,9 +80,11 @@ const styles = StyleSheet.create({
     para:{
         fontFamily:'Poppins',
         fontSize:wp('3.5%'),
+        
         lineHeight:wp('6%'),
         marginHorizontal:wp('7%'),
-        marginTop:wp('8%')
+        marginTop:wp('6%'),
+        
     }
 
 });

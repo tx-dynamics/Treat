@@ -25,7 +25,7 @@ import Support from "src/screens/appScreens/Help&Support/Support";
 import Contact from "src/screens/appScreens/Help&Support/Contact";
 import Fvrts from "src/screens/appScreens/Fvrts/Fvrts";
 import WorkSchedule from "src/screens/appScreens/Work/WorkSchedule";
-import VerifyEmail from "src/screens/authScreens/VerifyEmail";
+import VerifyEmail from "src/screens/authScreens/Verify/VerifyEmail";
 import AskSubscription from "src/screens/authScreens/AskSubscription";
 import Login from 'src/screens/authScreens/Login'
 import ProfileView from "src/screens/appScreens/Profile/ProfileView";

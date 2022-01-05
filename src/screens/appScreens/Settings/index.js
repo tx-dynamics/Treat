@@ -9,15 +9,19 @@ import Apptext from 'src/components/Apptext';
 import Header from 'src/components/Header';
 import SelectBox from 'src/components/SelectBox';
 import HomeWideCard from 'src/components/HomeWideCard';
+import { setUser} from 'src/redux/actions/authAction';
+import { useDispatch } from "react-redux";
 
 const Settings = ({ navigation }) => {
+    
+    let dispatch = useDispatch();
     const [isItem, setSelectedItem] = useState([]);
 
     return (
         <View style={styles.container}>
             <Header
                 label={"Settings"}
-
+                isBack={false}
             />
             <ScrollView>
             <View style={{ marginTop: wp('2%'), marginBottom: wp('5%') }}>
@@ -40,7 +44,11 @@ const Settings = ({ navigation }) => {
                 </TouchableOpacity>
                 {/* ******************************* */}
                 <TouchableOpacity
-                    onPress={() =>  navigation.navigate('withoutBottomTabnavigator', {screen:"VerifyEmail"})}
+                    onPress={() => 
+                    // dispatch(setUser(false)),
+                    navigation.navigate('withoutBottomTabnavigator', {screen:"VerifyEmail"})
+                    
+                    }
                     style={styles.SightingContainer}>
 
                     <View style={styles.DirectionView}>

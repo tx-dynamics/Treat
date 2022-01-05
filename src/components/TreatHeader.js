@@ -8,9 +8,11 @@ import Icon from "react-native-vector-icons/Ionicons";
 import DefaultStyles from "../config/Styles";
 
 function TreatHeader({
+  leftImg,
   rightIcon,
   label,
   leftIcon,
+  isback = true,
   backgroundColor,
   contentColor = DefaultStyles.colors.secondary,
   onPressLeft,
@@ -25,25 +27,20 @@ function TreatHeader({
         ...style,
       }}
     >
-      {/* <Icon
-        size={25}
-        onPress={onPressLeft}
-        name={leftIcon}
-        style={{marginTop:wp('2%')}}
-        color={contentColor}
-      /> */}
+      <TouchableOpacity onPress={onPressLeft} style={{width:wp('35%')}}>
+        {
+          isback ? (
 
-      <View style={styles.midBox}>
+            <Image style={{marginTop:wp('3%'), }} source={require('../../assets/back.png') } />
+          ) : null
+        }
+      </TouchableOpacity>
+      <View>
       <Image style={{width:87,height:47,}} source={require('../../assets/Logo.png')} />
       </View>
-      <Icon
-        size={20}
-        onPress={onPressRight}
-        name={rightIcon}
-        color={contentColor}
-      />
-    <TouchableOpacity onPress={onPressRight}>
-    <Image style={{marginTop:wp('3%'), marginLeft:-46}} source={require('../../assets/settingIcon.png')} />
+   
+    <TouchableOpacity style={styles.rightView} onPress={onPressRight}>
+    <Image style={{marginTop:wp('3%')}} source={require('../../assets/settingIcon.png')} />
     </TouchableOpacity>
 
     </View>
@@ -66,13 +63,12 @@ const styles = StyleSheet.create({
     shadowRadius: 6.27,
     
     elevation: 3,
-
-
   },
-  midBox:{
-    width:wp('100%'),
-    alignItems:'center',
-  }
+  rightView:{
+    width:wp('32%'),
+    flexDirection:'row',
+    justifyContent:'flex-end',
+  },
 });
 
 export default TreatHeader;

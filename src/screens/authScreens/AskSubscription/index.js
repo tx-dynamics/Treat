@@ -66,7 +66,7 @@ const index = ({ navigation }) => {
                     <Apptext style={[styles.buttonText, {fontSize:12}]}>{"Every Three Months*"}</Apptext>
                 </TouchableOpacity>
                 <TouchableOpacity
-                onPress={() => navigation.navigate("VerifyCode")}
+                    onPress={() => navigation.navigate('AskPaymentOption')}
                     style={[styles.buttonContainer, {backgroundColor:DefaultStyles.colors.secondary}]}>
                       <Apptext style={styles.buttonText}>{"Annual"}</Apptext>
                     <Apptext style={styles.buttonText}>{"$109.99"}</Apptext>

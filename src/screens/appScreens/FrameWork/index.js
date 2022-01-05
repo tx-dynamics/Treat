@@ -62,7 +62,9 @@ const Framework = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <TreatHeader
+            isback={false}
             onPressRight={() => navigation.navigate("Settings")}
+            onPressLeft={() => navigation.goBack()}
             />
         <ScrollView>
             <Apptext style={styles.monthTxt}>Framework</Apptext>

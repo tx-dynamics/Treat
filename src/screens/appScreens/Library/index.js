@@ -76,7 +76,6 @@ const Library = ({ navigation }) => {
         <View style={styles.container}>
             <Header
             label="Neuroscience Library"
-            leftIcon={"arrow-left"}
             rightImg={require('../../../../assets/settingIcon.png')}
             onPressLeft={() => navigation.goBack()}
             onPressRight={() => navigation.navigate("Settings")}

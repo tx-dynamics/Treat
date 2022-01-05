@@ -57,7 +57,10 @@ const TreatTheNurse = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <TreatHeader
+            isback={false}
             onPressRight={() => navigation.navigate("Settings")}
+            onPressLeft={() => navigation.goBack()}
+
             />
             {/* <Divider width={1} style={{marginTop:-7}} color="lightgray" /> */}
         <ScrollView>

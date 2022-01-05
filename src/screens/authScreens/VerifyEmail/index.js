@@ -79,7 +79,7 @@ const VerifyCode = ({ navigation }) => {
 
             <View style={{ marginTop: wp('25%') }}>
                 <TouchableOpacity
-                    onPress={() => navigation.navigate("ChangePass")}
+                    onPress={() => navigation.navigate("ConfirmProfile")}
                     style={styles.buttonContainer}>
                     <Apptext style={styles.buttonText}>{"Confirm"}</Apptext>
                 </TouchableOpacity>

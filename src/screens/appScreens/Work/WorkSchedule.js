@@ -44,6 +44,7 @@ const WorkSchedule = ({ navigation }) => {
         <View style={styles.container}>
             <Header
                 label={"Work Schedule"}
+                onPressLeft={() => navigation.goBack()}
             />
             <ScrollView >
                 <View style={{ flexDirection: 'row', marginLeft: wp('2%'), alignSelf: 'center' }}>

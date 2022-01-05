@@ -58,8 +58,10 @@ const SoundHealing = ({ navigation }) => {
         <View style={styles.container}>
             <Header 
             label={"Sound Healing"}
+            isBack={false}
             rightImg={require('../../../../assets/settingIcon.png')}
             onPressRight={navigation.navigate("Settings")}
+            onPressLeft={() => navigation.goBack()}
             />
         <ScrollView>
             <View style={{marginTop:wp('7%')}}>

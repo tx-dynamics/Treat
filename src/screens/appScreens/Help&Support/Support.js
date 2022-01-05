@@ -18,7 +18,7 @@ const Support = ({ navigation }) => {
         <View style={styles.container}>
             <Header
                 label={"Support"}
-
+                onPressLeft={() => navigation.goBack()}
             />
             <ScrollView>
                 <View style={styles.imgView}>
