@@ -9,60 +9,58 @@ import Icon from 'react-native-vector-icons/AntDesign';
 
 
 
-const PaymentOption = ({ count, leftTitle, myStl, onPress, ...rest }) => {
-    const data = [
-        {
-            label: 'Stress'
-        },
-        {
-            label: 'Lack of appreciation'
-        },
-        {
-            label: 'Burnout'
-        },
-        {
-            label: 'Lack of emotional support'
-        },
-        {
-            label: 'Others'
-        },
+const PaymentOption = ({ count, leftTitle, myStl,imgName, onPress, ...rest }) => {
 
-    ];
+    const data = [];
 
     return (
-
         <TouchableOpacity
-            onPress={onPress}
             style={styles.SightingContainer}>
-
             <View style={styles.DirectionView}>
                 <View style={styles.boxWidth}>
                     <RadioButtonRN
                         data={data}
-                        boxStyle={{ backgroundColor: "white", marginTop: -15, borderColor: "white" }}
+                        boxStyle={{ backgroundColor: "white", borderColor: "white" }}
                         circleSize={10}
-                        deactiveColor="#f9c26e"
-                        textStyle={{
-                            fontSize: 14, fontFamily: "Poppins-Regular",
-                            color: DefaultStyles.colors.primary
-                        }}
-                        selectedBtn={(e) => console.log(e)}
-                        icon={
-                            <Icon
-                                name="checkcircleo"
-                                size={16}
-                                color={'#f9c26e'}
-                            />
+                        textStyle={styles.SightingText1}
+                        selectedBtn={(e) => {
+                            console.log(e)
                         }
+                        }
+
                     />
                 </View>
-                <View style={{}}>
-                    <Apptext style={styles.SightingText1}>
-                        {leftTitle}
-                    </Apptext>
+                <View style={{ marginLeft: wp('50%') }}>
+                    <Image source={imgName} />
                 </View>
             </View>
         </TouchableOpacity>
+        // <TouchableOpacity
+        //     onPress={onPress}
+        //     style={styles.SightingContainer}>
+
+        //     <View style={styles.DirectionView}>
+        //         <View style={styles.boxWidth}>
+        //             <RadioButtonRN
+        //                 data={data}
+        //                 boxStyle={{ backgroundColor: "white", marginTop: -15, borderColor: "white" }}
+        //                 circleSize={10}
+        //                 deactiveColor="#f9c26e"
+        //                 textStyle={{
+        //                     fontSize: 14, fontFamily: "Poppins-Regular",
+        //                     color: DefaultStyles.colors.primary
+        //                 }}
+        //                 selectedBtn={(e) => console.log(e)}
+
+        //             />
+        //         </View>
+        //         <View style={{}}>
+        //             <Apptext style={styles.SightingText1}>
+        //                 {leftTitle}
+        //             </Apptext>
+        //         </View>
+        //     </View>
+        // </TouchableOpacity>
 
 
     );
@@ -74,12 +72,10 @@ const styles = StyleSheet.create({
 
     SightingContainer: {
         width: wp('85%'),
-        marginTop: wp('4%'),
+        marginTop: wp('5%'),
         height: 104,
         marginBottom: 1,
-        borderRadius: 8,
-        alignItems: 'center',
-        justifyContent: 'center',
+        borderRadius: 15,
         alignSelf: 'center',
         backgroundColor: DefaultStyles.colors.white,
         shadowColor: "#000",
@@ -110,12 +106,12 @@ const styles = StyleSheet.create({
     },
 
     SightingText1: {
-        fontFamily: "Poppins-Regular",
+        fontFamily: "Poppins-Medium",
         fontSize: wp('4%'),
-        width: wp('55%'),
+        width: wp('60%'),
         color: DefaultStyles.colors.textColor,
-
-        // backgroundColor:"green"
+        //  backgroundColor:"green",
+        paddingLeft: wp('7%')
     },
 
     innerTxt: {

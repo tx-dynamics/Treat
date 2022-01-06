@@ -39,8 +39,11 @@ const styles = StyleSheet.create({
         alignSelf:'center',
         marginBottom:wp('18%'),
         width:wp('90%'),
-        borderRadius:8,
-        height:wp('70%'),
+        borderRadius:10,
+        height:wp('73%'),
+        borderWidth:0.5,
+        borderColor:'lightgray',
+        
         // shadowColor: "#000",
         // shadowOffset: {
         //     width: 0,
@@ -50,7 +53,7 @@ const styles = StyleSheet.create({
         // shadowRadius: 6.27,
         
         // elevation: 2,
-        elevation:1
+        // elevation:1
     },
     directionView:{
         marginHorizontal:wp('7%'),
@@ -80,7 +83,6 @@ const styles = StyleSheet.create({
     para:{
         fontFamily:'Poppins',
         fontSize:wp('3.5%'),
-        
         lineHeight:wp('6%'),
         marginHorizontal:wp('7%'),
         marginTop:wp('6%'),

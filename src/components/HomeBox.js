@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         height: wp('9.5%'),
         opacity: 0.6,
-        backgroundColor: "lightgray",
+        // backgroundColor: "lightgray",
         marginTop: wp('31.5%')
     },
     pinkBox: {

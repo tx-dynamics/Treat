@@ -14,8 +14,9 @@ import { Collapse, CollapseHeader, CollapseBody, AccordionList } from 'accordion
 const ProfileInformation = ({ navigation }) => {
     const [isToggle, setToggle] = useState(true)
     const [isUp, setUp] = useState(false);
+    const [isUp1, setUp1] = useState(false);
+    const [isUp2, setUp2] = useState(false);
 
-    console.log(isUp)
 
     return (
         <View style={styles.container}>
@@ -49,8 +50,12 @@ const ProfileInformation = ({ navigation }) => {
                         </View>
                     </TouchableOpacity>
                     {/* ******************************* */}
-                    <TouchableOpacity onPress={() => setUp(!isUp)}>
-                        <Collapse style={styles.SightingContainer}>
+                   
+                    <TouchableOpacity>
+                        <Collapse 
+                        isExpanded={isUp} 
+                        onToggle={() => setUp(!isUp)}
+                        style={styles.SightingContainer}>
                             <CollapseHeader>
                                 <View style={styles.DirectionView}>
                                     <View style={styles.bottomDirectionView}>
@@ -81,9 +86,13 @@ const ProfileInformation = ({ navigation }) => {
                             </CollapseBody>
                         </Collapse>
                     </TouchableOpacity>
+                   
                     {/* ******************************* */}
                     <TouchableOpacity>
-                        <Collapse style={styles.SightingContainer}>
+                        <Collapse
+                         isExpanded={isUp1} 
+                        onToggle={() => setUp1(!isUp1)}
+                         style={styles.SightingContainer}>
                             <CollapseHeader>
                                 <View style={styles.DirectionView}>
                                     <View style={styles.bottomDirectionView}>
@@ -91,8 +100,13 @@ const ProfileInformation = ({ navigation }) => {
                                             {"Email"}
                                         </Apptext>
                                     </View>
-                                    <Image
-                                        source={require('../../../../assets/down.png')} />
+                                    {
+                                        isUp1 ?
+                                            <Image source={require('../../../../assets/up.png')} />
+                                            :
+                                            <Image source={require('../../../../assets/down.png')} />
+
+                                    }
                                 </View>
                             </CollapseHeader>
                             <CollapseBody style={styles.CollapsedView}>
@@ -111,7 +125,10 @@ const ProfileInformation = ({ navigation }) => {
                     </TouchableOpacity>
                     {/* ******************************* */}
                     <TouchableOpacity>
-                        <Collapse style={styles.SightingContainer}>
+                        <Collapse 
+                        isExpanded={isUp2} 
+                        onToggle={() => setUp2(!isUp2)}
+                        style={styles.SightingContainer}>
                             <CollapseHeader>
                                 <View style={styles.DirectionView}>
                                     <View style={styles.bottomDirectionView}>
@@ -119,8 +136,13 @@ const ProfileInformation = ({ navigation }) => {
                                             {"Identification Number"}
                                         </Apptext>
                                     </View>
-                                    <Image
-                                        source={require('../../../../assets/down.png')} />
+                                    {
+                                        isUp2 ?
+                                            <Image source={require('../../../../assets/up.png')} />
+                                            :
+                                            <Image source={require('../../../../assets/down.png')} />
+
+                                    }
                                 </View>
                             </CollapseHeader>
                             <CollapseBody style={styles.CollapsedView}>

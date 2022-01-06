@@ -120,10 +120,10 @@ const CardPayment = ({ props, navigation }) => {
                             >{"Name"}</ResponsiveText>
 
                             <InputField
-                                // keyboardType="email-address"
+                                keyboardType="email-address"
                                 color='#424D59'
                                 fontFamily={'Poppins-Medium'}
-                                backgroundColor='transparent'
+                                backgroundColor='white'
                                 borderBottomWidth={nam !== '' ? 1 : 0}
                                 borderColor={'#25D482'}
                                 borderRadius={15}
@@ -144,15 +144,15 @@ const CardPayment = ({ props, navigation }) => {
                                 borderColor={'#25D482'}
                                 maxLength={19}
                                 keyboardType='fe'
-                                rightIconName={require('../../../../assets/tick.png')}
+                                // rightIconName={require('../../../../assets/tick.png')}
                                 keyboardType=''
                                 placeholder={"0000   0000   0000    0000"}
                                 placeholderTextColor='#929DA9'
                                 color='#424D59'
                                 fontFamily={'Poppins-Medium'}
                                 value={cardnum}
-                                backgroundColor='transparent'
-                                borderRadius={16}
+                                backgroundColor='white'
+                                borderRadius={15}
                                 onChangeText={(EmailAdd) => setcardnum(EmailAdd
                                     .replace(/\s?/g, '')
                                     .replace(/(\d{4})/g, '$1 ')
@@ -240,8 +240,12 @@ const CardPayment = ({ props, navigation }) => {
                                 </Modal>
 
                                 <Apptext style={{ padding: 15 }}>{countryCode}</Apptext>
-                                <Image style={{ marginLeft: wp('2%') }} source={require('../../../../assets/codeDownArrow.png')} />
-
+                                <Image style={{ marginLeft: wp('2%') }} 
+                                source={require('../../../../assets/codeDownArrow.png')} />
+                                <TextInput
+                                style={{width:wp('39%'), height:48,}}
+                                keyboardType='numeric'
+                                 />
                             </TouchableOpacity>
                             <Modal 
                              visible={isPayment}
@@ -322,6 +326,7 @@ const styles = StyleSheet.create({
             height: 5,
         },
         shadowOpacity: 0.34,
+        backgroundColor:"white",
         shadowRadius: 6.27,
         width: wp('65%'),
         borderRadius: 15,

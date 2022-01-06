@@ -48,7 +48,8 @@ const WorkSchedule = ({ navigation }) => {
             />
             <ScrollView >
                 <View style={{ flexDirection: 'row', marginLeft: wp('2%'), alignSelf: 'center' }}>
-                    <Apptext style={[styles.userTxt, { fontFamily: 'Poppins-SemiBold', marginTop: wp('10%') }]}>What shift do you work? *</Apptext>
+                    <Apptext style={[styles.userTxt, { fontFamily: 'Poppins-SemiBold', marginTop: wp('10%') }]}>What shift do you work?</Apptext>
+                    <Apptext style={[styles.userTxt, { fontFamily: 'Poppins-SemiBold', marginTop: wp('10%'), color:"red" }]}> *</Apptext>
                 </View>
                 <View style={{ marginTop: wp('14%') }}>
                     <RadioButtonRN

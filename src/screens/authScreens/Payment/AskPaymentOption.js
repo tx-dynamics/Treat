@@ -12,29 +12,46 @@ import TreatBox from 'src/components/TreatBox';
 import HomeWideCard from 'src/components/HomeWideCard';
 import PaymentOption from 'src/components/PaymentOption';
 import RadioButtonRN from 'radio-buttons-react-native';
+import { RadioButton } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/AntDesign';
 
+const data = [
+    {
+        label: 'Credit/Debit Card',
+        Img: require('../../../../assets/creditCard.png')
+    },
+    {
+        label: 'Google Payment',
+        Img: require('../../../../assets/googlePay.png')
+    },
+    {
+        label: 'Paypal',
+        Img: require('../../../../assets/paypal.png')
+    },
+];
 const creditCard = [
     {
-        label: 'Credit/Debit Card'
+        label: 'Credit/Debit Card',
     },
 ];
 const googlePay = [
     {
-        label: 'Google Payment'
+        label: 'Google Payment',
     },
+
 ];
-const payPal = [
+const paypal = [
     {
-        label: 'Paypal'
+        label: 'Paypal',
     },
 ];
 
 
 const AskPaymentOption = ({ navigation }) => {
 
-const [isShow, setShow] = useState(false);
-
+    const [isShow, setShow] = useState(false);
+    const [checked, setChecked] = useState('first');
+    console.log(checked)
     return (
         <View style={styles.container}>
             <Header
@@ -44,72 +61,97 @@ const [isShow, setShow] = useState(false);
             <ScrollView>
 
                 <View style={{ marginTop: wp('4%') }}>
-
+                    {/* <FlatList   
+                    data={data}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                    <PaymentOption
+                    label={item.label}
+                    imgName={item.Img}
+                    />
+                   
+                )}
+            /> */}
                     <TouchableOpacity
                         style={styles.SightingContainer}>
                         <View style={styles.DirectionView}>
                             <View style={styles.boxWidth}>
-                                <RadioButtonRN
+                                <RadioButton
+                                    value="Credit/DebitCard"
+                                    color='#C64699'
+                                    uncheckedColor='lightgray'
+                                    status={checked === 'Credit/DebitCard' ? 'checked' : 'unchecked'}
+                                    onPress={() => {
+                                        setShow(true)
+                                        setChecked('Credit/DebitCard')}}
+                                />
+                                {/* <RadioButtonRN
                                     data={creditCard}
                                     boxStyle={{ backgroundColor: "white", borderColor: "white" }}
                                     circleSize={10}
                                     textStyle={styles.SightingText1}
-                                    selectedBtn={(e) => 
-                                        {
+                                    selectedBtn={(e) => {
+
                                         setShow(true)
-                                        console.log(e)}
+                                        console.log(e)
                                     }
-                                  
-                                />
+                                    }
+
+                                /> */}
                             </View>
-                            <View style={{ marginLeft: wp('50%') }}>
+                            <Apptext style={styles.SightingText1}>Credit/DebitCard</Apptext>
+                            <View>
                                 <Image source={require('../../../../assets/creditCard.png')} />
                             </View>
                         </View>
                     </TouchableOpacity>
 
                     {/* ********************************** */}
-                    
+
                     <TouchableOpacity
                         style={styles.SightingContainer}>
                         <View style={styles.DirectionView}>
                             <View style={styles.boxWidth}>
-                                <RadioButtonRN
-                                    data={googlePay}
-                                    boxStyle={{ backgroundColor: "white", borderColor: "white" }}
-                                    circleSize={10}
-                                    textStyle={styles.SightingText1}
-                                    selectedBtn={(e) =>  {
+                                <RadioButton
+                                    value="GooglePayment"
+                                    color='#C64699'
+                                    uncheckedColor='lightgray'
+                                    status={checked === 'GooglePayment' ? 'checked' : 'unchecked'}
+                                    onPress={() => 
+                                        {
                                         setShow(true)
-                                        console.log(e)}
-                                    }
-                                  
+                                        setChecked('GooglePayment')
+                                    }}
                                 />
+                              
                             </View>
-                            <View style={{ marginLeft: wp('50%') }}>
+                            <Apptext style={styles.SightingText1}>Google Payment</Apptext>
+
+                            <View>
                                 <Image source={require('../../../../assets/googlePay.png')} />
                             </View>
                         </View>
                     </TouchableOpacity>
 
-                    {/* ********************************** */}
-                    
                     <TouchableOpacity
                         style={styles.SightingContainer}>
                         <View style={styles.DirectionView}>
                             <View style={styles.boxWidth}>
-                                <RadioButtonRN
-                                    data={payPal}
-                                    boxStyle={{ backgroundColor: "white", borderColor: "white" }}
-                                    circleSize={10}
-                                    textStyle={styles.SightingText1}
-                                    selectedBtn={(e) => {
-                                        setShow(true)
-                                        console.log(e)}}
-                                  
+                           
+                            <RadioButton
+                                    value="Paypal"
+                                    color='#C64699'
+                                    uncheckedColor='lightgray'
+                                    status={checked === 'Paypal' ? 'checked' : 'unchecked'}
+                                    onPress={() => {
+                                        setShow(true),
+                                        setChecked('Paypal')}}
                                 />
+                              
                             </View>
-                            <View style={{ marginLeft: wp('50%') }}>
+                            <Apptext style={styles.SightingText1}>Paypal</Apptext>
+
+                            <View>
                                 <Image source={require('../../../../assets/paypal.png')} />
                             </View>
                         </View>
@@ -118,11 +160,11 @@ const [isShow, setShow] = useState(false);
                     {/* ********************************** */}
                 </View>
 
-              {isShow ? (<TouchableOpacity
-                onPress={() => navigation.navigate("CardPayment")}
-                style={styles.buttonContainer}>
-                <Apptext style={styles.buttonText}>{"Continue to pay"}</Apptext>
-            </TouchableOpacity>) : null}
+                {isShow ? (<TouchableOpacity
+                    onPress={() => navigation.navigate("CardPayment")}
+                    style={styles.buttonContainer}>
+                    <Apptext style={styles.buttonText}>{"Continue to pay"}</Apptext>
+                </TouchableOpacity>) : null}
             </ScrollView>
         </View>
     )
@@ -138,7 +180,7 @@ const styles = StyleSheet.create({
     buttonContainer: {
         marginBottom: wp('7%'),
         width: wp('62%'),
-        marginTop:wp('60%'),
+        marginTop: wp('60%'),
         justifyContent: 'center',
         alignItems: 'center',
         height: wp('14%'),
@@ -172,7 +214,8 @@ const styles = StyleSheet.create({
     DirectionView: {
         flexDirection: 'row',
         alignItems: 'center',
-        padding: 15,
+        paddingLeft:wp('4%'),
+        padding: wp('8%'),
     },
     countStl: {
         color: DefaultStyles.colors.white,
@@ -183,16 +226,16 @@ const styles = StyleSheet.create({
         padding: 1
     },
     boxWidth: {
-        width: wp('12%'),
+        width: wp('9%'),
     },
 
     SightingText1: {
         fontFamily: "Poppins-Medium",
         fontSize: wp('4%'),
-        width: wp('60%'),
+        width: wp('53%'),
         color: DefaultStyles.colors.textColor,
         //  backgroundColor:"green",
-        paddingLeft: wp('7%')
+        paddingLeft: wp('3%')
     },
 
     innerTxt: {

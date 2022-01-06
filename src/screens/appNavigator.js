@@ -126,6 +126,7 @@ const SoundHealingNavigator = () => {
 
             <StackNavigator.Screen name="SoundHealing" component={SoundHealing} />
             <StackNavigator.Screen name="Audios" component={Audios} />
+            {/* <StackNavigator.Screen name="Settings" component={Settings} /> */}
         </StackNavigator.Navigator>
     )
 }

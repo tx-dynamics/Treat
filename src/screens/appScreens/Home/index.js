@@ -84,10 +84,24 @@ const Home = ({ navigation }) => {
     ];
 
     const [isHeart, setHeart] = useState(true);
+    const [isDate, setDate]= useState('');
 
     const updateHeart = () => {
         setHeart(!isHeart)
     }
+    
+    let datesWhitelist = [{
+        start: moment(),
+        end: moment().add(7, 'days')  // total 4 days enabled
+      }];
+      let datesBlacklist = [ moment().add(0, 'days') ]; // 1 day disabled
+
+      const onDayPress = async (day) => {
+        
+      console.log(moment(day).format("D MMM YYYY"))
+
+      };
+
     return (
         <View style={[styles.container]}>
             <HomeHeader
@@ -111,13 +125,44 @@ const Home = ({ navigation }) => {
                 </View>
                 <Apptext style={styles.monthTxt}>JUNE</Apptext>
                 <View style={styles.CalenderBox}>
-                   
-                    <CalendarStrip
+                <CalendarStrip
+                    scrollable={false}
+                    showMonth={false}
+                    numDaysInWeek={7}
+                    calendarAnimation={{type: 'sequence', duration: 30}}
+                    daySelectionAnimation={{type: 'border', duration: 200,
+                    borderWidth: 1, borderHighlightColor: 'white'}}
+                    onDateSelected={onDayPress}
+                    style={{
+                    width: wp('90%'),
+                    height: wp('30%'),
+                    alignSelf: 'center',
+                    backgroundColor: "#ffecf8", borderRadius: 20, paddingBottom: 10}}
+                    // calendarHeaderStyle={{color: 'white'}}
+                    calendarColor={'#7743CE'}
+                    iconStyle={{tintColor:'#ffecf8'}}
+                    dayContainerStyle={{backgroundColor:"white"}}
+                    dateNumberStyle={{color: 'black'}}
+                    dateNameStyle={{color: 'black'}}
+                    highlightDateContainerStyle={{backgroundColor:DefaultStyles.colors.secondary}}
+                    highlightDateNumberStyle={{color: 'white'}}
+                    highlightDateNameStyle={{color: 'white', }}
+                    disabledDateNameStyle={{color: 'grey'}}
+                    disabledDateNumberStyle={{color: 'grey'}}
+                    datesWhitelist={datesWhitelist}
+                    // datesBlacklist={datesBlacklist}
+                    iconContainer={{flex: 0.1}}
+                />
+                    {/* <CalendarStrip
+                        hideArrows={true}
                         scrollable={true}
                         showMonth={false}
                         numDaysInWeek={7}
+                        // calendarHeaderContainerStyle={{backgroundColor:"green"}}
+                        // calendarHeaderStyle={{fontSize:35, backgroundColor:"red"}}
+                        calendarHeaderPosition='above'
                         style={{ height: wp('30%'), paddingTop: 5, paddingBottom: 5 }}
-                        dayContainerStyle={{backgroundColor:"white", height:35, width:35}}
+                        dayContainerStyle={{backgroundColor:"white", height:40, width:40}}
                         highlightDateContainerStyle={{backgroundColor:DefaultStyles.colors.secondary, }}
                         highlightDateNameStyle={{color:"white"}}
                         highlightDateNumberStyle={{color:"white"}}
@@ -126,7 +171,7 @@ const Home = ({ navigation }) => {
                         dateNumberStyle={{color: 'black'}}
                         dateNameStyle={{color: 'black'}}
                         iconContainer={{flex: 0.1,color:'transparent',}}
-                    />
+                    /> */}
                 </View>
                 <View style={styles.DirectionView}>
                     <Apptext style={styles.PrsnlTxt}>Your Personal Library</Apptext>

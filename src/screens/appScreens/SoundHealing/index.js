@@ -60,7 +60,7 @@ const SoundHealing = ({ navigation }) => {
             label={"Sound Healing"}
             isBack={false}
             rightImg={require('../../../../assets/settingIcon.png')}
-            onPressRight={navigation.navigate("Settings")}
+            onPressRight={() => navigation.navigate("Settings")}
             onPressLeft={() => navigation.goBack()}
             />
         <ScrollView>

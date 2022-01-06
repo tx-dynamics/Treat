@@ -26,7 +26,7 @@ const Contact = ({ navigation }) => {
                  marginHorizontal:wp('8%') }}>
                 <View style={[styles.inputContainer, {width:wp('35%')}]} >
                         <TextInput
-                            style={styles.HumanInput}
+                            style={[styles.HumanInput, {width: wp('32%')}]}
                             numberOfLines={1}
                             placeholder={"First Name"}
                             placeholderTextColor={'#929292'}
@@ -35,7 +35,7 @@ const Contact = ({ navigation }) => {
                 </View>
                 <View style={[styles.inputContainer, {width:wp('35%')}]} >
                         <TextInput
-                            style={styles.HumanInput}
+                            style={[styles.HumanInput,{width: wp('32%')}]}
                             numberOfLines={1}
                             placeholder={"Last Name"}
                             placeholderTextColor={'#929292'}
@@ -98,7 +98,8 @@ const styles = StyleSheet.create({
     },
     HumanInput: {
         width: wp('70%'),
-        paddingLeft: wp('5%'),
+        paddingLeft: wp('4%'),
+        paddingTop:wp('2%'),
     },
     inputContainer: {
         width: wp('85%'),

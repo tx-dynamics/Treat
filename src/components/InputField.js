@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
     textInputStyle: {
         flexDirection: "row",
         alignItems: "center",
+        backgroundColor:"white",
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -105,6 +106,7 @@ const styles = StyleSheet.create({
         // shadowOpacity: 0.3,
         // shadowRadius: 2,
         // elevation: 5,
+        backgroundColor:"white",
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
