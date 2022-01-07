@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, TouchableOpacity, Image, StyleSheet, ScrollView, } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, TouchableOpacity, Image, StyleSheet, ScrollView, Alert, } from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -9,10 +9,31 @@ import DefaultStyles from "src/config/Styles";
 import FormInput from 'src/components/FormInput';
 import FormButton from 'src/components/FormButton';
 import CheckBox from '@react-native-community/checkbox';
+import { signUp } from 'src/firebase/newAuth';
+import { connectFirebase } from 'src/firebase/newUtility';
+
 
 const Signup = ({ navigation }) => {
 
-    const [toggleCheckBox, setToggleCheckBox] = useState(false)
+    const [toggleCheckBox, setToggleCheckBox] = useState(false);
+    const [name, setName]= useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    // useEffect(() => {
+    //     signUp();
+    // }, [])
+
+    const checkValues = () => {
+        if(name && email && password && toggleCheckBox === ""){
+            Alert.alert("Please Fill Required Fiels")
+        }
+        else{
+            console.log(name, email, password, toggleCheckBox)
+            signUp(name, email, password, toggleCheckBox)
+       
+        }
+    };
 
     return (
         <ScrollView style={styles.container}>
@@ -22,22 +43,26 @@ const Signup = ({ navigation }) => {
             </View>
             <View style={{ marginTop: 30 }}>
                 <FormInput
-                    onChangeText={(txt) => console.log(txt)}
+                    labelValue={name}
+                    onChangeText={(txt) => setName(txt)}
                     placeholderText="Name"
                     autoCapitalize="none"
                     autoCorrect={false}
                 />
                 <FormInput
-                    onChangeText={(txt) => console.log(txt)}
+                    labelValue={email}
+                    onChangeText={(txt) => setEmail(txt)}
                     placeholderText="Email"
                     keyboardType="email-address"
                     autoCapitalize="none"
                     autoCorrect={false}
                 />
                 <FormInput
-                    onChangeText={(txt) => console.log(txt)}
+                    labelValue={password}
+                    onChangeText={(txt) => setPassword(txt)}
                     placeholderText="Password"
                     autoCapitalize="none"
+                    secureTextEntry={true}
                     autoCorrect={false}
                 />
             </View>
@@ -55,6 +80,7 @@ const Signup = ({ navigation }) => {
 
                 <FormButton
                     buttonTitle="SIGN UP"
+                    onPress={() => checkValues()}
                 />
             </View>
             <View style={styles.methods}>

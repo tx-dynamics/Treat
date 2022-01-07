@@ -5,9 +5,11 @@ import Apptext from './Apptext';
 import DefaultStyles from "../config/Styles";
 
 
-const FormButton = ({buttonTitle, style, ...rest}) => {
+const FormButton = ({buttonTitle,onPress, style, ...rest}) => {
   return (
-    <TouchableOpacity style={styles.buttonContainer} {...rest}>
+    <TouchableOpacity 
+    onPress={onPress}
+    style={styles.buttonContainer} {...rest}>
       <Apptext style={styles.buttonText}>{buttonTitle}</Apptext>
     </TouchableOpacity>
   );

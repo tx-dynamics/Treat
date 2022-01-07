@@ -30,7 +30,10 @@ import AskSubscription from "src/screens/authScreens/AskSubscription";
 import Login from 'src/screens/authScreens/Login'
 import ProfileView from "src/screens/appScreens/Profile/ProfileView";
 import PickDate from "src/screens/appScreens/Work/PickDate";
-
+import ChangePass from 'src/screens/authScreens/ChangePass';
+import VerifyCode from "src/screens/authScreens/VerifyEmail";
+import ConfirmProfile from 'src/screens/authScreens/ConfirmProfile';
+// import Login from 'src/screens/authScreens/Login';
 
 const Tab = createBottomTabNavigator();
 
@@ -149,6 +152,10 @@ const withoutBottomTabnavigator = () => {
             <StackNavigator.Screen name="Login" component={Login} />
             <StackNavigator.Screen name="ProfileView" component={ProfileView} />
             <StackNavigator.Screen name="PickDate" component={PickDate} />
+            <StackNavigator.Screen name="ChangePass" component={ChangePass} />
+            <StackNavigator.Screen name="VerifyCode" component={VerifyCode} />
+            <StackNavigator.Screen name="ConfirmProfile" component={ConfirmProfile} />
+            {/* <StackNavigator.Screen name="Login" component={Login} /> */}
 
         </StackNavigator.Navigator>
 

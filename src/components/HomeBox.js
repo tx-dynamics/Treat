@@ -14,7 +14,8 @@ const HomeBox = ({ leftTitle, rightTitle, leftImgName,
 
     return (
         <View style={styles.MainContainer}>
-            <TouchableOpacity onPress={leftOnPress} style={styles.SightingContainer} {...rest}>
+            <TouchableOpacity onPress={leftOnPress}
+             style={styles.SightingContainer}>
 
                 <ImageBackground style={styles.imgContainer}
                     imageStyle={{ borderRadius: 18 }} source={leftImgName}>
@@ -41,7 +42,7 @@ export default HomeBox;
 
 const styles = StyleSheet.create({
     MainContainer: {
-        flexDirection: 'row',
+        // flexDirection: 'row',
         // width: wp('40%'),
         marginLeft: wp('6%'),
         marginTop: wp('3%'),

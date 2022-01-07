@@ -113,7 +113,7 @@ const PickDate = ({ navigation }) => {
         </View>
         <View style={styles.generalBox}>
           <TouchableOpacity 
-          onPress={() => setLastMonth(isLastMonth - 1)}
+          onPress={() => setLastMonth(isLastMonth + 1)}
           style={styles.leftTxt}>
             <Image source={require('../../../../assets/last.png')} />
             <Apptext style={styles.LCNTxt, { color: 'lightgray' }}>

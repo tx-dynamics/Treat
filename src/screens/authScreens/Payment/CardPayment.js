@@ -17,6 +17,8 @@ import Header from 'src/components/Header';
 import { Picker } from '@react-native-picker/picker';
 import { CountryCodes } from './CountryCodes';
 import Apptext from 'src/components/Apptext';
+import Video from 'react-native-video';
+
 
 const CardPayment = ({ props, navigation }) => {
     const [cardnum, setcardnum] = useState('5168 1234 4567 7890');
@@ -33,16 +35,17 @@ const CardPayment = ({ props, navigation }) => {
     const [countryCode, setCountryCode] = useState('672');
     const [contPicker, setContPicker] = useState(false);
     console.log(countryCode)
+    const [status, setStatus] = useState()
+    const video = React.useRef(null);
 
     const checkValue = () => {
         setPayment(true)
         setTimeout(() => {
             setPayment(false)
-    }, 2000);
+        }, 2000);
 
     }
     const renderItemView = (item) => {
-
         return (
             <View>
                 <TouchableOpacity onPress={() => {
@@ -81,28 +84,32 @@ const CardPayment = ({ props, navigation }) => {
                                     borderRadius: 14, marginTop: 24
                                 }}
                                 source={require('../../../../assets/cardBack.png')} resizeMode='cover'  >
-                                <View 
-                                style={{marginTop:wp('5%'),
-                                marginHorizontal:wp('5%'),
-                                flexDirection:'row',
-                                justifyContent:'space-between'
-                                }}>
-                                <Image source={require('../../../../assets/gold.png')} />
-                                <Apptext style={{color:"white", fontWeight:"700"}}>VISA</Apptext>
+                                <View
+                                    style={{
+                                        marginTop: wp('5%'),
+                                        marginHorizontal: wp('5%'),
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between'
+                                    }}>
+                                    <Image source={require('../../../../assets/gold.png')} />
+                                    <Apptext style={{ color: "white", fontWeight: "700" }}>VISA</Apptext>
                                 </View>
-                                <View 
-                                style={{marginTop:23,marginHorizontal:wp('5%'),
-                                 width:wp('70%'),}}>
-                                <Apptext style={{color:"white",fontSize:14,fontFamily:'Poppins'}}>{cardnum}</Apptext>
+                                <View
+                                    style={{
+                                        marginTop: 23, marginHorizontal: wp('5%'),
+                                        width: wp('70%'),
+                                    }}>
+                                    <Apptext style={{ color: "white", fontSize: 14, fontFamily: 'Poppins' }}>{cardnum}</Apptext>
                                 </View>
-                                <View 
-                                style={{marginTop:wp('12%'),
-                                marginHorizontal:wp('5%'),
-                                flexDirection:'row',
-                                justifyContent:'space-between'
-                                }}>
-                                <Apptext style={{color:"white",fontFamily:'Poppins', fontSize:10 }}>{nam}</Apptext>
-                                <Apptext style={{color:"white",fontFamily:'Poppins', fontSize:10 }}>{isDay + " / "+ isYear}</Apptext>
+                                <View
+                                    style={{
+                                        marginTop: wp('12%'),
+                                        marginHorizontal: wp('5%'),
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between'
+                                    }}>
+                                    <Apptext style={{ color: "white", fontFamily: 'Poppins', fontSize: 10 }}>{nam}</Apptext>
+                                    <Apptext style={{ color: "white", fontFamily: 'Poppins', fontSize: 10 }}>{isDay + " / " + isYear}</Apptext>
                                 </View>
                             </ImageBackground>
                             <ResponsiveText style={{
@@ -240,30 +247,31 @@ const CardPayment = ({ props, navigation }) => {
                                 </Modal>
 
                                 <Apptext style={{ padding: 15 }}>{countryCode}</Apptext>
-                                <Image style={{ marginLeft: wp('2%') }} 
-                                source={require('../../../../assets/codeDownArrow.png')} />
+                                <Image style={{ marginLeft: wp('2%') }}
+                                    source={require('../../../../assets/codeDownArrow.png')} />
                                 <TextInput
-                                style={{width:wp('39%'), height:48,}}
-                                keyboardType='numeric'
-                                 />
+                                    style={{ width: wp('39%'), height: 48, }}
+                                    keyboardType='numeric'
+                                />
                             </TouchableOpacity>
-                            <Modal 
-                             visible={isPayment}
-                             
-                             >
-                                <View style={{ flex: 1,
-                                       shadowColor: "#000",
-                                       shadowOffset: {
-                                           width: 0,
-                                           height: 5,
-                                       },
-                                       shadowOpacity: 0.34,
-                                       shadowRadius: 6.27,
-                                       elevation:6,
+                            <Modal
+                                visible={isPayment}
+
+                            >
+                                <View style={{
+                                    flex: 1,
+                                    shadowColor: "#000",
+                                    shadowOffset: {
+                                        width: 0,
+                                        height: 5,
+                                    },
+                                    shadowOpacity: 0.34,
+                                    shadowRadius: 6.27,
+                                    elevation: 6,
                                     backgroundColor: "gray",
-                                     }}>
+                                }}>
                                     <TouchableOpacity
-                                    onPress={() => setPayment(false)}
+                                        onPress={() => setPayment(false)}
                                         style={{
                                             width: 327,
                                             marginTop: wp('30%'),
@@ -272,15 +280,26 @@ const CardPayment = ({ props, navigation }) => {
                                             alignSelf: 'center',
                                             backgroundColor: "white"
                                         }}>
-                                        <Image style={{alignSelf:'center',
+                                        <Video
+                                            shouldPlay={true}
+                                            ref={video}
+                                            style={{alignSelf:'center',
+                                            width:250, height:250,
+                                            marginTop:wp('5%') }}
+                                            source={require('../../../../assets/done.mp4')}
+                                            resizeMode="cover"
+                                            isLooping
+                                            onPlaybackStatusUpdate={status => setStatus(() => status)}
+                                        />
+                                        {/* <Image style={{alignSelf:'center',
                                         width:250, height:250
                                         //  marginTop:wp('15%') 
                                         }}
-                                         source={require('../../../../assets/done.gif')} /> 
+                                         source={require('../../../../assets/done.gif')} />  */}
                                         <Apptext style={{
-                                            alignSelf:'center',
-                                            fontFamily:'Lato',
-                                            fontSize:18
+                                            alignSelf: 'center',
+                                            fontFamily: 'Lato',
+                                            fontSize: 18
                                         }}>Your payment has been completed</Apptext>
                                     </TouchableOpacity>
                                 </View>
@@ -326,7 +345,7 @@ const styles = StyleSheet.create({
             height: 5,
         },
         shadowOpacity: 0.34,
-        backgroundColor:"white",
+        backgroundColor: "white",
         shadowRadius: 6.27,
         width: wp('65%'),
         borderRadius: 15,

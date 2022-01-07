@@ -11,11 +11,14 @@ import FormInput from 'src/components/FormInput';
 import FormButton from 'src/components/FormButton';
 import { setUser} from 'src/redux/actions/authAction';
 import { useDispatch } from "react-redux";
+import { signIn } from 'src/firebase/newAuth';
 
 
 const SignIn = ({ navigation }) => {
 
     let dispatch = useDispatch();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     return (
         <ScrollView style={styles.container}>
@@ -25,14 +28,16 @@ const SignIn = ({ navigation }) => {
             </View>
             <View style={{ marginTop: 30 }}>
                 <FormInput
-                    onChangeText={(txt) => console.log(txt)}
+                    labelValue={email}
+                    onChangeText={(txt) => setEmail(txt)}
                     placeholderText="Email"
                     keyboardType="email-address"
                     autoCapitalize="none"
                     autoCorrect={false}
                 />
                 <FormInput
-                    onChangeText={(txt) => console.log(txt)}
+                    labelValue={password}
+                    onChangeText={(txt) => setPassword(txt)}
                     placeholderText="Password"
                     autoCapitalize="none"
                     autoCorrect={false}

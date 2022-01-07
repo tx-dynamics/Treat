@@ -126,7 +126,7 @@ const Home = ({ navigation }) => {
                 <Apptext style={styles.monthTxt}>JUNE</Apptext>
                 <View style={styles.CalenderBox}>
                 <CalendarStrip
-                    scrollable={false}
+                    scrollable={true}
                     showMonth={false}
                     numDaysInWeek={7}
                     calendarAnimation={{type: 'sequence', duration: 30}}
@@ -183,7 +183,8 @@ const Home = ({ navigation }) => {
                     data={DATA}
                     numColumns={2}
                     style={{
-                        marginBottom: wp('3%')
+                        marginBottom: wp('3%'),
+                        // backgroundColor:"red"
                     }}
                     horizontal={false}
                     keyExtractor={(item) => item.id}
