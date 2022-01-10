@@ -9,32 +9,20 @@ import DefaultStyles from "src/config/Styles";
 import FormInput from 'src/components/FormInput';
 import FormButton from 'src/components/FormButton';
 import CheckBox from '@react-native-community/checkbox';
-import { signUp } from 'src/firebase/newAuth';
-import { connectFirebase } from 'src/firebase/newUtility';
 
 
 const Signup = ({ navigation }) => {
 
     const [toggleCheckBox, setToggleCheckBox] = useState(false);
-    const [name, setName]= useState('');
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [nameChk, setNameChk] = useState(false);
+    const [mailChk, setMailChk] = useState(false);
+    const [passChk, setPassChk] = useState(false);
+    const [tickChk, setTckChk] = useState(false);
 
-    // useEffect(() => {
-    //     signUp();
-    // }, [])
-
-    const checkValues = () => {
-        if(name && email && password && toggleCheckBox === ""){
-            Alert.alert("Please Fill Required Fiels")
-        }
-        else{
-            console.log(name, email, password, toggleCheckBox)
-            signUp(name, email, password, toggleCheckBox)
-       
-        }
-    };
-
+ 
     return (
         <ScrollView style={styles.container}>
             <View style={styles.ImgView}>
@@ -49,6 +37,10 @@ const Signup = ({ navigation }) => {
                     autoCapitalize="none"
                     autoCorrect={false}
                 />
+                {nameChk ? <View style={{ marginHorizontal: wp('6%'), marginTop: wp('1%') }}>
+                    <Apptext style={{ fontSize: 10, color: "red" }}>
+                        Please Enter Name</Apptext>
+                </View> : null}
                 <FormInput
                     labelValue={email}
                     onChangeText={(txt) => setEmail(txt)}
@@ -57,6 +49,10 @@ const Signup = ({ navigation }) => {
                     autoCapitalize="none"
                     autoCorrect={false}
                 />
+                {mailChk ? <View style={{ marginHorizontal: wp('6%'), marginTop: wp('1%') }}>
+                    <Apptext style={{ fontSize: 10, color: "red" }}>
+                        Please Enter Valid Email</Apptext>
+                </View> : null}
                 <FormInput
                     labelValue={password}
                     onChangeText={(txt) => setPassword(txt)}
@@ -66,6 +62,10 @@ const Signup = ({ navigation }) => {
                     autoCorrect={false}
                 />
             </View>
+            {passChk ? <View style={{ marginHorizontal: wp('6%'), marginTop: wp('1%') }}>
+                <Apptext style={{ fontSize: 10, color: "red" }}>
+                    Please Enter Strong Password</Apptext>
+            </View> : null}
             <View style={styles.lightBoxTxt}>
                 <CheckBox
                     disabled={false}
@@ -75,12 +75,14 @@ const Signup = ({ navigation }) => {
                 <TouchableOpacity>
                     <Apptext style={styles.lightTxt}> Agree to terms</Apptext>
                 </TouchableOpacity>
+
             </View>
+            {tickChk ? <Apptext style={{ fontSize: 10, alignSelf: 'center', color: "red" }}>
+                Please Agree to Terms & Conditions</Apptext> : null}
             <View style={{ marginTop: wp('5%') }}>
 
                 <FormButton
                     buttonTitle="SIGN UP"
-                    onPress={() => checkValues()}
                 />
             </View>
             <View style={styles.methods}>
@@ -146,6 +148,6 @@ const styles = StyleSheet.create({
         color: DefaultStyles.colors.primary,
         fontSize: wp('4%'),
         fontFamily: "Poppins-Regular",
-        marginTop:5
+        marginTop: 5
     },
 });

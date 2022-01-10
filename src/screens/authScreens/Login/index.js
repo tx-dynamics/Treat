@@ -11,7 +11,6 @@ import FormInput from 'src/components/FormInput';
 import FormButton from 'src/components/FormButton';
 import { setUser} from 'src/redux/actions/authAction';
 import { useDispatch } from "react-redux";
-import { signIn } from 'src/firebase/newAuth';
 
 
 const SignIn = ({ navigation }) => {

@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -22,8 +22,8 @@ import { Provider } from 'react-redux';
 import store from 'src/redux/store';
 import {useSelector} from 'react-redux'
 
-
 const App = () => {
+  
   return (
     <NavigationContainer>
       
