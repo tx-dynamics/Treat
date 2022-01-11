@@ -19,6 +19,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-nat
 import TreatVideo from "src/screens/appScreens/TreatTheNurse/TreatVideo";
 import DefaultStyles from "src/config/Styles";
 import { useSelector } from 'react-redux';
+
 import Apptext from 'src/components/Apptext';
 import Settings from "src/screens/appScreens/Settings";
 import Support from "src/screens/appScreens/Help&Support/Support";

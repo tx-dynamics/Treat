@@ -13,8 +13,21 @@ import HomeHeader from 'src/components/HomeHeader';
 import HomeWideCard from 'src/components/HomeWideCard';
 import CalendarStrip from 'react-native-calendar-strip';
 import moment from 'moment';
+import { getAllOfCollection, getData } from "src/firebase/utility";
+import { useSelector } from 'react-redux';
 
 const Home = ({ navigation }) => {
+
+    const [coverImg, setCoverImg] = useState([]);
+
+    const chkData = async () => {
+        let res = await getAllOfCollection("home")
+        setCoverImg(res)
+        console.log(res)
+    }
+    useEffect(() => {
+        chkData();
+    }, [])
 
     const DATA = [
         {
@@ -84,30 +97,30 @@ const Home = ({ navigation }) => {
     ];
 
     const [isHeart, setHeart] = useState(true);
-    const [isDate, setDate]= useState('');
+    const [isDate, setDate] = useState('');
 
     const updateHeart = () => {
         setHeart(!isHeart)
     }
-    
+
     let datesWhitelist = [{
         start: moment(),
         end: moment().add(7, 'days')  // total 4 days enabled
-      }];
-      let datesBlacklist = [ moment().add(0, 'days') ]; // 1 day disabled
+    }];
+    let datesBlacklist = [moment().add(0, 'days')]; // 1 day disabled
 
-      const onDayPress = async (day) => {
-        
-      console.log(moment(day).format("D MMM YYYY"))
+    const onDayPress = async (day) => {
 
-      };
+        console.log(moment(day).format("D MMM YYYY"))
+
+    };
 
     return (
         <View style={[styles.container]}>
             <HomeHeader
                 headrImg={require('../../../../assets/boyImg.png')}
                 headerTitle={"Welcome"}
-                leftOnPress={() => navigation.navigate('withoutBottomTabnavigator', {screen:'ProfileView'})}
+                leftOnPress={() => navigation.navigate('withoutBottomTabnavigator', { screen: 'ProfileView' })}
                 rightHeaderImg={require('../../../../assets/settingIcon.png')}
                 onPress={() => navigation.navigate("Settings")}
             />
@@ -117,6 +130,7 @@ const Home = ({ navigation }) => {
                 <View style={{ marginTop: wp('9%') }}>
                     <HomeWideCard
                         backImg={require('../../../../assets/human2.png')}
+                        // backImg={{ uri: coverImg }}
                     />
                 </View>
                 <View style={styles.cntrTxt}>
@@ -125,34 +139,37 @@ const Home = ({ navigation }) => {
                 </View>
                 <Apptext style={styles.monthTxt}>JUNE</Apptext>
                 <View style={styles.CalenderBox}>
-                <CalendarStrip
-                    scrollable={true}
-                    showMonth={false}
-                    numDaysInWeek={7}
-                    calendarAnimation={{type: 'sequence', duration: 30}}
-                    daySelectionAnimation={{type: 'border', duration: 200,
-                    borderWidth: 1, borderHighlightColor: 'white'}}
-                    onDateSelected={onDayPress}
-                    style={{
-                    width: wp('90%'),
-                    height: wp('30%'),
-                    alignSelf: 'center',
-                    backgroundColor: "#ffecf8", borderRadius: 20, paddingBottom: 10}}
-                    // calendarHeaderStyle={{color: 'white'}}
-                    calendarColor={'#7743CE'}
-                    iconStyle={{tintColor:'#ffecf8'}}
-                    dayContainerStyle={{backgroundColor:"white"}}
-                    dateNumberStyle={{color: 'black'}}
-                    dateNameStyle={{color: 'black'}}
-                    highlightDateContainerStyle={{backgroundColor:DefaultStyles.colors.secondary}}
-                    highlightDateNumberStyle={{color: 'white'}}
-                    highlightDateNameStyle={{color: 'white', }}
-                    disabledDateNameStyle={{color: 'grey'}}
-                    disabledDateNumberStyle={{color: 'grey'}}
-                    datesWhitelist={datesWhitelist}
-                    // datesBlacklist={datesBlacklist}
-                    iconContainer={{flex: 0.1}}
-                />
+                    <CalendarStrip
+                        scrollable={true}
+                        showMonth={false}
+                        numDaysInWeek={7}
+                        calendarAnimation={{ type: 'sequence', duration: 30 }}
+                        daySelectionAnimation={{
+                            type: 'border', duration: 200,
+                            borderWidth: 1, borderHighlightColor: 'white'
+                        }}
+                        onDateSelected={onDayPress}
+                        style={{
+                            width: wp('90%'),
+                            height: wp('30%'),
+                            alignSelf: 'center',
+                            backgroundColor: "#ffecf8", borderRadius: 20, paddingBottom: 10
+                        }}
+                        // calendarHeaderStyle={{color: 'white'}}
+                        calendarColor={'#7743CE'}
+                        iconStyle={{ tintColor: '#ffecf8' }}
+                        dayContainerStyle={{ backgroundColor: "white" }}
+                        dateNumberStyle={{ color: 'black' }}
+                        dateNameStyle={{ color: 'black' }}
+                        highlightDateContainerStyle={{ backgroundColor: DefaultStyles.colors.secondary }}
+                        highlightDateNumberStyle={{ color: 'white' }}
+                        highlightDateNameStyle={{ color: 'white', }}
+                        disabledDateNameStyle={{ color: 'grey' }}
+                        disabledDateNumberStyle={{ color: 'grey' }}
+                        datesWhitelist={datesWhitelist}
+                        // datesBlacklist={datesBlacklist}
+                        iconContainer={{ flex: 0.1 }}
+                    />
                     {/* <CalendarStrip
                         hideArrows={true}
                         scrollable={true}

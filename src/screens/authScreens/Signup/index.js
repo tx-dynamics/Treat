@@ -9,6 +9,9 @@ import DefaultStyles from "src/config/Styles";
 import FormInput from 'src/components/FormInput';
 import FormButton from 'src/components/FormButton';
 import CheckBox from '@react-native-community/checkbox';
+import auth from '@react-native-firebase/auth';
+import {saveData} from 'src/firebase/utility';
+
 
 
 const Signup = ({ navigation }) => {
@@ -21,7 +24,89 @@ const Signup = ({ navigation }) => {
     const [mailChk, setMailChk] = useState(false);
     const [passChk, setPassChk] = useState(false);
     const [tickChk, setTckChk] = useState(false);
+    const [duplicateEmail ,setDuplicateEmail] = useState(false);
+    const [weakPass ,setWeakPass] = useState(false);
+    const [badFormat ,setBadFormat] = useState(false);
 
+
+    const checkValues = () => {
+        if (name ==="" || email === "" || password ==="" || toggleCheckBox === false) {
+            setNameChk(true)
+            setMailChk(true)
+            setPassChk(true)
+            setTckChk(true);
+        }
+        else if(name === ""){
+            setNameChk(true)
+        }
+        else if(email === ""){
+            setMailChk(true)
+        }
+        else if(password === ""){
+            setPassChk(true)
+        }
+        else if(toggleCheckBox === false){
+            setTckChk(true)
+        }
+        else{
+            console.log("Sign Up Called")
+            signUp(name, email, password, toggleCheckBox)
+        }
+    }
+    const signUp = async(
+        firstName,
+        email,
+        password,
+        toggleCheckBox,
+        ) =>
+      {
+        let success = true;
+        
+        await auth()
+          .createUserWithEmailAndPassword(email, password)
+          .then(async user => {
+            let Details = {
+              email: email,
+              fullName: firstName,
+              TermsConditions: toggleCheckBox,
+              isBlocked: false,
+            };
+            console.log(
+                email,
+                firstName,
+                toggleCheckBox,
+            )
+            await saveData('users', user.user.uid, Details);
+            // await saveInitialData('chats', user.user.uid);
+            // var user= auth().currentUser;
+            // user.sendEmailVerification().then(function(){
+            //   Alert.alert("Verification Email is sent.! please verify your email before sign in");
+            // }).catch(function(error){
+      
+            // });
+             console.log(user);
+            Alert.alert('Account Created!');
+             navigation.navigate("Login")
+          })
+          .catch(function(error) {
+            success = false;
+            console.log(error.code + ':: ' + error.message);
+            if (error.code === 'auth/email-already-in-use'){
+                setDuplicateEmail(true)
+            }
+            else if(error.code === 'auth/invalid-email') {
+                setBadFormat(true)
+            }
+            else if(error.code === 'auth/weak-password'){
+                setWeakPass(true)
+            }
+            else{
+                Alert.alert(error.message)
+            }
+            // Alert.alert(error.message);
+          });
+        return success;
+      }
  
     return (
         <ScrollView style={styles.container}>
@@ -34,6 +119,7 @@ const Signup = ({ navigation }) => {
                     labelValue={name}
                     onChangeText={(txt) => setName(txt)}
                     placeholderText="Name"
+                    keyboardType='default'
                     autoCapitalize="none"
                     autoCorrect={false}
                 />
@@ -53,6 +139,15 @@ const Signup = ({ navigation }) => {
                     <Apptext style={{ fontSize: 10, color: "red" }}>
                         Please Enter Valid Email</Apptext>
                 </View> : null}
+                {duplicateEmail ? <View style={{ marginHorizontal: wp('6%'), marginTop: wp('1%') }}>
+                    <Apptext style={{ fontSize: 10, color: "red" }}>
+                    The email address is already in use by another account.</Apptext>
+                </View> : null}
+                {badFormat ? <View style={{ marginHorizontal: wp('6%'), marginTop: wp('1%') }}>
+                    <Apptext style={{ fontSize: 10, color: "red" }}>
+                    The email address is badly formatted</Apptext>
+                </View> : null}
+                
                 <FormInput
                     labelValue={password}
                     onChangeText={(txt) => setPassword(txt)}
@@ -66,6 +161,11 @@ const Signup = ({ navigation }) => {
                 <Apptext style={{ fontSize: 10, color: "red" }}>
                     Please Enter Strong Password</Apptext>
             </View> : null}
+            {weakPass ? <View style={{ marginHorizontal: wp('6%'), marginTop: wp('1%') }}>
+                <Apptext style={{ fontSize: 10, color: "red" }}>
+                Password should be at least 6 characters</Apptext>
+            </View> : null}
+            
             <View style={styles.lightBoxTxt}>
                 <CheckBox
                     disabled={false}
@@ -83,6 +183,7 @@ const Signup = ({ navigation }) => {
 
                 <FormButton
                     buttonTitle="SIGN UP"
+                    onPress={() => checkValues()}
                 />
             </View>
             <View style={styles.methods}>
