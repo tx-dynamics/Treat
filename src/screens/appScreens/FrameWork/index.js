@@ -10,6 +10,9 @@ import TreatHeader from 'src/components/TreatHeader';
 import { Divider } from 'react-native-elements';
 import SelectBox from 'src/components/SelectBox';
 import HomeWideCard from 'src/components/HomeWideCard';
+import { getAllOfCollection} from "src/firebase/utility";
+
+
 
 const Framework = ({ navigation }) => {
     const [isItem, setSelectedItem] = useState([]);
@@ -47,6 +50,17 @@ const Framework = ({ navigation }) => {
 
     ];
 
+    const [coverImg, setCoverImg] = useState('');
+
+    const chkData = async () => {
+        let res = await getAllOfCollection("framework")
+        setCoverImg(res.cover)
+        console.log(res)
+    }
+
+    useEffect(() => {
+        chkData();
+    }, []);
     const addCategories = async (item) => {
         var selectedIdss = [...isItem]
         if (selectedIdss.includes(item.id)) {
@@ -70,7 +84,8 @@ const Framework = ({ navigation }) => {
             <Apptext style={styles.monthTxt}>Framework</Apptext>
             <View style={{marginTop:wp('7%')}}>
                 <HomeWideCard
-                backImg={require('../../../../assets/frameBack.png')}
+                // backImg={require('../../../../assets/frameBack.png')}
+                backImg={{uri : coverImg}}
                 isLabel={false}
                 isSubTxt={true}
                 setSubTxt={`Learn  Biweekly / Monthly new information onbuilding a

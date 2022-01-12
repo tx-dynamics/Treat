@@ -10,6 +10,9 @@ import TreatHeader from 'src/components/TreatHeader';
 import { Divider } from 'react-native-elements';
 import SelectBox from 'src/components/SelectBox';
 import HomeWideCard from 'src/components/HomeWideCard';
+import { getAllOfCollection} from "src/firebase/utility";
+
+
 
 const Podcast = ({ navigation }) => {
     const [isItem, setSelectedItem] = useState([]);
@@ -47,6 +50,18 @@ const Podcast = ({ navigation }) => {
 
     ];
 
+    const [coverImg, setCoverImg] = useState('');
+
+    const chkData = async () => {
+        let res = await getAllOfCollection("framework")
+        setCoverImg(res.cover)
+        console.log(res)
+    }
+
+    useEffect(() => {
+        chkData();
+    }, []);
+
     const addCategories = async (item) => {
         var selectedIdss = [...isItem]
         if (selectedIdss.includes(item.id)) {
@@ -71,7 +86,8 @@ const Podcast = ({ navigation }) => {
             <Apptext style={styles.monthTxt}>Podcast</Apptext>
             <View style={{marginTop:wp('3%')}}>
                 <HomeWideCard
-                backImg={require('../../../../assets/podcastCover.png')}
+                // backImg={require('../../../../assets/podcastCover.png')}
+                backImg={{uri : coverImg }}
                 isLabel={false}
                 isSubTxt={false}
                 />

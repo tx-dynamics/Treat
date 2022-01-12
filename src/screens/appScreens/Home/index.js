@@ -18,11 +18,11 @@ import { useSelector } from 'react-redux';
 
 const Home = ({ navigation }) => {
 
-    const [coverImg, setCoverImg] = useState([]);
+    const [coverImg, setCoverImg] = useState('');
 
     const chkData = async () => {
         let res = await getAllOfCollection("home")
-        setCoverImg(res)
+        setCoverImg(res.cover)
         console.log(res)
     }
     useEffect(() => {
@@ -129,8 +129,8 @@ const Home = ({ navigation }) => {
             <ScrollView>
                 <View style={{ marginTop: wp('9%') }}>
                     <HomeWideCard
-                        backImg={require('../../../../assets/human2.png')}
-                        // backImg={{ uri: coverImg }}
+                        // backImg={require('../../../../assets/human2.png')}
+                        backImg={{uri : coverImg}}
                     />
                 </View>
                 <View style={styles.cntrTxt}>

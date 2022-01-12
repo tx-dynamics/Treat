@@ -26,6 +26,7 @@ const SignIn = ({ navigation }) => {
     const [duplicateEmail ,setDuplicateEmail] = useState(false);
     const [weakPass ,setWeakPass] = useState(false);
     const [badFormat ,setBadFormat] = useState(false);
+    const [noUser, setNoUser] = useState(false);
 
     const checkValues = () => {
         if (email === "" && password === "") {
@@ -94,6 +95,10 @@ const SignIn = ({ navigation }) => {
                 if (error.code === 'auth/email-already-in-use'){
                     setDuplicateEmail(true)
                 }
+                else if(error.code === 'auth/user-not-found') {
+                    setNoUser(true)
+                    
+                }
                 else if(error.code === 'auth/invalid-email') {
                     setBadFormat(true)
                     
@@ -119,7 +124,10 @@ const SignIn = ({ navigation }) => {
             <View style={{ marginTop: 30 }}>
                 <FormInput
                     labelValue={email}
-                    onChangeText={(txt) => setEmail(txt)}
+                    onChangeText={(txt) => {
+                        setEmail(txt)
+                        setMailChk(false)
+                    }}
                     placeholderText="Email"
                     keyboardType="email-address"
                     autoCapitalize="none"
@@ -137,9 +145,17 @@ const SignIn = ({ navigation }) => {
                     <Apptext style={{ fontSize: 10, color: "red" }}>
                     The email address is badly formatted</Apptext>
                 </View> : null}
+                {noUser ? <View style={{ marginHorizontal: wp('6%'), marginTop: wp('1%') }}>
+                    <Apptext style={{ fontSize: 10, color: "red" }}>
+                There is no user record corresponding to this identifier. The user may have been deleted.
+                    </Apptext>
+                </View> : null}
                 <FormInput
                     labelValue={password}
-                    onChangeText={(txt) => setPassword(txt)}
+                    onChangeText={(txt) => {
+                        setPassword(txt)
+                        setPassChk(false)
+                    }}
                     placeholderText="Password"
                     autoCapitalize="none"
                     secureTextEntry={true}

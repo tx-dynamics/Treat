@@ -248,7 +248,7 @@ const MyTabs = () => {
 
                     )
                 }} />
-            <Tab.Screen name="FrameWork" component={FrameWorkNavigator}
+            <Tab.Screen name="FrameWorkNavigator" component={FrameWorkNavigator}
                 options={{
                     tabBarLabel: ({ focused }) => (
                         <Apptext style={{

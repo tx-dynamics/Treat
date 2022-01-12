@@ -134,7 +134,7 @@ android {
 
     defaultConfig {
         applicationId "com.treat"
-        multiDexEnabled true
+        multiDexEnabled false
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

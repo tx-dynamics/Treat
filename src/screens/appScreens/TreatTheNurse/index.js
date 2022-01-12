@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useState,useEffect} from 'react';
 import { View,StyleSheet,FlatList ,Image, ScrollView } from 'react-native';
 import {
     widthPercentageToDP as wp,
@@ -10,6 +10,8 @@ import TreatHeader from 'src/components/TreatHeader';
 import { Divider } from 'react-native-elements';
 import TreatBox from 'src/components/TreatBox';
 import HomeWideCard from 'src/components/HomeWideCard';
+import { getAllOfCollection,getData, getListing} from "src/firebase/utility";
+
 
 const TreatTheNurse = ({ navigation }) => {
 
@@ -54,6 +56,25 @@ const TreatTheNurse = ({ navigation }) => {
 
     ];
 
+    const [coverImg, setCoverImg] = useState('');
+    const [islistingData, setListingData] = useState([]);
+
+    const chkData = async () => {
+        let res = await getAllOfCollection("nurse")
+        setCoverImg(res.cover)
+     
+    }
+
+    const listingData = async () => {
+        let res = await getListing("categories", "nurse")
+        setListingData(res.media)
+    }
+
+    useEffect(() => {
+        chkData();
+        listingData();
+    }, []);
+
     return (
         <View style={styles.container}>
             <TreatHeader
@@ -66,20 +87,23 @@ const TreatTheNurse = ({ navigation }) => {
         <ScrollView>
             <Apptext style={styles.monthTxt}>Intro</Apptext>
             <View style={{marginTop:wp('7%')}}>
-                <HomeWideCard backImg={require('../../../../assets/TreatCover.png')} isLabel={false} />
+                <HomeWideCard 
+                // backImg={require('../../../../assets/frameBack.png')}
+                 backImg={{uri : coverImg }}
+                 isLabel={false} />
             </View>
 
             <View>
             <FlatList   
-                data={DATA}
+                data={islistingData}
                 numColumns={2}
                 horizontal={false}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item, index) => index}
                 renderItem={({ item }) => (
                     <TreatBox
                     onPress={() => navigation.navigate("subTreat")}
-                    leftTitle={item.label}
-                    leftImgName={item.Img}
+                    leftTitle={"Label 1"}
+                    leftImgName={{ uri : item.thumbnail}}
                     subTxt={item.msg}
                 />
                    

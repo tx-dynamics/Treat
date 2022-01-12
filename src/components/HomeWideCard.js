@@ -9,12 +9,14 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 const HomeWideCard = ({ backImg, setSubTxt, headerTitle,setLeftTxt,
     isSubLeftTxt = false,setSubLeftTxt,rightHeaderImg,
     isLeftTxt = false, isLabel = true, leftOnPress,
-    isSubTxt = false, rightOnPress, ...rest }) => {
-
+    isSubTxt = false, rightOnPress, ...props }) => {
     return (
         <TouchableOpacity>
             <ImageBackground style={styles.MainContainer}
-                imageStyle={{ borderRadius: 10 }} source={backImg}>
+                imageStyle={{ borderRadius: 10 }} 
+                // source={{ uri : backImg}}
+                source={backImg}
+                >
                 {isLabel ? (
                     <TouchableOpacity style={styles.innerBox}>
                         <Apptext style={styles.innerTxt}>Latest</Apptext>

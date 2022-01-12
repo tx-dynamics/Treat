@@ -18,6 +18,7 @@ export async function saveData(collection, doc, jsonObject) {
 }
 
 export function getData(collection, doc, objectKey) {
+  console.log("getData",collection, doc)
     // check if data exists on the given path
     if (objectKey === undefined) {
       return firestore()
@@ -47,7 +48,7 @@ export function getData(collection, doc, objectKey) {
   }
 
   export async function getAllOfCollection(collection) {
-    console.log(collection)
+   
     // let data = [];
     let data = "";
 
@@ -58,12 +59,26 @@ export function getData(collection, doc, objectKey) {
     querySnapshot.forEach(function(doc) {
       if (doc.exists) {
         // data.push(doc.data());
-         data = doc.data().cover;
+         data = doc.data()
       } else {
         console.log('No document found!');
       }
     });
     // console.log(data);
+     return data;
+    // dispatch(setCover(data))
+  }
+
+  export async function getListing(collection, doc1) {
+ 
+    let data = await firestore().collection(collection).doc(doc1).get().then(function(doc){
+      if (doc.exists) {
+        return doc.data();
+      } else {
+        return false;
+      }
+    });
+   console.log(data)
      return data;
     // dispatch(setCover(data))
   }

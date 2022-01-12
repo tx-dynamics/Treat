@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useState ,useEffect} from 'react';
 import { View,StyleSheet,FlatList ,Image, ScrollView } from 'react-native';
 import {
     widthPercentageToDP as wp,
@@ -10,6 +10,8 @@ import Header from 'src/components/Header';
 import { Divider } from 'react-native-elements';
 import TreatBox from 'src/components/TreatBox';
 import HomeWideCard from 'src/components/HomeWideCard';
+import { getAllOfCollection, getListing} from "src/firebase/utility";
+
 
 const SoundHealing = ({ navigation }) => {
 
@@ -54,6 +56,25 @@ const SoundHealing = ({ navigation }) => {
 
     ];
 
+    const [coverImg, setCoverImg] = useState('');
+    const [islistingData, setListingData] = useState([]);
+
+    const chkData = async () => {
+        let res = await getAllOfCollection("nurse")
+        setCoverImg(res.cover)
+        console.log(res)
+    }
+
+    const listingData = async () => {
+        let res = await getListing("categories", "sound_healing")
+        setListingData(res.media)
+    }
+
+    useEffect(() => {
+        chkData();
+        listingData();
+    }, []);
+
     return (
         <View style={styles.container}>
             <Header 
@@ -66,7 +87,8 @@ const SoundHealing = ({ navigation }) => {
         <ScrollView>
             <View style={{marginTop:wp('7%')}}>
                 <HomeWideCard
-                 backImg={require('../../../../assets/TreatCover.png')}
+                //  backImg={require('../../../../assets/TreatCover.png')}
+                backImg={{uri : coverImg}}
                 isLabel={false}
                 isSubTxt={true}
                 setSubTxt={`Learn how powerful a simple tone, sound or
@@ -76,15 +98,15 @@ const SoundHealing = ({ navigation }) => {
 
             <View>
             <FlatList   
-                data={DATA}
+                data={islistingData}
                 numColumns={2}
                 horizontal={false}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item, index) => index}
                 renderItem={({ item }) => (
                     <TreatBox
                     onPress={() => navigation.navigate("Audios")}
-                    leftTitle={item.label}
-                    leftImgName={item.Img}
+                    leftTitle={"Audio 1"}
+                    leftImgName={{uri : item.thumbnail}}
                     subTxt={item.msg}
                 />
                    

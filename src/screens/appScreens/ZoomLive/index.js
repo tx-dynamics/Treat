@@ -1,15 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import { View,StyleSheet,FlatList ,Image, ScrollView } from 'react-native';
+import { View,StyleSheet,FlatList ,Image, ScrollView, Alert, Linking } from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import DefaultStyles from "src/config/Styles";
-import Apptext from 'src/components/Apptext';
 import TreatHeader from 'src/components/TreatHeader';
-import { Divider } from 'react-native-elements';
 import SelectBox from 'src/components/SelectBox';
-import HomeWideCard from 'src/components/HomeWideCard';
+import { getAllOfCollection} from "src/firebase/utility";
+
 
 const ZoomLive = ({ navigation }) => {
     const [isItem, setSelectedItem] = useState([]);
@@ -33,11 +32,19 @@ const ZoomLive = ({ navigation }) => {
             dt: "2 hours ago",
             move: "Detail"
         },
-     
-      
-  
-
     ];
+
+    const [meetingLink, setMeetingLink] = useState([]);
+
+    const chkData = async () => {
+        let res = await getAllOfCollection("meeting")
+        setMeetingLink([res])
+        console.log("res", res)
+    }
+
+    useEffect(() => {
+        chkData();
+    }, []);
 
     const addCategories = async (item) => {
         var selectedIdss = [...isItem]
@@ -62,17 +69,18 @@ const ZoomLive = ({ navigation }) => {
             <Image style={styles.imgStl} source={require('../../../../assets/ZoomScreen.png')} />
             <View style={{marginTop:wp('7%'), marginBottom:wp('5%')}}>
             <FlatList   
-                data={DATA}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
+                data={meetingLink}
+                keyExtractor={(item) => item.link}
+                renderItem={({ item, index }) => (
                     <SelectBox
-                    onPress={() => {
-                        addCategories(item)
-                        // navigation.navigate("Library")
-                    }}
-                    myStl={isItem.includes(item.id) ? true : false }
-                    leftTitle={item.label}
-                    count={item.count}
+                    onPress={() => Linking.openURL(item.link)}
+                    // onPress={() => {
+                    //     addCategories(item)
+                    //     // navigation.navigate("Library")
+                    // }}
+                    // myStl={isItem.includes(item.id) ? true : false }
+                    leftTitle={"Join Now"}
+                    count={index + 1}
                 />
                    
                 )}
