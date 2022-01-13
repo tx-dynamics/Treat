@@ -12,9 +12,12 @@ import OptionsBox from 'src/components/OptionsBox';
 import OptionsBigBox from 'src/components/OptionsBigBox';
 import ToggleSwitch from 'toggle-switch-react-native'
 
-const subTreat = ({ navigation }) => {
-    const [isItem, setSelectedItem] = useState([]);
+const subTreat = ({ navigation, route}) => {
 
+    const {videodata} = route.params;
+    console.log(videodata);
+    
+    const [isItem, setSelectedItem] = useState([]);
     const DATA = [
         {
             id: 'bd37acbea-c1b1-46c2-aed5-3ad53abb28ba',

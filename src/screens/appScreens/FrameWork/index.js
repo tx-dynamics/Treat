@@ -14,36 +14,41 @@ import { getAllOfCollection} from "src/firebase/utility";
 
 
 
-const Framework = ({ navigation }) => {
+const Framework = ({ navigation,route }) => {
+
     const [isItem, setSelectedItem] = useState([]);
+
 
     const DATA = [
         {
             id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
             count: "1",
-            label: "Introduction",
+            label: "Neuroscience",
             msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
             Img: require("../../../../assets/treat1.png"),
             dt: "5 minutes ago",
-            move: "Detail"
+            move: "Detail",
+            catName:"neuroscience"
         },
         {
             id: 'bd7acbewweea-c1b1-46c2-aed5-3ad53abb28ba',
             count: "2",
-            label: 'Implementation',
+            label: 'Biofield Science',
             msg: "Will do, super, thank you",
             Img: require("../../../../assets/treat2.png"),
             dt: "2 hours ago",
-            move: "Detail"
+            move: "Detail",
+            catName: "biofield"
         },
         {
             id: 'bd7acbea-c1bewew1-46c2-aed5-3ad53abb28ba',
             count: "3",
-            label: "Outline",
+            label: "Emotional Intelligence",
             msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
             Img: require("../../../../assets/treat3.png"),
             dt: "3 hours ago",
-            move: "Detail"
+            move: "Detail",
+            catName:"emotional_intelligence"
         },
       
   
@@ -54,9 +59,9 @@ const Framework = ({ navigation }) => {
 
     const chkData = async () => {
         let res = await getAllOfCollection("framework")
-        setCoverImg(res.cover)
-        console.log(res)
+        setCoverImg(res)
     }
+
 
     useEffect(() => {
         chkData();
@@ -85,11 +90,11 @@ const Framework = ({ navigation }) => {
             <View style={{marginTop:wp('7%')}}>
                 <HomeWideCard
                 // backImg={require('../../../../assets/frameBack.png')}
-                backImg={{uri : coverImg}}
+                backImg={{uri : coverImg.cover}}
                 isLabel={false}
-                isSubTxt={true}
-                setSubTxt={`Learn  Biweekly / Monthly new information onbuilding a
-                        foundation to understand yourself`}
+                isSubTxt={coverImg.description ? true : false}
+                setSubTxt={coverImg.description ? coverImg.description : null}
+         
                 />
             </View>
 
@@ -100,8 +105,8 @@ const Framework = ({ navigation }) => {
                 renderItem={({ item }) => (
                     <SelectBox
                     onPress={() => {
-                        addCategories(item)
-                        navigation.navigate("Library")
+                        // addCategories(item)
+                        navigation.navigate("Library", {catName: item.catName})
                     }}
                     myStl={isItem.includes(item.id) ? true : false }
                     leftTitle={item.label}

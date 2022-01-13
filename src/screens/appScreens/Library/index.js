@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useState,useEffect} from 'react';
 import { View,StyleSheet,FlatList ,Image, ScrollView } from 'react-native';
 import {
     widthPercentageToDP as wp,
@@ -10,8 +10,10 @@ import Header from 'src/components/Header';
 import { Divider } from 'react-native-elements';
 import TreatBox from 'src/components/TreatBox';
 import HomeWideCard from 'src/components/HomeWideCard';
+import {getListing} from "src/firebase/utility";
 
-const Library = ({ navigation }) => {
+
+const Library = ({ navigation,route }) => {
 
     const DATA = [
         {
@@ -72,10 +74,25 @@ const Library = ({ navigation }) => {
 
     ];
 
+    const {catName} = route.params;
+
+    const [islistingData, setListingData] = useState([]);
+    const [ispageHeading, setPageHeading] = useState('');
+
+    const listingData = async () => {
+        let res = await getListing("categories", catName)
+        setListingData(res.media)
+        setPageHeading(res.pageHeading)
+        
+    }
+    useEffect(() => {
+        listingData();
+    },[])
+
     return (
         <View style={styles.container}>
             <Header
-            label="Neuroscience Library"
+            label={ispageHeading ? ispageHeading : "" }
             rightImg={require('../../../../assets/settingIcon.png')}
             onPressLeft={() => navigation.goBack()}
             onPressRight={() => navigation.navigate("Settings")}
@@ -84,15 +101,15 @@ const Library = ({ navigation }) => {
             
             <View style={{marginTop:wp('6%')}}>
             <FlatList   
-                data={DATA}
+                data={islistingData}
                 numColumns={2}
                 horizontal={false}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
+                keyExtractor={(item) => item.title}
+                renderItem={({ item,index }) => (
                     <TreatBox
-                    leftTitle={item.label}
-                    leftImgName={item.Img}
-                    subTxt={item.msg}
+                    leftTitle={item.title ? item.title : null}
+                    leftImgName={{uri : item.thumbnail}}
+                    subTxt={item.description ? item.description : null }
                 />
                    
                 )}

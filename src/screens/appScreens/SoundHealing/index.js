@@ -13,7 +13,7 @@ import HomeWideCard from 'src/components/HomeWideCard';
 import { getAllOfCollection, getListing} from "src/firebase/utility";
 
 
-const SoundHealing = ({ navigation }) => {
+const SoundHealing = ({ navigation, route }) => {
 
     const DATA = [
         {
@@ -60,8 +60,8 @@ const SoundHealing = ({ navigation }) => {
     const [islistingData, setListingData] = useState([]);
 
     const chkData = async () => {
-        let res = await getAllOfCollection("nurse")
-        setCoverImg(res.cover)
+        let res = await getAllOfCollection("sound_healing")
+        setCoverImg(res)
         console.log(res)
     }
 
@@ -88,11 +88,10 @@ const SoundHealing = ({ navigation }) => {
             <View style={{marginTop:wp('7%')}}>
                 <HomeWideCard
                 //  backImg={require('../../../../assets/TreatCover.png')}
-                backImg={{uri : coverImg}}
+                backImg={{uri : coverImg.cover}}
                 isLabel={false}
-                isSubTxt={true}
-                setSubTxt={`Learn how powerful a simple tone, sound or
-         vibration can change your emotions`}
+                isSubTxt={coverImg.description ? true : false}
+                setSubTxt={coverImg.description ? coverImg.description : null}
                 />
             </View>
 
@@ -104,10 +103,10 @@ const SoundHealing = ({ navigation }) => {
                 keyExtractor={(item, index) => index}
                 renderItem={({ item }) => (
                     <TreatBox
-                    onPress={() => navigation.navigate("Audios")}
-                    leftTitle={"Audio 1"}
+                    onPress={() => navigation.navigate("Audios", {audiodata: item})}
+                    leftTitle={item.title ? item.title : null}
+                    subTxt={item.sub_title ? item.sub_title : null}
                     leftImgName={{uri : item.thumbnail}}
-                    subTxt={item.msg}
                 />
                    
                 )}

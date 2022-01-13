@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { View,StyleSheet,FlatList ,Image, ScrollView, Alert, Linking } from 'react-native';
+import { View,StyleSheet,FlatList ,TouchableOpacity, Image, ScrollView, Alert, Linking } from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -7,10 +7,11 @@ import {
 import DefaultStyles from "src/config/Styles";
 import TreatHeader from 'src/components/TreatHeader';
 import SelectBox from 'src/components/SelectBox';
+import Apptext from 'src/components/Apptext';
 import { getAllOfCollection} from "src/firebase/utility";
 
 
-const ZoomLive = ({ navigation }) => {
+const ZoomLive = ({ navigation, route }) => {
     const [isItem, setSelectedItem] = useState([]);
 
     const DATA = [
@@ -73,7 +74,8 @@ const ZoomLive = ({ navigation }) => {
                 keyExtractor={(item) => item.link}
                 renderItem={({ item, index }) => (
                     <SelectBox
-                    onPress={() => Linking.openURL(item.link)}
+                    onPress={() => navigation.navigate("JoinMeeting", {joinmeeting : item})}
+                    // onPress={() => Linking.openURL(item.link)}
                     // onPress={() => {
                     //     addCategories(item)
                     //     // navigation.navigate("Library")
@@ -85,6 +87,22 @@ const ZoomLive = ({ navigation }) => {
                    
                 )}
             />
+            
+            <TouchableOpacity
+            // onPress={() => navigation.navigate("TreatVideo")}
+             style={styles.SightingContainer}
+              >
+            <View style={styles.DirectionView}>
+            <View style={styles.boxWidth}>
+            <View style={styles.pinkCircle}>
+            <Apptext style={styles.countStl1}>{"2"}</Apptext>
+            </View>
+            </View>
+            <Apptext style={styles.SightingText1}>
+                {"Archieved Meetings"}
+            </Apptext>
+            </View>
+            </TouchableOpacity>
            </View>
         </ScrollView>
         </View>
@@ -124,5 +142,90 @@ const styles = StyleSheet.create({
     imgStl:{
         width:241, height:304, alignSelf:'center',
         marginTop:wp('5%')
+    },
+    SightingContainer:{
+        width:wp('90%'),
+        marginTop:wp('4%'),
+        marginBottom:1,
+        borderRadius:8,
+        alignSelf:'center',
+        backgroundColor:DefaultStyles.colors.white,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.34,
+        shadowRadius: 6.27,
+        
+        elevation: 1,
+    },
+    SightingContainer1:{
+        width:wp('90%'),
+        marginTop:wp('4%'),
+        borderRadius:8,
+        marginBottom:1,
+        alignSelf:'center',
+        backgroundColor:DefaultStyles.colors.secondary,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.34,
+        shadowRadius: 6.27,
+        
+        elevation: 1,
+    },
+    DirectionView:{
+        flexDirection:'row',
+        alignItems:'center',
+        padding:15,
+    },
+    countStl:{
+        color:DefaultStyles.colors.white,
+        padding:1
+    },
+    countStl1:{
+        color:DefaultStyles.colors.secondary,
+        padding:1
+    },
+    boxWidth:{
+        width:wp('12%'),
+    },
+    whiteCircle:{
+        width:wp('8%'),
+        borderWidth:2,
+        borderColor:DefaultStyles.colors.white,
+        height:wp('8%'),
+        borderRadius:20,
+        alignItems:'center',
+        justifyContent:'center'
+    },
+    pinkCircle:{
+        width:wp('8%'),
+        borderWidth:2,
+        borderColor:DefaultStyles.colors.secondary,
+        height:wp('8%'),
+        borderRadius:20,
+        alignItems:'center',
+        justifyContent:'center'
+    },
+    SightingText1: {
+        fontFamily: "Poppins-Regular",
+        fontSize: wp('5%'),
+        width: wp('65%'),
+        color: DefaultStyles.colors.secondary,
+    },
+    SightingText: {
+        fontFamily: "Poppins-Regular",
+        fontSize: wp('5%'),
+        width: wp('65%'),
+        color: DefaultStyles.colors.white,
+    },
+    innerTxt:{
+        fontFamily:'Lato-Regular',
+        fontSize:wp('2%'),
+        color:DefaultStyles.colors.white
     }
     });

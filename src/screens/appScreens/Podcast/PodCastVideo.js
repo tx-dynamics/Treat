@@ -10,8 +10,16 @@ import TreatHeader from 'src/components/TreatHeader';
 import { Divider } from 'react-native-elements';
 import SelectBox from 'src/components/SelectBox';
 import HomeWideCard from 'src/components/HomeWideCard';
+import {getListing} from "src/firebase/utility";
 
-const PodCastVideo = ({ navigation }) => {
+
+const PodCastVideo = ({ navigation, route }) => {
+    
+    const {catName} = route.params;
+
+
+    const [islistingData, setListingData] = useState([]);
+    const [isGuestName, setGuestName] = useState('');
     const [isItem, setSelectedItem] = useState([]);
 
     const DATA = [
@@ -68,6 +76,16 @@ const PodCastVideo = ({ navigation }) => {
     }
 
 
+    const listingData = async () => {
+        let res = await getListing("categories", catName)
+        setListingData(res.media)
+        setGuestName(res.guest)
+        
+    }
+    useEffect(() => {
+        listingData();
+    },[])
+
     return (
         <View style={styles.container}>
             <TreatHeader
@@ -76,20 +94,20 @@ const PodCastVideo = ({ navigation }) => {
 
             />
         <ScrollView>
-            <Apptext style={styles.monthTxt}>Series 1 Guest : Guest Name</Apptext>
+            <Apptext style={styles.monthTxt}>Series 1 Guest : {isGuestName ? isGuestName : null}</Apptext>
             <View style={{marginTop:wp('8%')}}>
             <FlatList   
-                data={DATA}
-                keyExtractor={(item) => item.id}
+                data={islistingData}
+                keyExtractor={(item) => item.title}
                 renderItem={({ item }) => (
                     <HomeWideCard
-                    backImg={item.Img}
+                    backImg={{uri : item.thumbnail}}
                     isLabel={false}
                     isSubTxt={false}
                     isLeftTxt={true}
                     isSubLeftTxt={true}
-                    setLeftTxt={item.label}
-                    setSubLeftTxt={item.msg}
+                    setLeftTxt={item.title ? item.title : null}
+                    setSubLeftTxt={item.description ? item.description.substring(0,15) : null}
                     />
                    
                 )}

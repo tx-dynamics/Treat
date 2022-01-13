@@ -13,7 +13,7 @@ import HomeWideCard from 'src/components/HomeWideCard';
 import { getAllOfCollection,getData, getListing} from "src/firebase/utility";
 
 
-const TreatTheNurse = ({ navigation }) => {
+const TreatTheNurse = ({ navigation, route }) => {
 
     const DATA = [
         {
@@ -61,13 +61,14 @@ const TreatTheNurse = ({ navigation }) => {
 
     const chkData = async () => {
         let res = await getAllOfCollection("nurse")
-        setCoverImg(res.cover)
+        setCoverImg(res)
      
     }
 
     const listingData = async () => {
         let res = await getListing("categories", "nurse")
         setListingData(res.media)
+        console.log(res.media)
     }
 
     useEffect(() => {
@@ -89,7 +90,9 @@ const TreatTheNurse = ({ navigation }) => {
             <View style={{marginTop:wp('7%')}}>
                 <HomeWideCard 
                 // backImg={require('../../../../assets/frameBack.png')}
-                 backImg={{uri : coverImg }}
+                 backImg={{uri : coverImg.cover }}
+                 isSubTxt={coverImg.description ? true : false}
+                 setSubTxt={coverImg.description ? coverImg.description : null}
                  isLabel={false} />
             </View>
 
@@ -99,12 +102,12 @@ const TreatTheNurse = ({ navigation }) => {
                 numColumns={2}
                 horizontal={false}
                 keyExtractor={(item, index) => index}
-                renderItem={({ item }) => (
+                renderItem={({ item,index }) => (
                     <TreatBox
-                    onPress={() => navigation.navigate("subTreat")}
-                    leftTitle={"Label 1"}
+                    onPress={() => navigation.navigate("subTreat", {videodata : item})}
+                    leftTitle={item.title ? item.title : null}
                     leftImgName={{ uri : item.thumbnail}}
-                    subTxt={item.msg}
+                    subTxt={item.sub_title ? item.sub_title : null}
                 />
                    
                 )}

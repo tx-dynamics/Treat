@@ -18,7 +18,6 @@ export async function saveData(collection, doc, jsonObject) {
 }
 
 export function getData(collection, doc, objectKey) {
-  console.log("getData",collection, doc)
     // check if data exists on the given path
     if (objectKey === undefined) {
       return firestore()
@@ -70,7 +69,7 @@ export function getData(collection, doc, objectKey) {
   }
 
   export async function getListing(collection, doc1) {
- 
+ console.log(collection, doc1)
     let data = await firestore().collection(collection).doc(doc1).get().then(function(doc){
       if (doc.exists) {
         return doc.data();
@@ -78,7 +77,6 @@ export function getData(collection, doc, objectKey) {
         return false;
       }
     });
-   console.log(data)
      return data;
     // dispatch(setCover(data))
   }

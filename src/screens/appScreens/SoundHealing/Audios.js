@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import { View,StyleSheet,FlatList ,Image, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, FlatList, Image, ScrollView } from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -9,77 +9,71 @@ import Apptext from 'src/components/Apptext';
 import TreatHeader from 'src/components/TreatHeader';
 import Card from 'src/components/Card';
 import AudioCard from 'src/components/AudioCard';
+import TrackPlayer from 'react-native-track-player';
 
-const Audios = ({ navigation }) => {
+
+const Audios = ({ navigation, route }) => {
+
+
+    const { audiodata } = route.params;
     const [isHeart, setHeart] = useState(false);
-
     const updateHeart = () => {
         setHeart(!isHeart)
     }
-    const DATA = [
-        {
-            id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-            count: "+5",
-            label: "Introduction",
-            msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            Img: require("../../../../assets/treat1.png"),
-            dt: "5 minutes ago",
-            move: "Detail"
-        },
-        {
-            id: 'bd7acbewweea-c1b1-46c2-aed5-3ad53abb28ba',
-            count: "",
-            label: 'Implementation',
-            msg: "Will do, super, thank you",
-            Img: require("../../../../assets/treat2.png"),
-            dt: "2 hours ago",
-            move: "Detail"
-        },
-        {
-            id: 'bd7acbea-c1bewew1-46c2-aed5-3ad53abb28ba',
-            count: "+3",
-            label: "Outline",
-            msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            Img: require("../../../../assets/treat3.png"),
-            dt: "3 hours ago",
-            move: "Detail"
-        },
-        {
-            id: 'bd7acbea-c1b1-4efwffde6c2-aed5-3ad53abb28ba',
-            count: "+22",
-            label: "Education",
-            msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            Img: require("../../../../assets/treat4.png"),
-            dt: "01 Feb",
-            move: "Detail"
-        },
-  
 
-    ];
+    const [isPlaying, setPlaying] = useState(false);
+
+    const start = async () => {
+        // Set up the player
+        await TrackPlayer.setupPlayer();
+
+        // Add a track to the queue
+        await TrackPlayer.add({
+            id: 'trackId',
+            // url: 'https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_1MG.mp3',
+            url: audiodata.url ? audiodata.url : null,
+            title: audiodata.title ? audiodata.title : "Music Track",
+            artist: audiodata.sub_title ? audiodata.sub_title : "Playlist Song" ,
+            artwork: isPlaying ? require('../../../../assets/pause1.png') : require('../../../../assets/videoIcon.png')
+        });
+
+        // Start playing it
+        await TrackPlayer.play();
+    };
+    const stop = () => {
+        TrackPlayer.stop();
+    };
 
     return (
         <View style={styles.container}>
             <TreatHeader
-            onPressLeft={() => navigation.goBack()}
-            onPressRight={() => navigation.navigate("Settings")}
+                onPressLeft={() => navigation.goBack()}
+                onPressRight={() => navigation.navigate("Settings")}
 
             />
-        <ScrollView>
-            {/* <Apptext style={styles.monthTxt}>Video 1</Apptext> */}
-            <View style={{marginTop:wp('8%')}}>
-               <AudioCard
-                backImg={require('../../../../assets/TreatCover.png')}
-               />
-            </View>
-            <View style={{marginTop:wp('10%')}}>
-                <Card
-                videoName={"Video 1"}
-                onPress={updateHeart}
-                boxImg={isHeart ? require('../../../../assets/redHeart.png') : require('../../../../assets/heartBox.png')  }
-                subTxt={"12 Questions"}
-                />
-            </View>
-        </ScrollView>
+            <ScrollView>
+                <View style={{ marginTop: wp('8%') }}>
+                    <AudioCard
+                        // backImg={require('../../../../assets/TreatCover.png')}
+                        backImg={{ uri: audiodata.thumbnail }}
+                        audioCntrl={isPlaying ? require('../../../../assets/pause1.png') : require('../../../../assets/videoIcon.png')}
+                        onPress={() => {
+                            setPlaying(!isPlaying)
+                            isPlaying ? stop() : start()
+                            
+                        }}
+                    />
+                </View>
+                <View style={{ marginTop: wp('10%') }}>
+                    <Card
+                        videoName={audiodata.title ? audiodata.title : null}
+                        onPress={updateHeart}
+                        boxImg={isHeart ? require('../../../../assets/redHeart.png') : require('../../../../assets/heartBox.png')}
+                        // subTxt={"12 Questions"}
+                        description={audiodata.description ? audiodata.description : null}
+                    />
+                </View>
+            </ScrollView>
         </View>
     )
 }
@@ -94,20 +88,20 @@ const styles = StyleSheet.create({
     headerLogo: {
         alignItems: 'center',
         justifyContent: 'center',
-      },
-    text2:{
-        width:158,
-        fontFamily:"Poppins-Medium",
-        fontSize:16,
-        color:DefaultStyles.colors.secondary
+    },
+    text2: {
+        width: 158,
+        fontFamily: "Poppins-Medium",
+        fontSize: 16,
+        color: DefaultStyles.colors.secondary
 
     },
-    monthTxt:{
-        fontFamily:"Poppins-Regular",
-        fontSize:wp('5%'),
-        alignSelf:'center',
-        marginTop:wp('6%'),
-        color:DefaultStyles.colors.textColor
+    monthTxt: {
+        fontFamily: "Poppins-Regular",
+        fontSize: wp('5%'),
+        alignSelf: 'center',
+        marginTop: wp('6%'),
+        color: DefaultStyles.colors.textColor
     },
-  
-    });
+
+});

@@ -5,7 +5,7 @@ import DefaultStyles from "src/config/Styles";
 import Apptext from 'src/components/Apptext';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const Card = ({ videoName, boxImg, subTxt, leftTitle,myStl ,onPress, ...rest }) => {
+const Card = ({ videoName, boxImg, subTxt,description, leftTitle,myStl ,onPress, ...rest }) => {
 
     return (
 
@@ -19,12 +19,8 @@ const Card = ({ videoName, boxImg, subTxt, leftTitle,myStl ,onPress, ...rest }) 
                 </View>
             </View>
             <Apptext style={styles.subTxt} >{subTxt}</Apptext>
-            <Apptext style={styles.para}>Lorem Ipsum  is simply  dummy text   of
-              the printing  and    typesetting   industry.  Lorem Ipsum  has   been 
-                the   industry's  standard dummy  text  ever  since the 1500s, when an
-                 unknown  printer took a galley  of  type  and scrambled it to make a 
-                 type specimen book.
-                 
+            <Apptext style={styles.para}>
+                 {description}
                  </Apptext>
         </View>
 

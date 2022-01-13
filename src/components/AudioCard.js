@@ -7,7 +7,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Video from 'react-native-video';
 import TrackPlayer from 'react-native-track-player';
 
-const AudioCard = ({ count, leftTitle, myStl, backImg, onPress, ...rest }) => {
+const AudioCard = ({ count, leftTitle, myStl, backImg, audioCntrl, onPress, ...rest }) => {
 
     const [isPlaying, setPlaying] = useState(false);
 
@@ -43,7 +43,16 @@ const AudioCard = ({ count, leftTitle, myStl, backImg, onPress, ...rest }) => {
                         width: wp('88%'),
                         alignSelf: 'center', height: wp('57%')
                     }}>
-                    {isPlaying ? (
+                        <TouchableOpacity
+                            onPress={onPress}
+                            style={{
+                                position: "absolute", justifyContent: "center",
+                                alignSelf: "center", alignItems: 'center', bottom: 70
+                            }}>
+                            <Image source={audioCntrl} 
+                            resizeMode={"contain"} style={{ height: 42, width: 42, }} />
+                        </TouchableOpacity>
+                    {/* {isPlaying ? (
                         <TouchableOpacity
                             onPress={() => 
                              {
@@ -70,7 +79,7 @@ const AudioCard = ({ count, leftTitle, myStl, backImg, onPress, ...rest }) => {
                             <Image source={require('../../assets/videoIcon.png')} resizeMode={"contain"} style={{ height: 42, width: 42, }} />
                         </TouchableOpacity>
 
-                    )}
+                    )} */}
                 </ImageBackground>
             </View>
         </View>

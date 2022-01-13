@@ -70,7 +70,8 @@ const styles = StyleSheet.create({
         fontSize: wp('2.5%'),
         marginTop: wp('32%'),
         fontFamily: "Poppins-Regular",
-        alignSelf: 'center'
+        alignSelf: 'center',
+        textAlign:'center'
     },
     leftStl:{
         fontFamily:"Poppins-Regular",
@@ -82,7 +83,8 @@ const styles = StyleSheet.create({
         fontFamily:"Poppins-Regular",
         fontSize:wp('3%'),
         marginBottom:wp('4%'),
-        color:DefaultStyles.colors.white
+        color:DefaultStyles.colors.white,
+        
     }
 
 });

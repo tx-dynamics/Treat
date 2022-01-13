@@ -14,7 +14,8 @@ import { getAllOfCollection} from "src/firebase/utility";
 
 
 
-const Podcast = ({ navigation }) => {
+const Podcast = ({ navigation, route }) => {
+
     const [isItem, setSelectedItem] = useState([]);
 
     const DATA = [
@@ -25,16 +26,18 @@ const Podcast = ({ navigation }) => {
             msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
             Img: require("../../../../assets/treat1.png"),
             dt: "5 minutes ago",
-            move: "Detail"
+            move: "Detail",
+            catName:"series1"
         },
         {
             id: 'bd7acbewweea-c1b1-46c2-aed5-3ad53abb28ba',
             count: "2",
-            label: 'Series 3 Guest',
+            label: 'Series 2 Guest',
             msg: "Will do, super, thank you",
             Img: require("../../../../assets/treat2.png"),
             dt: "2 hours ago",
-            move: "Detail"
+            move: "Detail",
+            catName:"series2"
         },
         {
             id: 'bd7acbea-c1bewew1-46c2-aed5-3ad53abb28ba',
@@ -43,7 +46,8 @@ const Podcast = ({ navigation }) => {
             msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
             Img: require("../../../../assets/treat3.png"),
             dt: "3 hours ago",
-            move: "Detail"
+            move: "Detail",
+            catName:"series3"
         },
       
   
@@ -53,8 +57,8 @@ const Podcast = ({ navigation }) => {
     const [coverImg, setCoverImg] = useState('');
 
     const chkData = async () => {
-        let res = await getAllOfCollection("framework")
-        setCoverImg(res.cover)
+        let res = await getAllOfCollection("podcast")
+        setCoverImg(res)
         console.log(res)
     }
 
@@ -87,15 +91,17 @@ const Podcast = ({ navigation }) => {
             <View style={{marginTop:wp('3%')}}>
                 <HomeWideCard
                 // backImg={require('../../../../assets/podcastCover.png')}
-                backImg={{uri : coverImg }}
+                backImg={{uri : coverImg.cover }}
                 isLabel={false}
-                isSubTxt={false}
+                isSubTxt={coverImg.description ? true : false}
+                setSubTxt={coverImg.description ? coverImg.description : null}
                 />
             </View>
-            <Apptext style={styles.cntrTxt}>{`World renowned speakers share first
+            {/* <Apptext style={styles.cntrTxt}>{`World renowned speakers share first
     hand knowledge and experiences.`}
+                </Apptext> */}
+   <Apptext style={styles.cntrTxt}>{coverImg.description ? coverImg.description : null}
                 </Apptext>
-
             <View style={{marginTop:wp('8%'), marginBottom:wp('5%')}}>
             <FlatList   
                 data={DATA}
@@ -103,8 +109,8 @@ const Podcast = ({ navigation }) => {
                 renderItem={({ item }) => (
                     <SelectBox
                     onPress={() => {
-                        addCategories(item)
-                        navigation.navigate("PodCastVideo")
+                        // addCategories(item)
+                        navigation.navigate("PodCastVideo", {catName : item.catName})
                     }}
                     myStl={isItem.includes(item.id) ? true : false }
                     leftTitle={item.label}
@@ -145,6 +151,7 @@ const styles = StyleSheet.create({
     },
     cntrTxt:{
         alignSelf:'center',
+        textAlign:'center',
         fontFamily:'Poppins-Regular',
         fontSize:wp('3%'),
         marginTop:wp('5%')

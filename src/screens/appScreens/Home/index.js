@@ -22,7 +22,7 @@ const Home = ({ navigation }) => {
 
     const chkData = async () => {
         let res = await getAllOfCollection("home")
-        setCoverImg(res.cover)
+        setCoverImg(res)
         console.log(res)
     }
     useEffect(() => {
@@ -130,7 +130,9 @@ const Home = ({ navigation }) => {
                 <View style={{ marginTop: wp('9%') }}>
                     <HomeWideCard
                         // backImg={require('../../../../assets/human2.png')}
-                        backImg={{uri : coverImg}}
+                        backImg={{uri : coverImg.cover}}
+                        isSubTxt={coverImg.description ? true : false}
+                        setSubTxt={coverImg.description ? coverImg.description : null}
                     />
                 </View>
                 <View style={styles.cntrTxt}>

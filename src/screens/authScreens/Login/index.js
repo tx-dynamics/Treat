@@ -109,7 +109,7 @@ const SignIn = ({ navigation }) => {
                   
                 }
                 else{
-                    Alert.alert(error.message)
+                    Alert.alert(error.code)
                 }
             });
         return success;

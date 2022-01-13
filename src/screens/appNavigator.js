@@ -19,7 +19,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-nat
 import TreatVideo from "src/screens/appScreens/TreatTheNurse/TreatVideo";
 import DefaultStyles from "src/config/Styles";
 import { useSelector } from 'react-redux';
-
+import JoinMeeting from 'src/screens/appScreens/ZoomLive/JoinMeeting';
 import Apptext from 'src/components/Apptext';
 import Settings from "src/screens/appScreens/Settings";
 import Support from "src/screens/appScreens/Help&Support/Support";
@@ -116,6 +116,20 @@ const PodCastNavigator = () => {
 
             <StackNavigator.Screen name="Podcast" component={Podcast} />
             <StackNavigator.Screen name="PodCastVideo" component={PodCastVideo} />
+        </StackNavigator.Navigator>
+    )
+}
+const ZoomNavigator = () => {
+
+    return (
+
+        <StackNavigator.Navigator
+            screenOptions={{
+                headerShown: false
+            }}>
+
+            <StackNavigator.Screen name="ZoomLive" component={ZoomLive} />
+            <StackNavigator.Screen name="JoinMeeting" component={JoinMeeting} />
         </StackNavigator.Navigator>
     )
 }
@@ -294,7 +308,7 @@ const MyTabs = () => {
                             </View>
                     )
                 }} />
-            <Tab.Screen name="Zoom Live" component={ZoomLive}
+            <Tab.Screen name="ZoomNavigator" component={ZoomNavigator}
                 options={{
                     tabBarLabel: ({ focused }) => (
                         <Apptext style={{
