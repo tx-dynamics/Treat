@@ -93,12 +93,18 @@ const Signup = ({ navigation }) => {
                 console.log(error.code + ':: ' + error.message);
                 if (error.code === 'auth/email-already-in-use') {
                     setDuplicateEmail(true)
+                    setBadFormat(false)
+                    setWeakPass(false)
                 }
                 else if (error.code === 'auth/invalid-email') {
                     setBadFormat(true)
+                    setDuplicateEmail(false)
+                    setWeakPass(false)
                 }
                 else if (error.code === 'auth/weak-password') {
                     setWeakPass(true)
+                    setBadFormat(false)
+                    setDuplicateEmail(false)
                 }
                 else {
                     Alert.alert(error.message)
@@ -182,7 +188,7 @@ const Signup = ({ navigation }) => {
                     value={toggleCheckBox}
                     onValueChange={(newValue) => {
                         setToggleCheckBox(newValue)
-                        setPayment(true)
+                        setPayment(newValue)
                         setTckChk(false)
                     }}
                 />

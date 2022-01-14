@@ -17,6 +17,22 @@ export async function saveData(collection, doc, jsonObject) {
     });
 }
 
+export async function saveFvrtsData(collection, doc, jsonObject) {
+  
+  firestore().collection(collection).doc(doc).set({media: firestore.FieldValue.arrayUnion(jsonObject)}, {merge: true})
+  .then(function() {
+    async () => {
+      console.log('Document successfully written!');
+      return true;
+    };
+  })
+  .catch(function(error) {
+    console.log("received", collection, doc,jsonObject)
+    console.error('Error writing document: ', error);
+
+  });
+}
+
 export function getData(collection, doc, objectKey) {
     // check if data exists on the given path
     if (objectKey === undefined) {

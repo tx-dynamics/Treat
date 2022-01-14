@@ -89,7 +89,7 @@ const ZoomLive = ({ navigation, route }) => {
             />
             
             <TouchableOpacity
-            // onPress={() => navigation.navigate("TreatVideo")}
+            onPress={() => navigation.navigate("PodCastVideo",{catName:"archieved"})}
              style={styles.SightingContainer}
               >
             <View style={styles.DirectionView}>

@@ -61,14 +61,12 @@ const TreatTheNurse = ({ navigation, route }) => {
 
     const chkData = async () => {
         let res = await getAllOfCollection("nurse")
-        setCoverImg(res)
-     
+        setCoverImg(res) 
     }
 
     const listingData = async () => {
         let res = await getListing("categories", "nurse")
         setListingData(res.media)
-        console.log(res.media)
     }
 
     useEffect(() => {

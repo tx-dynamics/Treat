@@ -11,13 +11,44 @@ import { Divider } from 'react-native-elements';
 import OptionsBox from 'src/components/OptionsBox';
 import OptionsBigBox from 'src/components/OptionsBigBox';
 import ToggleSwitch from 'toggle-switch-react-native'
+import { getAllOfCollection,getData, getListing} from "src/firebase/utility";
+
+
 
 const subTreat = ({ navigation, route}) => {
-
     const {videodata} = route.params;
-    console.log(videodata);
-    
+    console.log("videodata", videodata);
+
+
+    const [islistingData, setListingData] = useState([]);
     const [isItem, setSelectedItem] = useState([]);
+    const [pageData, setPageData] = useState('');
+    const [optionsList, setOptionsList] = useState('');
+    const [isQuestion, setQuestion] = useState('');
+
+
+    const listingData = async () => {
+        let res = await getListing("nurse", "analysis")
+        setPageData(res);
+        setOptionsList(res.question.options)
+        setQuestion(res.question.statement)
+        
+    }
+    useEffect(() => {
+        listingData();
+    },[])
+
+    const addCategories = async (item) => {
+        var selectedIdss = [...isItem]
+        if (selectedIdss.includes(item)) {
+            selectedIdss = selectedIdss.filter(id => id !== item)
+        }
+        else {
+            selectedIdss.push(item)
+        }
+        await setSelectedItem(selectedIdss)
+    }
+
     const DATA = [
         {
             id: 'bd37acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -99,16 +130,8 @@ const subTreat = ({ navigation, route}) => {
 
 
     ];
-    const addCategories = async (item) => {
-        var selectedIdss = [...isItem]
-        if (selectedIdss.includes(item.id)) {
-            selectedIdss = selectedIdss.filter(id => id !== item.id)
-        }
-        else {
-            selectedIdss.push(item.id)
-        }
-        await setSelectedItem(selectedIdss)
-    }
+   
+
     return (
         <View style={styles.container}>
             <TreatHeader
@@ -118,34 +141,42 @@ const subTreat = ({ navigation, route}) => {
             />
             {/* <Divider width={1} style={{ marginTop: -7 }} color="lightgray" /> */}
             <ScrollView>
-                <Apptext style={styles.monthTxt}>Treat The Nurse Analysis</Apptext>
+                <Apptext style={styles.monthTxt}>{pageData.heading ? pageData.heading : null }</Apptext>
                 <View>
-                    <Apptext style={styles.moreTxt} >{"When you [Help] people you have direct contact with their lives.As you may found, compassion for those you [Help] can affect you in positive and negetive ways. Below are some questions aboutyour experiences, both positive and negetive as a [helper]. Consider each of the following questions about you and your current work situation. Select the number that honestly reflects how frequently you experienced these things in last 30 days."} </Apptext>
+                    <Apptext style={styles.moreTxt}>
+                        {pageData.description ? pageData.description : null }
+                        {/* {"When you [Help] people you have direct contact with their lives.
+                        As you may found, compassion for those you [Help] can affect you in
+                         positive and negetive ways. Below are some questions aboutyour 
+                         experiences, both positive and negetive as a [helper].
+                          Consider each of the following questions about you and 
+                          your current work situation. Select the number that honestly
+                           reflects how frequently you experienced these things in 
+                           last 30 days."}  */}
+                           </Apptext>
                 </View>
 
                 <Apptext style={[styles.monthTxt, { color: '#2591ad' }]}>Personal Identification </Apptext>
                 <View style={styles.txtInputContainer}>
-                    <TextInput
-                        placeholder='eg. 1234'
-                    />
+                    <TextInput placeholder='eg. 1234' />
+
                 </View>
                 <View style={{ marginTop: wp('14%') }}>
-
                     <FlatList
-                        data={DATAL}
+                        data={optionsList}
                         numColumns={3}
                         horizontal={false}
-                        keyExtractor={(item) => item.id}
-                        renderItem={({ item }) => (
+                        keyExtractor={(index) => index}
+                        renderItem={({ item,index }) => (
                             <OptionsBox
-                                count={item.count}
-                                label={item.label}
+                                count={index + 1}
+                                label={item}
                             />
 
                         )}
                     />
                 </View>
-                <View style={{width:wp('80%')}}>
+                {/* <View style={{width:wp('80%')}}>
                 <View style={{width:wp('40%'),flexDirection:'row', alignSelf:'center' }}>
                     <OptionsBox
                         count={"4"}
@@ -156,24 +187,25 @@ const subTreat = ({ navigation, route}) => {
                         label={"Very Often"}
                     />
                 </View>
-                </View>
+                </View> */}
                 <View>
-                    <Apptext style={styles.blueTxt} >{`1_ I am preaccopied with more than one
- person [Help]`}</Apptext>
+                    <Apptext style={styles.blueTxt}>
+                         {isQuestion ? isQuestion : null  } 
+                         </Apptext>
                 </View>
                 <View style={{ marginTop: wp('5%') }}>
                     <FlatList
-                        data={DATA}
-                        keyExtractor={(item) => item.id}
-                        renderItem={({ item }) => (
+                        data={optionsList}
+                        keyExtractor={(index) => index }
+                        renderItem={({ item,index }) => (
                             <OptionsBigBox
                                 onPress={() => {
-                                    addCategories(item)
+                                    addCategories(index)
                                     // navigation.navigate("Library")
                                 }}
-                                myStl={isItem.includes(item.id) ? true : false}
-                                leftTitle={item.label}
-                                count={item.count}
+                                myStl={isItem.includes(index) ? true : false}
+                                leftTitle={item}
+                                count={index + 1}
                             />
 
                         )}
@@ -181,7 +213,7 @@ const subTreat = ({ navigation, route}) => {
                 </View>
                 <View style={{ marginTop: wp('18%') }}>
                     <TouchableOpacity
-                        onPress={() => navigation.navigate("TreatVideo")}
+                        onPress={() => navigation.navigate("TreatVideo",{videodata: videodata})}
                         style={styles.buttonContainer}>
                         <Apptext style={styles.buttonText}>{"Finish !"}</Apptext>
                     </TouchableOpacity>

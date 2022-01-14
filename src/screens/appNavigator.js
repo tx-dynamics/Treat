@@ -130,6 +130,8 @@ const ZoomNavigator = () => {
 
             <StackNavigator.Screen name="ZoomLive" component={ZoomLive} />
             <StackNavigator.Screen name="JoinMeeting" component={JoinMeeting} />
+            
+            <StackNavigator.Screen name="PodCastVideo" component={PodCastVideo} />
         </StackNavigator.Navigator>
     )
 }

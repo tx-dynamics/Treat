@@ -5,7 +5,7 @@ import DefaultStyles from "src/config/Styles";
 import Apptext from 'src/components/Apptext';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const HomeBox = ({ leftTitle, rightTitle, leftImgName,
+const HomeBox = ({ leftTitle,subTitle, rightTitle, leftImgName,
     yellowBoxTxt,
     rightImgName, 
     heartImg,
@@ -29,7 +29,7 @@ const HomeBox = ({ leftTitle, rightTitle, leftImgName,
                         <Image style={{ marginTop: wp('2%') }} source={heartImg} />
                     </TouchableOpacity>
                 </View>
-                <Apptext style={styles.SightingText1}>{leftTitle}</Apptext>
+                <Apptext style={styles.SightingText1}>{subTitle}</Apptext>
 
             </TouchableOpacity>
 

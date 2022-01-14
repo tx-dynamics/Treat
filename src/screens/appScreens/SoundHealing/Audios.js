@@ -10,19 +10,40 @@ import TreatHeader from 'src/components/TreatHeader';
 import Card from 'src/components/Card';
 import AudioCard from 'src/components/AudioCard';
 import TrackPlayer from 'react-native-track-player';
+import { saveData, saveFvrtsData } from "src/firebase/utility";
+import { useSelector } from 'react-redux';
 
 
 const Audios = ({ navigation, route }) => {
 
 
     const { audiodata } = route.params;
+    const userInfo = useSelector((state) => state.auth.userdata)
+
+
     const [isHeart, setHeart] = useState(false);
     const updateHeart = () => {
         setHeart(!isHeart)
     }
-
     const [isPlaying, setPlaying] = useState(false);
 
+    const heartMethod = async() => {
+
+        let hrt = isHeart ? false : true ;
+        
+        let Details = {
+            title: audiodata.title,
+            description: audiodata.description,
+            sub_title: audiodata.sub_title,
+            url : audiodata.url,
+            thumbnail: audiodata.thumbnail,
+            userId : userInfo.uid,
+            isLike : hrt
+        };
+      
+        await saveFvrtsData('FavoriteListing', userInfo.uid, Details);
+       }
+    
     const start = async () => {
         // Set up the player
         await TrackPlayer.setupPlayer();
@@ -67,7 +88,10 @@ const Audios = ({ navigation, route }) => {
                 <View style={{ marginTop: wp('10%') }}>
                     <Card
                         videoName={audiodata.title ? audiodata.title : null}
-                        onPress={updateHeart}
+                        onPress={() => {
+                            updateHeart()
+                            heartMethod()
+                        }}
                         boxImg={isHeart ? require('../../../../assets/redHeart.png') : require('../../../../assets/heartBox.png')}
                         // subTxt={"12 Questions"}
                         description={audiodata.description ? audiodata.description : null}

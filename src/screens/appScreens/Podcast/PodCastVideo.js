@@ -16,7 +16,7 @@ import {getListing} from "src/firebase/utility";
 const PodCastVideo = ({ navigation, route }) => {
     
     const {catName} = route.params;
-
+    console.log(catName)
 
     const [islistingData, setListingData] = useState([]);
     const [isGuestName, setGuestName] = useState('');
@@ -94,11 +94,14 @@ const PodCastVideo = ({ navigation, route }) => {
 
             />
         <ScrollView>
-            <Apptext style={styles.monthTxt}>Series 1 Guest : {isGuestName ? isGuestName : null}</Apptext>
+            {isGuestName ?  
+            <Apptext style={styles.monthTxt}>Series 1 Guest : {isGuestName}</Apptext>
+            : null
+            }
             <View style={{marginTop:wp('8%')}}>
             <FlatList   
                 data={islistingData}
-                keyExtractor={(item) => item.title}
+                keyExtractor={(item, index) => index}
                 renderItem={({ item }) => (
                     <HomeWideCard
                     backImg={{uri : item.thumbnail}}

@@ -10,13 +10,11 @@ import TreatHeader from 'src/components/TreatHeader';
 import { Divider } from 'react-native-elements';
 import Card from 'src/components/Card';
 import VideoCard from 'src/components/VideoCard';
+import { saveData, saveFvrtsData, getListing } from "src/firebase/utility";
+import { useSelector } from 'react-redux';
 
-const TreatVideo = ({ navigation }) => {
-    const [isHeart, setHeart] = useState(false);
 
-    const updateHeart = () => {
-        setHeart(!isHeart)
-    }
+const TreatVideo = ({ navigation, route }) => {
     const DATA = [
         {
             id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -58,6 +56,42 @@ const TreatVideo = ({ navigation }) => {
 
     ];
 
+    const {videodata} = route.params;
+    const userInfo = useSelector((state) => state.auth.userdata)
+
+
+    const [isHeart, setHeart] = useState(false);
+    const [isPlaying, setPlaying] = useState(false);
+    const [paused, setPaused] = useState(true);
+    const [islistingData, setListingData] = useState([]);
+    const [isValue, setValue] = useState([]);
+
+
+    const listingData = async () => {
+        let res = await getListing("FavoriteListing", userInfo.uid)
+        setListingData(res.media)
+    }
+ 
+    // useEffect(() => {
+    //     listingData();
+    // },[]);
+
+   const heartMethod = async() => {
+    let hrt = isHeart ? false : true ;
+
+    let Details = {
+        title: videodata.title,
+        description: videodata.description,
+        sub_title: videodata.sub_title,
+        url : videodata.url,
+        thumbnail: videodata.thumbnail,
+        userId : userInfo.uid,
+        isLike : hrt
+    };
+  
+    await saveFvrtsData('FavoriteListing', userInfo.uid,Details);
+   }
+
     return (
         <View style={styles.container}>
             <TreatHeader
@@ -66,16 +100,29 @@ const TreatVideo = ({ navigation }) => {
             onPressRight={() => navigation.navigate("Settings")}
             />
         <ScrollView>
-            <Apptext style={styles.monthTxt}>Video 1</Apptext>
+            <Apptext style={styles.monthTxt}>{videodata.title ? videodata.title : null}</Apptext>
             <View style={{marginTop:wp('4%')}}>
-               <VideoCard />
+               <VideoCard
+               backImg={{uri : videodata.thumbnail}}
+               videoUrl={videodata.url ? videodata.url : 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'}
+               videoCntrl={isPlaying ? require('../../../../assets/pause1.png') : require('../../../../assets/videoIcon.png')}
+               isPaused={paused}
+               onPress={() => {
+                setPlaying(!isPlaying)
+                isPlaying ? setPaused(true) : setPaused(false)
+                
+            }}
+               />
             </View>
             <View style={{marginTop:wp('10%')}}>
                 <Card
-                videoName={"Video 1"}
-                onPress={updateHeart}
+                videoName={videodata.title ? videodata.title : null}
                 boxImg={isHeart ? require('../../../../assets/redHeart.png') : require('../../../../assets/heartBox.png')  }
-                subTxt={"12 Questions"}
+                onPress={() => {
+                    setHeart(!isHeart)
+                    heartMethod(isHeart)
+                }}
+                subTxt={videodata.sub_title ? videodata.sub_title : null }
                 />
             </View>
         </ScrollView>

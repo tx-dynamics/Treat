@@ -5,24 +5,38 @@ import DefaultStyles from "src/config/Styles";
 import Apptext from 'src/components/Apptext';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Video from 'react-native-video';
+import { ActivityIndicator } from 'react-native-paper';
 
-const VideoCard = ({ count, leftTitle, myStl, onPress, ...rest }) => {
-
+const VideoCard = ({ videoUrl,backImg, videoCntrl,isPaused = true,
+    count, leftTitle, myStl, onPress, ...rest }) => {
+console.log("isPaused", isPaused)
     return (
         <View>
-          
                 <View>
-                <Video source={{uri : 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'}}   // Can be a URL or a local file.
+                <ImageBackground
+                    source={backImg}
+                    imageStyle={{ borderRadius: 12 }}
+                    style={{
+                        width: wp('88%'),
+                        alignSelf: 'center', height: wp('57%')
+                    }}>
+                <Video source={{uri : videoUrl}}
                     repeat={true}
-                    muted={true}               // Callback when video cannot be loaded
-                    posterResizeMode="stretch"
-                    resizeMode="stretch"
+                    paused={isPaused}
+                    muted={false}     
+                    posterResizeMode="cover"
+                    resizeMode="cover"
                     hideShutterView={true}
                     style={{ width: wp('88%'),borderRadius:12,alignSelf:'center', height: wp('57%') }} />
                     
-                    <View style={{ position: "absolute", justifyContent: "center", alignSelf: "center", alignItems: 'center', bottom: 70 }}>
-                        <Image source={require('../../assets/videoIcon.png')} resizeMode={"contain"} style={{ height: 42 , width: 42, }} />
-                    </View>
+                    <TouchableOpacity 
+                    onPress={onPress}
+                    style={{ position: "absolute", justifyContent: "center",
+                     alignSelf: "center", alignItems: 'center', bottom: 70 }}>
+                        <Image source={videoCntrl} 
+                        resizeMode={"contain"} style={{ height: 42 , width: 42, }} />
+                    </TouchableOpacity>
+                    </ImageBackground>
                 </View>
         </View>
 

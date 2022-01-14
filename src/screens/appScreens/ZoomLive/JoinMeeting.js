@@ -9,12 +9,11 @@ import TreatHeader from 'src/components/TreatHeader';
 import SelectBox from 'src/components/SelectBox';
 import Apptext from 'src/components/Apptext';
 import { getAllOfCollection } from "src/firebase/utility";
-
+import moment from 'moment';
 
 const ZoomLive = ({ navigation, route }) => {
 
     const {joinmeeting} = route.params;
-
     const [isItem, setSelectedItem] = useState([]);
 
     const DATA = [
@@ -80,7 +79,7 @@ const ZoomLive = ({ navigation, route }) => {
                     <Apptext style={styles.hostTxt}>Host:</Apptext>
                     <Apptext style={styles.nameTxt}>{joinmeeting.host ? joinmeeting.host : null }</Apptext>
                     <Apptext style={styles.timeTxt}>Timings: </Apptext>
-                    <Apptext style={styles.meetTime}>{"2pm to 5pm"}  </Apptext>
+                    <Apptext style={styles.meetTime}> {moment(joinmeeting.time).format("DD MM YY")} </Apptext>
                 </View>
                 <View style={{ marginHorizontal: wp('6%'), marginTop: 22 }}>
                     <Apptext style={styles.desctxt}>Description</Apptext>
@@ -88,7 +87,7 @@ const ZoomLive = ({ navigation, route }) => {
                 </View>
                 <View style={{ marginTop: wp('15%'), marginBottom: wp('5%') }}>
                     <TouchableOpacity
-                        onPress={() => Linking.openURL(joinmeeting.link) }
+                        onPress={() => Linking.openURL(joinmeeting.link)} 
                         style={styles.buttonContainer}>
                         <Apptext style={styles.buttonText}>{"Join"}</Apptext>
                     </TouchableOpacity>

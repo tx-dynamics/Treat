@@ -13,20 +13,33 @@ import HomeHeader from 'src/components/HomeHeader';
 import HomeWideCard from 'src/components/HomeWideCard';
 import CalendarStrip from 'react-native-calendar-strip';
 import moment from 'moment';
-import { getAllOfCollection, getData } from "src/firebase/utility";
+import { getAllOfCollection, getData, getListing } from "src/firebase/utility";
 import { useSelector } from 'react-redux';
 
 const Home = ({ navigation }) => {
 
+    const userInfo = useSelector((state) => state.auth.userdata)
+
+
     const [coverImg, setCoverImg] = useState('');
+    const [islistingData, setListingData] = useState([]);
+    const [userId, setUserId] = useState('');
 
     const chkData = async () => {
         let res = await getAllOfCollection("home")
         setCoverImg(res)
-        console.log(res)
     }
+
+    const listingData = async () => {
+        
+            let res = await getListing("FavoriteListing", userInfo.uid)
+            let result  = res.media.filter((item) => item.isLike === true && item.userId === userInfo.uid);
+            setListingData(result)
+    }
+
     useEffect(() => {
         chkData();
+        listingData();
     }, [])
 
     const DATA = [
@@ -199,20 +212,28 @@ const Home = ({ navigation }) => {
                     </TouchableOpacity>
                 </View>
                 <FlatList
-                    data={DATA}
+                    data={islistingData}
                     numColumns={2}
                     style={{
-                        marginBottom: wp('3%'),
+                        marginBottom: wp('4%'),
                         // backgroundColor:"red"
                     }}
+                    ListEmptyComponent={() => {
+                        return (
+                          <Apptext style={{ alignSelf: "center", marginTop: 50 }}>
+                            No Item Found
+                          </Apptext>
+                        );
+                      }}
                     horizontal={false}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => (
+                    keyExtractor={(item, index) => index }
+                    renderItem={({ item, index }) => (
                         <HomeBox
-                            yellowBoxTxt={"15 MIN"}
-                            leftTitle={item.label}
-                            leftImgName={item.Img}
-                            heartImg={isHeart ? require('../../../../assets/heart.png') : require('../../../../assets/smallRedHeart.png')}
+                            yellowBoxTxt={index + 1 +" MIN"}
+                            leftTitle={item.title}
+                            subTitle={item.sub_title}
+                            leftImgName={{uri : item.thumbnail}}
+                            heartImg={item.isLike ? require('../../../../assets/smallRedHeart.png') : require('../../../../assets/redHeart.png')}
                             onPress={updateHeart}
                         />
 
