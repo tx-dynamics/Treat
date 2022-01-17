@@ -10,14 +10,15 @@ import TreatHeader from 'src/components/TreatHeader';
 import { Divider } from 'react-native-elements';
 import SelectBox from 'src/components/SelectBox';
 import HomeWideCard from 'src/components/HomeWideCard';
-import { getAllOfCollection} from "src/firebase/utility";
+import { getAllOptions, getAllOfCollection} from "src/firebase/utility";
 
 
 
 const Framework = ({ navigation,route }) => {
 
     const [isItem, setSelectedItem] = useState([]);
-
+    const [isOptions, setOptions] = useState([]);
+    const [coverImg, setCoverImg] = useState('');
 
     const DATA = [
         {
@@ -55,17 +56,22 @@ const Framework = ({ navigation,route }) => {
 
     ];
 
-    const [coverImg, setCoverImg] = useState('');
 
     const chkData = async () => {
         let res = await getAllOfCollection("framework")
         setCoverImg(res)
     }
+    const chkOptions = async () => {
+        let res = await getAllOptions("frameworkCategories")
+        setOptions(res)
+    }
 
 
     useEffect(() => {
         chkData();
+        chkOptions();
     }, []);
+
     const addCategories = async (item) => {
         var selectedIdss = [...isItem]
         if (selectedIdss.includes(item.id)) {
@@ -100,17 +106,17 @@ const Framework = ({ navigation,route }) => {
 
             <View style={{marginTop:wp('6%'), marginBottom:wp('5%')}}>
             <FlatList   
-                data={DATA}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
+                data={isOptions}
+                keyExtractor={(item, index) => index}
+                renderItem={({ item,index }) => (
                     <SelectBox
                     onPress={() => {
                         // addCategories(item)
-                        navigation.navigate("Library", {catName: item.catName})
+                        navigation.navigate("Library", {catName: item,dbName:"frameworkCategories"})
                     }}
                     myStl={isItem.includes(item.id) ? true : false }
-                    leftTitle={item.label}
-                    count={item.count}
+                    leftTitle={item}
+                    count={index + 1}
                 />
                    
                 )}

@@ -8,6 +8,9 @@ import DefaultStyles from "src/config/Styles";
 import Apptext from 'src/components/Apptext';
 import Header from 'src/components/Header';
 import FvrtComp from 'src/components/FvrtComp';
+import { getAllOfCollection, getFvrtsListing, getListing } from "src/firebase/utility";
+import { useSelector } from 'react-redux';
+
 
 const Fvrts = ({ navigation }) => {
 
@@ -51,11 +54,28 @@ const Fvrts = ({ navigation }) => {
 
 
     ];
+
+
+    const userInfo = useSelector((state) => state.auth.userdata)
+
+    const [islistingData, setListingData] = useState([]);
     const [isLike, setLike] = useState(true);
 
     const chkFvrt = () => {
         setLike(!isLike)
     };
+
+    const listingData = async () => {
+
+        let res = await getFvrtsListing("FavoriteListing", userInfo.uid)
+        let result = res.media.filter((item) => item.isLike === true && item.userId === userInfo.uid);
+        console.log(res)
+        setListingData(result)
+    }
+
+    useEffect(() => {
+        listingData();
+    }, [])
 
     return (
         <View style={styles.container}>
@@ -63,22 +83,29 @@ const Fvrts = ({ navigation }) => {
                 label={"Favorites"}
                 onPressLeft={() => navigation.goBack()}
             />
-<ScrollView>
-            <View style={{ marginTop: wp('8%') }} >
-                <FlatList
-                    data={DATA}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => (
-                        <FvrtComp
-                            leftImgName={item.Img}
-                            labelValue={item.msg}
-                            rightonPress={chkFvrt}
-                            rightImgName={isLike ? require('../../../../assets/redHeart.png') : require('../../../../assets/heart.png')}
-                        />
+            <ScrollView>
+                <View style={{ marginTop: wp('8%') }} >
+                    <FlatList
+                        data={islistingData }
+                        keyExtractor={(item, index) => index}
+                        ListEmptyComponent={() => {
+                            return (
+                              <Apptext style={{ alignSelf: "center", marginTop: 50 }}>
+                                No Item Found
+                              </Apptext>
+                            );
+                          }}
+                        renderItem={({ item }) => (
+                            <FvrtComp
+                                leftImgName={{uri : item.thumbnail }}
+                                labelValue={item.title}
+                                rightonPress={chkFvrt}
+                                rightImgName={item.isLike ? require('../../../../assets/redHeart.png') : require('../../../../assets/heart.png')}
+                            />
 
-                    )}
-                />
-            </View>
+                        )}
+                    />
+                </View>
             </ScrollView>
         </View>
     )

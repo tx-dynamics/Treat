@@ -74,13 +74,13 @@ const Library = ({ navigation,route }) => {
 
     ];
 
-    const {catName} = route.params;
-
+    const {catName, dbName} = route.params;
+    
     const [islistingData, setListingData] = useState([]);
     const [ispageHeading, setPageHeading] = useState('');
 
     const listingData = async () => {
-        let res = await getListing("categories", catName)
+        let res = await getListing(dbName , catName)
         setListingData(res.media)
         setPageHeading(res.pageHeading)
         

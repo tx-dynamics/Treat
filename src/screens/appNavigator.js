@@ -34,6 +34,9 @@ import PickDate from "src/screens/appScreens/Work/PickDate";
 import ChangePass from 'src/screens/authScreens/ChangePass';
 import VerifyCode from "src/screens/authScreens/VerifyEmail";
 import ConfirmProfile from 'src/screens/authScreens/ConfirmProfile';
+import AskPaymentOption from "src/screens/authScreens/Payment/AskPaymentOption";
+import CardPayment from "src/screens/authScreens/Payment/CardPayment";
+import PaymentDone from "src/screens/authScreens/Payment/PaymentDone";
 // import Login from 'src/screens/authScreens/Login';
 
 const Tab = createBottomTabNavigator();
@@ -172,7 +175,9 @@ const withoutBottomTabnavigator = () => {
             <StackNavigator.Screen name="ChangePass" component={ChangePass} />
             <StackNavigator.Screen name="VerifyCode" component={VerifyCode} />
             <StackNavigator.Screen name="ConfirmProfile" component={ConfirmProfile} />
-            {/* <StackNavigator.Screen name="Login" component={Login} /> */}
+            <StackNavigator.Screen name="AskPaymentOption" component={AskPaymentOption } />
+            <StackNavigator.Screen name="CardPayment" component={CardPayment } />
+            <StackNavigator.Screen name="PaymentDone" component={PaymentDone } />
 
         </StackNavigator.Navigator>
 

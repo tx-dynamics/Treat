@@ -79,7 +79,7 @@ const ZoomLive = ({ navigation, route }) => {
                     <Apptext style={styles.hostTxt}>Host:</Apptext>
                     <Apptext style={styles.nameTxt}>{joinmeeting.host ? joinmeeting.host : null }</Apptext>
                     <Apptext style={styles.timeTxt}>Timings: </Apptext>
-                    <Apptext style={styles.meetTime}> {moment(joinmeeting.time).format("DD MM YY")} </Apptext>
+                    <Apptext style={styles.meetTime}> {moment(joinmeeting.time).format("HH:mm") } </Apptext>
                 </View>
                 <View style={{ marginHorizontal: wp('6%'), marginTop: 22 }}>
                     <Apptext style={styles.desctxt}>Description</Apptext>

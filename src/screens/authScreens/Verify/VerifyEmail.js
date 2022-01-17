@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, ScrollView, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Image, ScrollView, TextInput,ToastAndroid,Alert, TouchableOpacity, StyleSheet } from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -11,16 +11,47 @@ import Header from 'src/components/Header';
 import CountryPicker from 'react-native-country-picker-modal'
 import { CountryCode, Country } from 'src/screens/authScreens/Verify/types';
 import { Divider } from 'react-native-elements';
-
+import { passwordReset } from 'src/firebase/utility';
 
 const VerifyEmail = ({ navigation }) => {
 
     const [isVisibe, setVisible] = useState(false) 
-    const [countryCode, setCountryCode] = useState('US')
+    const [countryCode, setCountryCode] = useState('US');    
+    const [chkMail, setChkMail] = useState(false);
+    const [badFormat, setBadFormat] = useState(false);
+    const [isEmail, setEmail] = useState('');
+
 
     const onSelect = (country) => {
         setCountryCode(country.cca2)
       }
+  
+      const saveValues = async () => {
+          let success = true;
+          if (isEmail === "" || null) {
+              setChkMail(true)
+          }
+          else{        
+
+          await passwordReset(isEmail)
+          .then(data => {
+              ToastAndroid.show("Email Sent With 4-Digits OTP", ToastAndroid.LONG);
+              navigation.navigate('VerifyCode')
+          })
+              .catch(function (error) {
+                  success = false;
+                  console.log(error.code + ':: ' + error.message);
+                  if (error.code === 'auth/invalid-email') {
+                      setBadFormat(true)
+                  }
+                  else {
+                      Alert.alert(error.message)
+                  }
+              });
+          return success;
+          }
+      }
+  
 
     return (
         <View style={styles.container}>
@@ -61,8 +92,11 @@ const VerifyEmail = ({ navigation }) => {
                 </TouchableOpacity>
             
                  <HumanFormInput
-                    labelValue={"example@gmail.com"}
-                    onChangeText={(txt) => console.log(txt)}
+                    labelValue={isEmail}
+                    onChangeText={(val) => {
+                        setEmail(val)
+                        setChkMail(false)
+                    }}
                     placeholderText="example@gmail.com"
                     myClr={DefaultStyles.colors.white}
                     myRadius={5}
@@ -71,9 +105,19 @@ const VerifyEmail = ({ navigation }) => {
                     autoCorrect={false}
                 />
             </View>
+            {chkMail ? <View style={{ marginHorizontal: wp('30%'), marginTop: wp('2%') }}>
+                    <Apptext style={{ fontSize: 10, color: "red" }}>
+                        Please Enter Valid Email</Apptext>
+                </View> : null}
+                {badFormat ? <View style={{ marginHorizontal: wp('30%'), marginTop: wp('1%') }}>
+                    <Apptext style={{ fontSize: 10, color: "red" }}>
+                        The email address is badly formatted</Apptext>
+                </View> : null}
             <View style={{ marginTop: wp('35%') }}>
                 <TouchableOpacity
-                    onPress={() => navigation.navigate("ChangePass")}
+                    onPress={() => {
+                        saveValues()
+                    }}
                     style={styles.buttonContainer}>
                     <Apptext style={styles.buttonText}>{"Confirm"}</Apptext>
                 </TouchableOpacity>

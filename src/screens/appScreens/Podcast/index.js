@@ -10,13 +10,11 @@ import TreatHeader from 'src/components/TreatHeader';
 import { Divider } from 'react-native-elements';
 import SelectBox from 'src/components/SelectBox';
 import HomeWideCard from 'src/components/HomeWideCard';
-import { getAllOfCollection} from "src/firebase/utility";
+import { getAllOfCollection, getAllOptions } from "src/firebase/utility";
 
 
 
 const Podcast = ({ navigation, route }) => {
-
-    const [isItem, setSelectedItem] = useState([]);
 
     const DATA = [
         {
@@ -54,7 +52,11 @@ const Podcast = ({ navigation, route }) => {
 
     ];
 
+    
+    const [isItem, setSelectedItem] = useState([]);
     const [coverImg, setCoverImg] = useState('');
+    const [isOptions, setOptions] = useState([]);
+
 
     const chkData = async () => {
         let res = await getAllOfCollection("podcast")
@@ -62,8 +64,14 @@ const Podcast = ({ navigation, route }) => {
         console.log(res)
     }
 
+    const chkOptions = async () => {
+        let res = await getAllOptions("podcastCategories")
+        setOptions(res)
+    }
+
     useEffect(() => {
         chkData();
+        chkOptions();
     }, []);
 
     const addCategories = async (item) => {
@@ -104,17 +112,17 @@ const Podcast = ({ navigation, route }) => {
                 </Apptext>
             <View style={{marginTop:wp('8%'), marginBottom:wp('5%')}}>
             <FlatList   
-                data={DATA}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
+                data={isOptions}
+                keyExtractor={(item, index) => index}
+                renderItem={({ item, index }) => (
                     <SelectBox
                     onPress={() => {
                         // addCategories(item)
-                        navigation.navigate("PodCastVideo", {catName : item.catName})
+                        navigation.navigate("PodCastVideo", {catName : item, dbName:"podcastCategories"})
                     }}
                     myStl={isItem.includes(item.id) ? true : false }
-                    leftTitle={item.label}
-                    count={item.count}
+                    leftTitle={item}
+                    count={index + 1}
                 />
                    
                 )}

@@ -67,25 +67,38 @@ const TreatVideo = ({ navigation, route }) => {
     const [isValue, setValue] = useState([]);
 
 
-    const listingData = async () => {
-        let res = await getListing("FavoriteListing", userInfo.uid)
-        setListingData(res.media)
-    }
+    // const listingData = async () => {
+     
+    // }
  
     // useEffect(() => {
     //     listingData();
     // },[]);
 
    const heartMethod = async() => {
+
+    // let res = await getListing("FavoriteListing", userInfo.uid)
+    // console.log(res.media)
+    // let result = res.media.map((item, index) => (item))
+    // console.log(result);
+    // result.map((item) => {
+    //     if(item.id === videodata.id){
+    //         // console.log(item)
+    //         item.isLike =! item.isLike
+    //         console.log(item)
+    //     }
+    // } )
+
     let hrt = isHeart ? false : true ;
 
     let Details = {
-        title: videodata.title,
-        description: videodata.description,
-        sub_title: videodata.sub_title,
-        url : videodata.url,
-        thumbnail: videodata.thumbnail,
-        userId : userInfo.uid,
+        id: videodata.id ? videodata.id : null,
+        title: videodata.title ? videodata.title : null,
+        description: videodata.description ? videodata.description : null,
+        sub_title: videodata.sub_title ? videodata.sub_title : null,
+        url : videodata.url ? videodata.url : null,
+        thumbnail: videodata.thumbnail ? videodata.thumbnail : null,
+        userId : userInfo.uid ? userInfo.uid : null,
         isLike : hrt
     };
   

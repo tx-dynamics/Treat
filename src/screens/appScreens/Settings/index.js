@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, FlatList, Image, ScrollView } from 'react-native';
+import { View, StyleSheet, TouchableOpacity,Alert,FlatList, Image, ScrollView } from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -11,11 +11,25 @@ import SelectBox from 'src/components/SelectBox';
 import HomeWideCard from 'src/components/HomeWideCard';
 import { setUser} from 'src/redux/actions/authAction';
 import { useDispatch } from "react-redux";
+import auth from '@react-native-firebase/auth';
+
 
 const Settings = ({ navigation }) => {
     
     let dispatch = useDispatch();
+    
     const [isItem, setSelectedItem] = useState([]);
+
+    const logOut = () => {
+        auth().signOut()
+        .then(() => {
+          dispatch(setUser(false))
+          navigation.replace("Login")
+        },
+        (error) => {
+          Alert.alert(error.message);
+        });
+    }
 
     return (
         <View style={styles.container}>
@@ -138,7 +152,10 @@ const Settings = ({ navigation }) => {
                 </TouchableOpacity>
                 {/* ******************************* */}
                 <TouchableOpacity
-                onPress={() => navigation.navigate('withoutBottomTabnavigator', {screen:'Login'})}
+                onPress={() => {
+                    logOut();
+                    navigation.navigate('withoutBottomTabnavigator', {screen:'Login'})
+                }}
                     style={styles.SightingContainer}>
 
                     <View style={styles.DirectionView}>

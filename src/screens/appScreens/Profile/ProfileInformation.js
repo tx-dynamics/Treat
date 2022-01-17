@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, FlatList, Image, ScrollView, TextInput, Alert } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, FlatList,ToastAndroid, Image, ScrollView, TextInput, Alert } from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -9,14 +9,64 @@ import Apptext from 'src/components/Apptext';
 import Header from 'src/components/Header';
 import ToggleSwitch from 'toggle-switch-react-native'
 import { Collapse, CollapseHeader, CollapseBody, AccordionList } from 'accordion-collapse-react-native';
+import { useSelector } from 'react-redux';
+import { saveData, getListing } from 'src/firebase/utility';
 
 
 const ProfileInformation = ({ navigation }) => {
+
+    const userInfo = useSelector((state) => state.auth.userdata)
+    console.log(userInfo);
+
     const [isToggle, setToggle] = useState(true)
     const [isUp, setUp] = useState(false);
     const [isUp1, setUp1] = useState(false);
     const [isUp2, setUp2] = useState(false);
+    const [islistingData, setListingData] = useState([]); 
+    const [isName, setName] = useState('');
+    const [isEmail, setEmail] = useState('');
+    const [idNumber, setIdNumber] = useState('');
 
+
+    const listingData = async () => {
+        let res = await getListing("users", userInfo.uid)
+        setName(res.displayName ? res.displayName : null)
+        setEmail(res.email ? res.email : null)
+        setIdNumber(res.identificationNumber ? res.identificationNumber : null)
+       
+}
+
+    const saveValues = async () => {
+                let success = true;
+
+                const Details = ({
+                    email: isEmail,
+                    displayName: isName,
+                    identificationNumber: idNumber
+                })
+              
+                // console.log(
+                //     email,
+                //     fullName,
+                //     identificationNumber,
+                // )
+                await saveData('users', userInfo.uid, Details);
+                // await saveInitialData('chats', user.user.uid);
+                // var user= auth().currentUser;
+                // user.sendEmailVerification().then(function(){
+                //   Alert.alert("Verification Email is sent.! please verify your email before sign in");
+                // }).catch(function(error){
+
+                // });
+                ToastAndroid.show("Record Saved",ToastAndroid.LONG);
+                navigation.navigate("Settings")
+           
+        return success;
+    }
+
+    useEffect(() => {
+        listingData();
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -75,12 +125,16 @@ const ProfileInformation = ({ navigation }) => {
                             <CollapseBody style={styles.CollapsedView}>
                                 <View style={styles.inputView}>
                                     <TextInput
+                                        value={isName}
                                         placeholder='User Name'
+                                        onChangeText={(val) => setName(val)}
                                         style={styles.input}
                                     />
                                     <Apptext style={styles.editTxt}>Edit</Apptext>
                                 </View>
-                                <TouchableOpacity style={styles.bodyBtn}>
+                                <TouchableOpacity
+                                onPress={() => saveValues()}
+                                style={styles.bodyBtn}>
                                     <Apptext style={styles.btnTxt}>Save</Apptext>
                                 </TouchableOpacity>
                             </CollapseBody>
@@ -112,12 +166,16 @@ const ProfileInformation = ({ navigation }) => {
                             <CollapseBody style={styles.CollapsedView}>
                                 <View style={styles.inputView}>
                                     <TextInput
+                                        value={isEmail}
                                         placeholder='Email'
+                                        onChangeText={(val) => setEmail(val)}
                                         style={styles.input}
                                     />
                                     <Apptext style={styles.editTxt}>Edit</Apptext>
                                 </View>
-                                <TouchableOpacity style={styles.bodyBtn}>
+                                <TouchableOpacity
+                                 onPress={() => saveValues()}
+                                 style={styles.bodyBtn}>
                                     <Apptext style={styles.btnTxt}>Save</Apptext>
                                 </TouchableOpacity>
                             </CollapseBody>
@@ -148,13 +206,17 @@ const ProfileInformation = ({ navigation }) => {
                             <CollapseBody style={styles.CollapsedView}>
                                 <View style={styles.inputView}>
                                     <TextInput
+                                        value={idNumber}
                                         placeholder='Identification Number'
                                         keyboardType='number-pad'
+                                        onChangeText={(val) => setIdNumber(val)}
                                         style={styles.input}
                                     />
                                     <Apptext style={styles.editTxt}>Edit</Apptext>
                                 </View>
-                                <TouchableOpacity style={styles.bodyBtn}>
+                                <TouchableOpacity 
+                                 onPress={() => saveValues()}
+                                style={styles.bodyBtn}>
                                     <Apptext style={styles.btnTxt}>Save</Apptext>
                                 </TouchableOpacity>
                             </CollapseBody>

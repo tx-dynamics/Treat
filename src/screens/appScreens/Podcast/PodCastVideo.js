@@ -15,8 +15,8 @@ import {getListing} from "src/firebase/utility";
 
 const PodCastVideo = ({ navigation, route }) => {
     
-    const {catName} = route.params;
-    console.log(catName)
+    const {catName, dbName} = route.params;
+    console.log(catName, dbName)
 
     const [islistingData, setListingData] = useState([]);
     const [isGuestName, setGuestName] = useState('');
@@ -77,7 +77,7 @@ const PodCastVideo = ({ navigation, route }) => {
 
 
     const listingData = async () => {
-        let res = await getListing("categories", catName)
+        let res = await getListing(dbName, catName)
         setListingData(res.media)
         setGuestName(res.guest)
         
@@ -102,6 +102,13 @@ const PodCastVideo = ({ navigation, route }) => {
             <FlatList   
                 data={islistingData}
                 keyExtractor={(item, index) => index}
+                ListEmptyComponent={() => {
+                    return (
+                      <Apptext style={{ alignSelf: "center", marginTop: 50 }}>
+                        No Item Found
+                      </Apptext>
+                    );
+                  }}
                 renderItem={({ item }) => (
                     <HomeWideCard
                     backImg={{uri : item.thumbnail}}

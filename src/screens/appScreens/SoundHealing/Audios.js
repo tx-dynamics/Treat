@@ -12,13 +12,20 @@ import AudioCard from 'src/components/AudioCard';
 import TrackPlayer from 'react-native-track-player';
 import { saveData, saveFvrtsData } from "src/firebase/utility";
 import { useSelector } from 'react-redux';
+import { useDispatch } from "react-redux";
+import { setAudioBtn, setAudioID } from 'src/redux/actions/authAction';
 
 
 const Audios = ({ navigation, route }) => {
 
-
     const { audiodata } = route.params;
+    let dispatch = useDispatch();
+
     const userInfo = useSelector((state) => state.auth.userdata)
+    const audioCntrl = useSelector((state) => state.auth.audioBtn)
+    const audioId = useSelector((state) => state.auth.audioID)
+    console.log("backID",audiodata.id)
+    console.log("RedxID", audioId)
 
 
     const [isHeart, setHeart] = useState(false);
@@ -32,12 +39,12 @@ const Audios = ({ navigation, route }) => {
         let hrt = isHeart ? false : true ;
         
         let Details = {
-            title: audiodata.title,
-            description: audiodata.description,
-            sub_title: audiodata.sub_title,
-            url : audiodata.url,
-            thumbnail: audiodata.thumbnail,
-            userId : userInfo.uid,
+            title: audiodata.title ? audiodata.title : null,
+            description: audiodata.description ? audiodata.description : null,
+            sub_title: audiodata.sub_title ? audiodata.sub_title : null,
+            url : audiodata.url ? audiodata.url : null,
+            thumbnail: audiodata.thumbnail ? audiodata.thumbnail : null,
+            userId : userInfo.uid ? userInfo.uid : null ,
             isLike : hrt
         };
       
@@ -50,12 +57,12 @@ const Audios = ({ navigation, route }) => {
 
         // Add a track to the queue
         await TrackPlayer.add({
-            id: 'trackId',
+            id: audiodata.id ? audiodata.id : null,
             // url: 'https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_1MG.mp3',
             url: audiodata.url ? audiodata.url : null,
             title: audiodata.title ? audiodata.title : "Music Track",
             artist: audiodata.sub_title ? audiodata.sub_title : "Playlist Song" ,
-            artwork: isPlaying ? require('../../../../assets/pause1.png') : require('../../../../assets/videoIcon.png')
+            artwork: audioCntrl ? require('../../../../assets/pause1.png') : require('../../../../assets/videoIcon.png')
         });
 
         // Start playing it
@@ -65,6 +72,21 @@ const Audios = ({ navigation, route }) => {
         TrackPlayer.stop();
     };
 
+    const chkPlayer = () => {
+        dispatch(setAudioBtn(!audioCntrl))
+        audioCntrl ? stop() : start()
+        dispatch(setAudioID(audiodata.id))
+    }
+
+    useEffect(() => {
+        if (audiodata.id === audioId) {
+            dispatch(setAudioBtn(true))
+        }
+        else{
+            dispatch(setAudioBtn(false))
+            console.log("Not Same")
+        }
+    },[])
     return (
         <View style={styles.container}>
             <TreatHeader
@@ -77,10 +99,11 @@ const Audios = ({ navigation, route }) => {
                     <AudioCard
                         // backImg={require('../../../../assets/TreatCover.png')}
                         backImg={{ uri: audiodata.thumbnail }}
-                        audioCntrl={isPlaying ? require('../../../../assets/pause1.png') : require('../../../../assets/videoIcon.png')}
+                        audioCntrl={audioCntrl ? require('../../../../assets/pause1.png') : require('../../../../assets/videoIcon.png')}
                         onPress={() => {
-                            setPlaying(!isPlaying)
-                            isPlaying ? stop() : start()
+                            chkPlayer()
+                            // setPlaying(!isPlaying)
+                            // isPlaying ? stop() : start()
                             
                         }}
                     />

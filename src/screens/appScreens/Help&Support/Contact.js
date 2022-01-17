@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, FlatList, Image, ScrollView, TextInput, Alert } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, ToastAndroid, Image, ScrollView, TextInput, Alert } from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -7,13 +7,58 @@ import {
 import DefaultStyles from "src/config/Styles";
 import Apptext from 'src/components/Apptext';
 import Header from 'src/components/Header';
-import ToggleSwitch from 'toggle-switch-react-native'
-import { Collapse, CollapseHeader, CollapseBody, AccordionList } from 'accordion-collapse-react-native';
+import { useSelector } from 'react-redux';
+import { saveData } from 'src/firebase/utility';
 
 
 
 const Contact = ({ navigation }) => {
 
+    const userInfo = useSelector((state) => state.auth.userdata)
+
+    const [isName, setName] = useState('');
+    const [isLastName, setLastName] = useState('');
+    const [isEmail, setEmail] = useState('');
+    const [isMsg, setMsg] = useState('');
+    const [addDtls, setAddDtls] = useState('');
+    const [chkMail, setChkMail] = useState(false);
+    const [badFormat, setBadFormat] = useState(false);
+
+
+    const saveValues = async () => {
+        let success = true;
+        if (isEmail === "" || null) {
+            setChkMail(true)
+        }
+        else{
+
+        
+        const Details = ({
+            firstName: isName,
+            lastName: isLastName,
+            email: isEmail,
+            Message: isMsg,
+            AdditionalDetails: addDtls
+        })
+
+        await saveData('QNA', userInfo.uid, Details)
+        .then(data => {
+            ToastAndroid.show("Message Sent", ToastAndroid.LONG);
+            navigation.navigate('Support')
+        })
+            .catch(function (error) {
+                success = false;
+                console.log(error.code + ':: ' + error.message);
+                if (error.code === 'auth/invalid-email') {
+                    setBadFormat(true)
+                }
+                else {
+                    Alert.alert(error.message)
+                }
+            });
+        return success;
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -22,26 +67,32 @@ const Contact = ({ navigation }) => {
                 onPressLeft={() => navigation.goBack()}
             />
             <ScrollView>
-                <View style={{flexDirection:'row',justifyContent:'space-between',
-                 marginHorizontal:wp('8%') }}>
-                <View style={[styles.inputContainer, {width:wp('35%')}]} >
+                <View style={{
+                    flexDirection: 'row', justifyContent: 'space-between',
+                    marginHorizontal: wp('8%')
+                }}>
+                    <View style={[styles.inputContainer, { width: wp('35%') }]} >
                         <TextInput
-                            style={[styles.HumanInput, {width: wp('32%')}]}
+                            style={[styles.HumanInput, { width: wp('32%') }]}
                             numberOfLines={1}
+                            value={isName}
+                            onChangeText={(val) => setName(val)}
                             placeholder={"First Name"}
                             placeholderTextColor={'#929292'}
 
                         />
-                </View>
-                <View style={[styles.inputContainer, {width:wp('35%')}]} >
+                    </View>
+                    <View style={[styles.inputContainer, { width: wp('35%') }]} >
                         <TextInput
-                            style={[styles.HumanInput,{width: wp('32%')}]}
+                            style={[styles.HumanInput, { width: wp('32%') }]}
                             numberOfLines={1}
+                            value={isLastName}
+                            onChangeText={(val) => setLastName(val)}
                             placeholder={"Last Name"}
                             placeholderTextColor={'#929292'}
 
                         />
-                </View>
+                    </View>
                 </View>
                 <View style={[styles.inputContainer]} >
 
@@ -49,18 +100,33 @@ const Contact = ({ navigation }) => {
                         <TextInput
                             style={styles.HumanInput}
                             numberOfLines={1}
+                            value={isEmail}
+                            onChangeText={(val) => {
+                                setEmail(val)
+                                setChkMail(false)
+                            }}
                             placeholder={"Email"}
                             placeholderTextColor={'#929292'}
 
                         />
                     </View>
                 </View>
+                {chkMail ? <View style={{ marginHorizontal: wp('9%'), marginTop: wp('1%') }}>
+                    <Apptext style={{ fontSize: 10, color: "red" }}>
+                        Please Enter Valid Email</Apptext>
+                </View> : null}
+                {badFormat ? <View style={{ marginHorizontal: wp('9%'), marginTop: wp('1%') }}>
+                    <Apptext style={{ fontSize: 10, color: "red" }}>
+                        The email address is badly formatted</Apptext>
+                </View> : null}
                 <View style={[styles.inputContainer, { height: wp('35%') }]} >
 
                     <View>
                         <TextInput
                             style={styles.HumanInput}
                             numberOfLines={1}
+                            value={isMsg}
+                            onChangeText={(val) => setMsg(val)}
                             placeholder={"Message"}
                             placeholderTextColor={'#929292'}
 
@@ -73,6 +139,8 @@ const Contact = ({ navigation }) => {
                         <TextInput
                             style={styles.HumanInput}
                             numberOfLines={1}
+                            value={addDtls}
+                            onChangeText={(val) => setAddDtls(val)}
                             placeholder={"Additional Details"}
                             placeholderTextColor={'#929292'}
 
@@ -80,9 +148,12 @@ const Contact = ({ navigation }) => {
                     </View>
                 </View>
                 <TouchableOpacity
-                onPress={() => navigation.navigate('Support')}
-                style={styles.btnView}>
-                <Apptext style={styles.btnTxt}>Send Message</Apptext>
+                    onPress={() => {
+                        saveValues();
+
+                    }}
+                    style={styles.btnView}>
+                    <Apptext style={styles.btnTxt}>Send Message</Apptext>
                 </TouchableOpacity>
             </ScrollView>
         </View>
@@ -99,7 +170,7 @@ const styles = StyleSheet.create({
     HumanInput: {
         width: wp('70%'),
         paddingLeft: wp('4%'),
-        paddingTop:wp('2%'),
+        paddingTop: wp('2%'),
     },
     inputContainer: {
         width: wp('85%'),

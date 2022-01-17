@@ -40,7 +40,7 @@ const ZoomLive = ({ navigation, route }) => {
     const chkData = async () => {
         let res = await getAllOfCollection("meeting")
         setMeetingLink([res])
-        console.log("res", res)
+        console.log("res", res.time)
     }
 
     useEffect(() => {
@@ -89,7 +89,7 @@ const ZoomLive = ({ navigation, route }) => {
             />
             
             <TouchableOpacity
-            onPress={() => navigation.navigate("PodCastVideo",{catName:"archieved"})}
+            onPress={() => navigation.navigate("PodCastVideo",{catName:"archieved",dbName:"categories" })}
              style={styles.SightingContainer}
               >
             <View style={styles.DirectionView}>

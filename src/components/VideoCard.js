@@ -7,7 +7,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Video from 'react-native-video';
 import { ActivityIndicator } from 'react-native-paper';
 
-const VideoCard = ({ videoUrl,backImg, videoCntrl,isPaused = true,
+const VideoCard = ({ videoUrl,backImg, videoCntrl,isPaused = false,
     count, leftTitle, myStl, onPress, ...rest }) => {
 console.log("isPaused", isPaused)
     return (
@@ -22,8 +22,9 @@ console.log("isPaused", isPaused)
                     }}>
                 <Video source={{uri : videoUrl}}
                     repeat={true}
+                    muted={false}   
                     paused={isPaused}
-                    muted={false}     
+                    
                     posterResizeMode="cover"
                     resizeMode="cover"
                     hideShutterView={true}

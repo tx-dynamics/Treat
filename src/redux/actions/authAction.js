@@ -9,3 +9,11 @@ export const setCover = (data) => async (dispatch) => {
 export const setUserData = (data) => async (dispatch) => {
     dispatch({type: "UserData" , payload : data})
 }
+
+export const setAudioBtn = (data) => async (dispatch) => {
+    dispatch({type: "AudioBtn" , payload : data})
+}
+
+export const setAudioID = (data) => async (dispatch) => {
+    dispatch({type: "AudioID" , payload : data})
+}
