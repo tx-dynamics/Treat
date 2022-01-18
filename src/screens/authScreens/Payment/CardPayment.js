@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import {
-    View, Text, StyleSheet, Image, Modal,
+    View, Text, StyleSheet, Image, Modal, Alert,
     StatusBar, SafeAreaView, ScrollView, Dimensions, Pressable, FlatList,
     TextInput, Share, Keyboard, ImageBackground, TouchableOpacity
 } from 'react-native'
@@ -18,9 +18,17 @@ import { Picker } from '@react-native-picker/picker';
 import { CountryCodes } from './CountryCodes';
 import Apptext from 'src/components/Apptext';
 import Video from 'react-native-video';
+import auth from '@react-native-firebase/auth';
+import { saveData } from 'src/firebase/utility';
+import { useSelector } from 'react-redux';
 
 
-const CardPayment = ({ props, navigation }) => {
+const CardPayment = ({ props, route, navigation }) => {
+
+    const userInfo = useSelector((state) => state.auth.userdata)
+    const { paymentType } = route.params;
+
+
     const [cardnum, setcardnum] = useState('5168 1234 4567 7890');
     const [nam, setnam] = useState('Thomas Anderson');
     const [isDay, setDay] = useState();
@@ -32,19 +40,81 @@ const CardPayment = ({ props, navigation }) => {
     const [isPayment, setPayment] = useState(false);
 
     const [isVisibe, setVisible] = useState(false);
-    const [countryCode, setCountryCode] = useState('672');
+    const [countryCode, setCountryCode] = useState('+672');
     const [contPicker, setContPicker] = useState(false);
-    console.log(countryCode)
+    const [phoneNumber, setPhoneNumber] = useState('');
+
+    const [nameChk, setNameChk] = useState(false);
+    const [mailChk, setMailChk] = useState(false);
+    const [passChk, setPassChk] = useState(false);
+    const [tickChk, setTckChk] = useState(false);
+    const [phnNumChk, setPhnChk] = useState(false);
+
     const [status, setStatus] = useState()
     const video = React.useRef(null);
 
     const checkValue = () => {
-        setPayment(true)
-        setTimeout(() => {
-            setPayment(false)
-        }, 2000);
-
+        // setPayment(true)
+        // setTimeout(() => {
+        //     setPayment(false)
+        // }, 2000);
     }
+
+    const checkValues = () => {
+        if (nam === "" && cardnum === "" && phoneNumber === "") {
+            setNameChk(true)
+            setMailChk(true)
+            setPhnChk(true)
+
+        }
+        else if (nam === "") {
+            setNameChk(true)
+        }
+        else if (cardnum === "") {
+            setMailChk(true)
+        }
+        else if (isDay === "") {
+            setPassChk(true)
+        }
+        else if (isYear === "") {
+            setTckChk(true)
+        }
+        else if (phoneNumber === "") {
+            setPhnChk(true)
+        }
+        else {
+            console.log("Payment Called")
+            paymentMethod()
+        }
+    }
+    const paymentMethod = async () => {
+
+        let success = true;
+        const Details = ({
+            PaymentMethod: paymentType,
+            AccountTitle: nam,
+            CardNumber: cardnum,
+            ExpMonth: isDay,
+            ExpYear: isYear,
+            phoneNumber:countryCode+phoneNumber
+        });
+        console.log(Details)
+        await saveData('PaymentInformation', userInfo.uid, Details)
+            .then(data => {
+                setPayment(true)
+                setTimeout(() => {
+                    setPayment(false)
+                    navigation.navigate("AskPaymentOption")
+                }, 2000);
+            })
+            .catch(function (error) {
+                success = false;
+                console.log(error.code + ':: ' + error.message);
+                Alert.alert(error.message);
+            });
+        return success;
+    }
+
     const renderItemView = (item) => {
         return (
             <View>
@@ -136,8 +206,16 @@ const CardPayment = ({ props, navigation }) => {
                                 borderRadius={15}
 
                                 value={nam}
-                                onChangeText={(EmailAdd) => setnam(EmailAdd)}
+                                onChangeText={(EmailAdd) => {
+                                    setnam(EmailAdd)
+                                    setNameChk(false)
+                                }}
                             />
+                            {nameChk ? <View style={{ marginHorizontal: wp('6%'), marginTop: wp('1%') }}>
+                                <Apptext style={{ fontSize: 10, color: "red" }}>
+                                    Please Enter Name</Apptext>
+                            </View> : null}
+
                             <ResponsiveText
                                 style={{
                                     fontFamily: 'Poppins', fontSize: 12,
@@ -160,11 +238,19 @@ const CardPayment = ({ props, navigation }) => {
                                 value={cardnum}
                                 backgroundColor='white'
                                 borderRadius={15}
-                                onChangeText={(EmailAdd) => setcardnum(EmailAdd
-                                    .replace(/\s?/g, '')
-                                    .replace(/(\d{4})/g, '$1 ')
-                                    .trim())}
+                                onChangeText={(EmailAdd) => {
+                                    setMailChk(false)
+                                    setcardnum(EmailAdd
+                                        .replace(/\s?/g, '')
+                                        .replace(/(\d{4})/g, '$1 ')
+                                        .trim())
+                                }
+                                }
                             />
+                            {mailChk ? <View style={{ marginHorizontal: wp('6%'), marginTop: wp('1%') }}>
+                                <Apptext style={{ fontSize: 10, color: "red" }}>
+                                    Please Enter 16 Digits Card Number</Apptext>
+                            </View> : null}
                             <View style={{ width: '38%' }}>
                                 <ResponsiveText
                                     style={{
@@ -174,13 +260,16 @@ const CardPayment = ({ props, navigation }) => {
                                     }} fontFamily={'Poppins-Medium'}
                                 >{"Expiration Date"}</ResponsiveText>
                             </View>
+
                             <View style={styles.ownDiv}>
                                 <TouchableOpacity style={{ width: wp('25%'), height: 48 }} >
                                     <Picker
                                         // ref={pickerRef}
                                         selectedValue={isDay}
-                                        onValueChange={(itemValue, itemIndex) =>
+                                        onValueChange={(itemValue, itemIndex) => {
                                             setDay(itemValue)
+                                            setPassChk(false)
+                                        }
                                         }>
                                         <Picker.Item label="1" value="1" />
                                         <Picker.Item label="2" value="2" />
@@ -196,14 +285,20 @@ const CardPayment = ({ props, navigation }) => {
                                         <Picker.Item label="12" value="12" />
                                     </Picker>
                                 </TouchableOpacity>
+                                {passChk ? <View style={{ marginHorizontal: wp('6%'), marginTop: wp('1%') }}>
+                                    <Apptext style={{ fontSize: 10, color: "red" }}>
+                                        Please Enter Expiration Day</Apptext>
+                                </View> : null}
                                 <TouchableOpacity style={{
                                     marginHorizontal: wp('5%'),
                                     width: wp('33%'), height: 48
                                 }} >
                                     <Picker
                                         selectedValue={isYear}
-                                        onValueChange={(itemValue, itemIndex) =>
+                                        onValueChange={(itemValue, itemIndex) => {
                                             setYear(itemValue)
+                                            setTckChk(false)
+                                        }
                                         }>
                                         <Picker.Item label="2021" value="21" />
                                         <Picker.Item label="2022" value="22" />
@@ -219,6 +314,10 @@ const CardPayment = ({ props, navigation }) => {
                                     </Picker>
                                 </TouchableOpacity>
                             </View>
+                            {tickChk ? <View style={{ marginHorizontal: wp('6%'), marginTop: wp('1%') }}>
+                                <Apptext style={{ fontSize: 10, color: "red" }}>
+                                    Please Enter Expiration Year</Apptext>
+                            </View> : null}
                             <ResponsiveText
                                 style={{
                                     fontFamily: 'Poppins', fontSize: 12,
@@ -251,9 +350,18 @@ const CardPayment = ({ props, navigation }) => {
                                     source={require('../../../../assets/codeDownArrow.png')} />
                                 <TextInput
                                     style={{ width: wp('39%'), height: 48, }}
+                                    value={phoneNumber}
+                                    onChangeText={(val) => {
+                                        setPhoneNumber(val)
+                                        setPhnChk(false)
+                                    }}
                                     keyboardType='numeric'
                                 />
                             </TouchableOpacity>
+                            {phnNumChk ? <View style={{ marginHorizontal: wp('6%') }}>
+                                <Apptext style={{ fontSize: 10, color: "red" }}>
+                                    Please Enter Phone Number</Apptext>
+                            </View> : null}
                             <Modal
                                 visible={isPayment}
 
@@ -283,9 +391,11 @@ const CardPayment = ({ props, navigation }) => {
                                         <Video
                                             shouldPlay={true}
                                             ref={video}
-                                            style={{alignSelf:'center',
-                                            width:250, height:250,
-                                            marginTop:wp('5%') }}
+                                            style={{
+                                                alignSelf: 'center',
+                                                width: 250, height: 250,
+                                                marginTop: wp('5%')
+                                            }}
                                             source={require('../../../../assets/done.mp4')}
                                             resizeMode="cover"
                                             isLooping
@@ -305,7 +415,9 @@ const CardPayment = ({ props, navigation }) => {
                                 </View>
                             </Modal>
                             <TouchableOpacity
-                                onPress={() => checkValue()}
+                                onPress={() => {
+                                    checkValues()
+                                }}
                                 style={styles.buttonContainer}>
                                 <Apptext style={styles.buttonText}>{"Pay"}</Apptext>
                             </TouchableOpacity>

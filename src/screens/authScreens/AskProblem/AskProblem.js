@@ -9,6 +9,7 @@ import DefaultStyles from "src/config/Styles";
 import HumanHeader from 'src/components/HumanHeader';
 import Icon from 'react-native-vector-icons/AntDesign';
 import RadioButtonRN from 'radio-buttons-react-native';
+import {getListing} from "src/firebase/utility";
 
 
 const AskProblem = ({ navigation }) => {
@@ -31,8 +32,23 @@ const AskProblem = ({ navigation }) => {
         },
 
     ];
-
     const [check2, setCheck2] = useState(false);
+    const [pageData, setPageData] = useState('');
+    const [optionsList, setOptionsList] = useState([]);
+    const [isQuestion, setQuestion] = useState('');
+
+
+    const listingData = async () => {
+        let res = await getListing("intro-question", "question")
+        setPageData(res);
+        setOptionsList(res.options)
+        console.log(res.options)
+        setQuestion(res.statement)
+        
+    }
+    useEffect(() => {
+        listingData();
+    },[])
 
     return (
         <View style={styles.container}>
@@ -40,12 +56,12 @@ const AskProblem = ({ navigation }) => {
                 <HumanHeader />
                 <View style={{ flexDirection: 'row', 
         marginLeft:wp('2%'),alignSelf: 'center' }}>
-                    <Apptext style={styles.userTxt}>What is your biggest </Apptext>
-                    <Apptext style={[styles.userTxt, { fontFamily: 'Poppins-SemiBold' }]}>hurdle right now?</Apptext>
+                    <Apptext style={styles.userTxt}>{isQuestion ? isQuestion : null} </Apptext>
+                    {/* <Apptext style={[styles.userTxt, { fontFamily: 'Poppins-SemiBold' }]}>hurdle right now?</Apptext> */}
                 </View>
                 <View style={{marginTop:wp('14%')}}>
                     <RadioButtonRN
-                        data={data}
+                        data={optionsList}
                         boxStyle={{backgroundColor: "white",marginTop:-15,borderColor: "white" }}
                         circleSize={10}
                         deactiveColor="#f9c26e"

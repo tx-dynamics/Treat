@@ -50,7 +50,7 @@ const paypal = [
 const AskPaymentOption = ({ navigation }) => {
 
     const [isShow, setShow] = useState(false);
-    const [checked, setChecked] = useState('first');
+    const [checked, setChecked] = useState('CreditCard');
     console.log(checked)
     return (
         <View style={styles.container}>
@@ -161,7 +161,7 @@ const AskPaymentOption = ({ navigation }) => {
                 </View>
 
                 {isShow ? (<TouchableOpacity
-                    onPress={() => navigation.navigate("CardPayment")}
+                    onPress={() => navigation.navigate("CardPayment", {paymentType : checked })}
                     style={styles.buttonContainer}>
                     <Apptext style={styles.buttonText}>{"Continue to pay"}</Apptext>
                 </TouchableOpacity>) : null}

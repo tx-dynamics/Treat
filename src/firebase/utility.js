@@ -19,20 +19,25 @@ export async function saveData(collection, doc, jsonObject) {
     });
 }
 
-export async function saveFvrtsData(collection, doc, jsonObject) {
+export async function saveFvrtsData(collection, doc, jsonObject, cond) {
+console.log("jsonObject",cond)
 
-  firestore().collection(collection).doc(doc).set({ media: firestore.FieldValue.arrayUnion(jsonObject) }, { merge: true })
-    .then(function () {
-      async () => {
-        console.log('Document successfully written!');
-        return true;
-      };
-    })
-    .catch(function (error) {
-      console.log("received", collection, doc, jsonObject)
-      console.error('Error writing document: ', error);
+if (cond === "update" ) {
+  console.log("Update")
+  console.log(jsonObject)
+}
+else{
+  console.log("Insert")
+  firestore().collection(collection).doc(doc).set({media:jsonObject}, { merge: true })
+  .then(function () {
+    async () => {
+      console.log('Document successfully written!');
+      return true;
+    };
+  })
+}
+  
 
-    });
 }
 
 export function getData(collection, doc, objectKey) {
@@ -90,26 +95,30 @@ export async function getListing(collection, doc1) {
   console.log(collection, doc1)
   let data = await firestore().collection(collection).doc(doc1).get().then(function (doc) {
     if (doc.exists) {
-      return doc.data();
+      return doc.data() ;
     } else {
       return false;
     }
   });
   return data;
-  // dispatch(setCover(data))
 }
 
 export async function getFvrtsListing(collection, doc1) {
+
   console.log(collection, doc1)
-  let data = await firestore().collection(collection).doc(doc1).get().then(function (doc) {
+  let data = [];
+  await firestore().collection(collection).doc(doc1).get().then(function (doc) {
     if (doc.exists) {
-      return doc.data();
+     doc.data().media.forEach(function(doc) {
+      data.push(doc)
+      })
+      // data = doc.data().media;
+      // return doc.data().media.randomNumber ;
     } else {
       return false;
     }
   });
   return data;
-  // dispatch(setCover(data))
 }
 
 export async function getAllOptions(collection) {

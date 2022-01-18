@@ -208,9 +208,11 @@ const Signup = ({ navigation }) => {
                     onPress={() => checkValues()}
                 />
             </View>
-            <View style={styles.methods}>
+            <TouchableOpacity 
+            onPress={() => navigation.navigate("AskProblem")}
+            style={styles.methods}>
                 <Apptext style={DefaultStyles.lightTxt}>Other Sign-Up Methods</Apptext>
-            </View>
+            </TouchableOpacity>
             <View style={styles.socialImgs}>
                 <Image source={require('../../../../assets/facebook.png')} />
                 <Image source={require('../../../../assets/google.png')} />

@@ -59,7 +59,7 @@ const index = ({ navigation }) => {
          
          <View style={{flexDirection:'row',justifyContent:'space-evenly', marginHorizontal:wp('5%')}}>
                 <TouchableOpacity
-                    onPress={() => navigation.navigate("VerifyEmail")}
+                    onPress={() => navigation.navigate('AskPaymentOption')}
                     style={styles.buttonContainer}>
                     <Apptext style={styles.buttonText}>{"Quarterly"}</Apptext>
                     <Apptext style={styles.buttonText}>{"$39.99"}</Apptext>

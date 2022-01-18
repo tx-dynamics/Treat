@@ -8,7 +8,7 @@ import DefaultStyles from "src/config/Styles";
 import Apptext from 'src/components/Apptext';
 import Header from 'src/components/Header';
 import FvrtComp from 'src/components/FvrtComp';
-import { getAllOfCollection, getFvrtsListing, getListing } from "src/firebase/utility";
+import { getAllOfCollection, getFvrtsListing,saveFvrtsData, getListing } from "src/firebase/utility";
 import { useSelector } from 'react-redux';
 
 
@@ -60,22 +60,34 @@ const Fvrts = ({ navigation }) => {
 
     const [islistingData, setListingData] = useState([]);
     const [isLike, setLike] = useState(true);
+    const [isDesc, setDesc] = useState([]);
 
-    const chkFvrt = () => {
-        setLike(!isLike)
-    };
 
     const listingData = async () => {
 
         let res = await getFvrtsListing("FavoriteListing", userInfo.uid)
         let result = res.media.filter((item) => item.isLike === true && item.userId === userInfo.uid);
-        console.log(res)
         setListingData(result)
     }
 
     useEffect(() => {
         listingData();
     }, [])
+    const heartMethod = async(item,index) => {
+
+        let Details = {
+            id: item.id ? item.id : null,
+            title: item.title ? item.title : null,
+            description: item.description ? item.description : null,
+            sub_title: item.sub_title ? item.sub_title : null,
+            url : item.url ? item.url : null,
+            thumbnail: item.thumbnail ? item.thumbnail : null,
+            userId : userInfo.uid ? userInfo.uid : null,
+            isLike : isLike
+        };
+
+        await saveFvrtsData('FavoriteListing', userInfo.uid,Details);
+       }
 
     return (
         <View style={styles.container}>
@@ -95,11 +107,15 @@ const Fvrts = ({ navigation }) => {
                               </Apptext>
                             );
                           }}
-                        renderItem={({ item }) => (
+                        renderItem={({ item,index }) => (
                             <FvrtComp
                                 leftImgName={{uri : item.thumbnail }}
                                 labelValue={item.title}
-                                rightonPress={chkFvrt}
+                                rightonPress={() => {
+                                    setLike(false)
+                                    heartMethod(item,index);
+                                   
+                                }}
                                 rightImgName={item.isLike ? require('../../../../assets/redHeart.png') : require('../../../../assets/heart.png')}
                             />
 

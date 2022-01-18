@@ -149,8 +149,9 @@ const Home = ({ navigation }) => {
                     />
                 </View>
                 <View style={styles.cntrTxt}>
-                    <Apptext style={styles.grayTxt}>{`“It takes as much energy to wish as it does to plan.” 
-                                    Eleanor Roosevelt`} </Apptext>
+                    {/* <Apptext style={styles.grayTxt}>{`“It takes as much energy to wish as it does to plan.” 
+                                    Eleanor Roosevelt`} </Apptext> */}
+                    <Apptext style={styles.grayTxt}>{coverImg.description ? coverImg.description : null } </Apptext>
                 </View>
                 <Apptext style={styles.monthTxt}>JUNE</Apptext>
                 <View style={styles.CalenderBox}>

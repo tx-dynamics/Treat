@@ -180,7 +180,7 @@ const SignIn = ({ navigation }) => {
             </View> : null}
             </View>
             <View style={styles.lightBoxTxt}>
-                <TouchableOpacity onPress={() => navigation.navigate("Agreement")}>
+                <TouchableOpacity onPress={() => navigation.navigate("VerifyEmail")}>
                     <Apptext style={DefaultStyles.lightTxt}> Forgot Password?</Apptext>
                 </TouchableOpacity>
             </View>
@@ -198,7 +198,7 @@ const SignIn = ({ navigation }) => {
 }
             </View>
             <TouchableOpacity
-                // onPress={() => navigation.navigate("Home")}
+                // onPress={() => navigation.navigate("AskProblem")}
                 style={styles.methods}>
                 <Apptext style={DefaultStyles.lightTxt}>Other Sign-In Methods</Apptext>
             </TouchableOpacity>

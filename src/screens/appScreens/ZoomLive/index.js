@@ -40,7 +40,7 @@ const ZoomLive = ({ navigation, route }) => {
     const chkData = async () => {
         let res = await getAllOfCollection("meeting")
         setMeetingLink([res])
-        console.log("res", res.time)
+        console.log("res", res.description)
     }
 
     useEffect(() => {
