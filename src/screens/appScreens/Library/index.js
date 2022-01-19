@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import { View,StyleSheet,FlatList ,Image, ScrollView } from 'react-native';
+import { View,StyleSheet,FlatList ,Image, ScrollView, Alert } from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -104,12 +104,20 @@ const Library = ({ navigation,route }) => {
                 data={islistingData}
                 numColumns={2}
                 horizontal={false}
+                ListEmptyComponent={() => {
+                    return (
+                      <Apptext style={{ alignSelf: "center", marginTop: 50 }}>
+                        No Item Found
+                      </Apptext>
+                    );
+                  }}
                 keyExtractor={(item) => item.title}
                 renderItem={({ item,index }) => (
                     <TreatBox
                     leftTitle={item.title ? item.title : null}
                     leftImgName={{uri : item.thumbnail}}
                     subTxt={item.description ? item.description : null }
+                    leftOnPress={() => navigation.navigate("TreatVideo", {videodata: item}) }
                 />
                    
                 )}

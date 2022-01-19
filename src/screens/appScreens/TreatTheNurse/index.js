@@ -89,8 +89,8 @@ const TreatTheNurse = ({ navigation, route }) => {
                 <HomeWideCard 
                 // backImg={require('../../../../assets/frameBack.png')}
                  backImg={{uri : coverImg.cover }}
-                 isSubTxt={coverImg.description ? true : false}
-                 setSubTxt={coverImg.description ? coverImg.description : null}
+                //  isSubTxt={coverImg.description ? true : false}
+                //  setSubTxt={coverImg.description ? coverImg.description : null}
                  isLabel={false} />
             </View>
 

@@ -6,12 +6,12 @@ import Apptext from 'src/components/Apptext';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 
-const HomeWideCard = ({ backImg, setSubTxt, headerTitle,setLeftTxt,
+const HomeWideCard = ({ backImg, onPress, label, setSubTxt, headerTitle,setLeftTxt,
     isSubLeftTxt = false,setSubLeftTxt,rightHeaderImg,
     isLeftTxt = false, isLabel = true, leftOnPress,
     isSubTxt = false, rightOnPress, ...props }) => {
     return (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={onPress}>
             <ImageBackground style={styles.MainContainer}
                 imageStyle={{ borderRadius: 10 }} 
                 // source={{ uri : backImg}}
@@ -19,7 +19,7 @@ const HomeWideCard = ({ backImg, setSubTxt, headerTitle,setLeftTxt,
                 >
                 {isLabel ? (
                     <TouchableOpacity style={styles.innerBox}>
-                        <Apptext style={styles.innerTxt}>Latest</Apptext>
+                        <Apptext style={styles.innerTxt}>{label}</Apptext>
                     </TouchableOpacity>) : null}
                     {isLeftTxt ? (
                         <View style={{marginHorizontal:wp('5%'), position:"absolute", bottom:0}}>

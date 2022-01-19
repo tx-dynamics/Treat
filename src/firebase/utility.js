@@ -2,6 +2,35 @@ import firestore from '@react-native-firebase/firestore';
 import { setCover } from 'src/redux/actions/authAction';
 import { useDispatch } from "react-redux";
 import auth from '@react-native-firebase/auth';
+// import storage from '@react-native-firebase/storage';
+
+
+export async function uploadImage(uri) {
+  try {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    const ref =  storage()
+      .ref('profile')
+      .child(uuid.v4());
+    const task = ref.put(blob);
+    return new Promise((resolve, reject) => {
+      task.on(
+        'state_changed',
+        () => {},
+        err => {
+          reject(err);
+        },
+
+        async () => {
+          const url = await task.snapshot.ref.getDownloadURL();
+          resolve(url);
+        },
+      );
+    });
+  } catch (err) {
+    console.log('uploadImage error: ' + err.message);
+  }
+}
 
 
 export async function saveData(collection, doc, jsonObject) {

@@ -17,3 +17,6 @@ export const setAudioBtn = (data) => async (dispatch) => {
 export const setAudioID = (data) => async (dispatch) => {
     dispatch({type: "AudioID" , payload : data})
 }
+export const setUserActive = (data) => async (dispatch) => {
+    dispatch({type: "userActive" , payload : data})
+}

@@ -8,14 +8,19 @@ import DefaultStyles from "src/config/Styles";
 import Apptext from 'src/components/Apptext';
 import Header from 'src/components/Header';
 import { Divider } from 'react-native-elements';
+import { useDispatch } from "react-redux";
+import { setUser } from 'src/redux/actions/authAction';
 
 
 const ConfirmProfile = ({ navigation }) => {
-    
+   
+    let dispatch = useDispatch();
+
     useEffect(() => {
         setTimeout(() => {
-                navigation.navigate("Login")
-        }, 1000);
+                navigation.replace("Login")
+                dispatch(setUser(false))
+        }, 2000);
     }, []);
 
     return (
@@ -26,8 +31,9 @@ const ConfirmProfile = ({ navigation }) => {
 
             <View style={[styles.headerLogo, {flex:1,marginTop:-100 }]} >
                 <Image source={require('../../../../assets/confirm.png')} />
-                <Apptext style={[styles.text2, {marginTop:hp('5%')}]}>      Password Changed</Apptext>
-                <Apptext style={[styles.text2, {alignSelf:'center'}]}>              Successfully!</Apptext>
+                <Apptext style={[styles.text2, {marginTop:hp('5%')}]}>Email Sent Successfully!</Apptext>
+                {/* <Apptext style={[styles.text2, {marginTop:hp('5%')}]}>      Email Sent</Apptext>
+                <Apptext style={[styles.text2, {alignSelf:'center'}]}>              Successfully!</Apptext> */}
             </View>
         </View>
     )
@@ -45,9 +51,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
       },
     text2:{
-        width:wp('60%'),
         fontFamily:"Poppins-Medium",
         fontSize:16,
+        textAlign:'center',
         color:DefaultStyles.colors.secondary
 
     }

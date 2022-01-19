@@ -136,6 +136,7 @@ const TreatVideo = ({ navigation, route }) => {
                     heartMethod(isHeart)
                 }}
                 subTxt={videodata.sub_title ? videodata.sub_title : null }
+                description={videodata.description ? videodata.description : null }
                 />
             </View>
         </ScrollView>

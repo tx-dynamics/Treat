@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, FlatList,ToastAndroid, Image, ScrollView, TextInput, Alert } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, FlatList, ToastAndroid, Image, ScrollView, TextInput, Alert } from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -11,57 +11,71 @@ import ToggleSwitch from 'toggle-switch-react-native'
 import { Collapse, CollapseHeader, CollapseBody, AccordionList } from 'accordion-collapse-react-native';
 import { useSelector } from 'react-redux';
 import { saveData, getListing } from 'src/firebase/utility';
+import { useDispatch } from "react-redux";
+import { setUserActive } from 'src/redux/actions/authAction';
 
 
 const ProfileInformation = ({ navigation }) => {
 
-    const userInfo = useSelector((state) => state.auth.userdata)
-    console.log(userInfo);
+    
+    let dispatch = useDispatch();
 
-    const [isToggle, setToggle] = useState(true)
+    const userInfo = useSelector((state) => state.auth.userdata)
+    const userCntrl = useSelector((state) => state.auth.userActive)
+
+
+    const [isToggle, setToggle] = useState(false)
     const [isUp, setUp] = useState(false);
     const [isUp1, setUp1] = useState(false);
     const [isUp2, setUp2] = useState(false);
-    const [islistingData, setListingData] = useState([]); 
+    const [islistingData, setListingData] = useState([]);
     const [isName, setName] = useState('');
     const [isEmail, setEmail] = useState('');
     const [idNumber, setIdNumber] = useState('');
+    const [chkMail, setChkMail] = useState(false);
+    const [badFormat, setBadFormat] = useState(false);
 
 
     const listingData = async () => {
         let res = await getListing("users", userInfo.uid)
+        setUserActive(!userCntrl)
         setName(res.displayName ? res.displayName : null)
         setEmail(res.email ? res.email : null)
         setIdNumber(res.identificationNumber ? res.identificationNumber : null)
-       
-}
 
+    }
+
+    const ValidateEmail = (inputText) => {
+        console.log(inputText)
+        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if (inputText.match(mailformat)) {
+            setBadFormat(false)
+            return true;
+        }
+        else {
+            setBadFormat(true)
+            setChkMail(false)
+            return false;
+        }
+    }
     const saveValues = async () => {
-                let success = true;
+        let success = true;
+        if (isEmail === "") {
+            setChkMail(true)
+        }
+        else {
+        const Details = ({
+            email: isEmail,
+            displayName: isName,
+            identificationNumber: idNumber
+        })
+        await saveData('users', userInfo.uid, Details);
+    
+        ToastAndroid.show("Record Saved", ToastAndroid.LONG);
+        navigation.navigate("Settings")
 
-                const Details = ({
-                    email: isEmail,
-                    displayName: isName,
-                    identificationNumber: idNumber
-                })
-              
-                // console.log(
-                //     email,
-                //     fullName,
-                //     identificationNumber,
-                // )
-                await saveData('users', userInfo.uid, Details);
-                // await saveInitialData('chats', user.user.uid);
-                // var user= auth().currentUser;
-                // user.sendEmailVerification().then(function(){
-                //   Alert.alert("Verification Email is sent.! please verify your email before sign in");
-                // }).catch(function(error){
-
-                // });
-                ToastAndroid.show("Record Saved",ToastAndroid.LONG);
-                navigation.navigate("Settings")
-           
         return success;
+    }
     }
 
     useEffect(() => {
@@ -85,7 +99,7 @@ const ProfileInformation = ({ navigation }) => {
                                 </Apptext>
                             </View>
                             <ToggleSwitch
-                                isOn={isToggle}
+                                isOn={userCntrl}
                                 onColor={'#fce8cb'}
                                 thumbOffStyle={{ backgroundColor: "gray" }}
                                 thumbOnStyle={{ backgroundColor: DefaultStyles.colors.yellow }}
@@ -93,19 +107,20 @@ const ProfileInformation = ({ navigation }) => {
                                 offColor={DefaultStyles.colors.lightgray}
                                 size='small'
                                 onToggle={isOn => {
-                                    setToggle(!isToggle)
+                                    dispatch(setUserActive(!userCntrl))
+                                    // setToggle(!isToggle)
                                     console.log("changed to : ", isOn)
                                 }}
                             />
                         </View>
                     </TouchableOpacity>
                     {/* ******************************* */}
-                   
+
                     <TouchableOpacity>
-                        <Collapse 
-                        isExpanded={isUp} 
-                        onToggle={() => setUp(!isUp)}
-                        style={styles.SightingContainer}>
+                        <Collapse
+                            isExpanded={isUp}
+                            onToggle={() => setUp(!isUp)}
+                            style={styles.SightingContainer}>
                             <CollapseHeader>
                                 <View style={styles.DirectionView}>
                                     <View style={styles.bottomDirectionView}>
@@ -127,26 +142,32 @@ const ProfileInformation = ({ navigation }) => {
                                     <TextInput
                                         value={isName}
                                         placeholder='User Name'
-                                        onChangeText={(val) => setName(val)}
+                                        onChangeText={(e) => {
+                                            let value = e
+                                            value = value.replace(/[^A-Za-z]/ig, '')
+                                            setName(value)
+            
+                                        }}
+                                        // onChangeText={(val) => setName(val)}
                                         style={styles.input}
                                     />
                                     <Apptext style={styles.editTxt}>Edit</Apptext>
                                 </View>
                                 <TouchableOpacity
-                                onPress={() => saveValues()}
-                                style={styles.bodyBtn}>
+                                    onPress={() => saveValues()}
+                                    style={styles.bodyBtn}>
                                     <Apptext style={styles.btnTxt}>Save</Apptext>
                                 </TouchableOpacity>
                             </CollapseBody>
                         </Collapse>
                     </TouchableOpacity>
-                   
+
                     {/* ******************************* */}
                     <TouchableOpacity>
                         <Collapse
-                         isExpanded={isUp1} 
-                        onToggle={() => setUp1(!isUp1)}
-                         style={styles.SightingContainer}>
+                            isExpanded={isUp1}
+                            onToggle={() => setUp1(!isUp1)}
+                            style={styles.SightingContainer}>
                             <CollapseHeader>
                                 <View style={styles.DirectionView}>
                                     <View style={styles.bottomDirectionView}>
@@ -168,14 +189,25 @@ const ProfileInformation = ({ navigation }) => {
                                     <TextInput
                                         value={isEmail}
                                         placeholder='Email'
-                                        onChangeText={(val) => setEmail(val)}
+                                        onChangeText={(val) => {
+                                            setEmail(val)
+                                            ValidateEmail(val)
+                                        }}
                                         style={styles.input}
                                     />
                                     <Apptext style={styles.editTxt}>Edit</Apptext>
                                 </View>
+                                {chkMail ? <View style={{ marginHorizontal: wp('10%'), marginTop: wp('2%') }}>
+                                    <Apptext style={{ fontSize: 10, color: "red" }}>
+                                        Please Enter Valid Email</Apptext>
+                                </View> : null}
+                                {badFormat ? <View style={{ marginHorizontal: wp('10%'), marginTop: wp('1%') }}>
+                                    <Apptext style={{ fontSize: 10, color: "red" }}>
+                                        The email address is badly formatted</Apptext>
+                                </View> : null}
                                 <TouchableOpacity
-                                 onPress={() => saveValues()}
-                                 style={styles.bodyBtn}>
+                                    onPress={() => saveValues()}
+                                    style={styles.bodyBtn}>
                                     <Apptext style={styles.btnTxt}>Save</Apptext>
                                 </TouchableOpacity>
                             </CollapseBody>
@@ -183,10 +215,10 @@ const ProfileInformation = ({ navigation }) => {
                     </TouchableOpacity>
                     {/* ******************************* */}
                     <TouchableOpacity>
-                        <Collapse 
-                        isExpanded={isUp2} 
-                        onToggle={() => setUp2(!isUp2)}
-                        style={styles.SightingContainer}>
+                        <Collapse
+                            isExpanded={isUp2}
+                            onToggle={() => setUp2(!isUp2)}
+                            style={styles.SightingContainer}>
                             <CollapseHeader>
                                 <View style={styles.DirectionView}>
                                     <View style={styles.bottomDirectionView}>
@@ -209,14 +241,15 @@ const ProfileInformation = ({ navigation }) => {
                                         value={idNumber}
                                         placeholder='Identification Number'
                                         keyboardType='number-pad'
+                                        maxLength={11}
                                         onChangeText={(val) => setIdNumber(val)}
                                         style={styles.input}
                                     />
                                     <Apptext style={styles.editTxt}>Edit</Apptext>
                                 </View>
-                                <TouchableOpacity 
-                                 onPress={() => saveValues()}
-                                style={styles.bodyBtn}>
+                                <TouchableOpacity
+                                    onPress={() => saveValues()}
+                                    style={styles.bodyBtn}>
                                     <Apptext style={styles.btnTxt}>Save</Apptext>
                                 </TouchableOpacity>
                             </CollapseBody>

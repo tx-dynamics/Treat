@@ -1,9 +1,10 @@
 const INITIAL_STATE = {
-    user: null,
+    user: false,
     cover: null,
     userdata: null,
     audioBtn : false,
-    audioID : null
+    audioID : null,
+    userActive:false
 
 }
 export default function (state = INITIAL_STATE, action){
@@ -18,6 +19,8 @@ export default function (state = INITIAL_STATE, action){
             return {...state, audioBtn: action.payload}
         case "AudioID" :
             return {...state, audioID: action.payload}
+        case "userActive" :
+                return {...state, userActive: action.payload}
         default:
             return state
     }

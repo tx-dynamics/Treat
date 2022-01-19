@@ -150,7 +150,7 @@ const Audios = ({ navigation, route }) => {
                             heartMethod(audiodata)
                         }}
                         boxImg={isHeart ? require('../../../../assets/redHeart.png') : require('../../../../assets/heartBox.png')}
-                        // subTxt={"12 Questions"}
+                        subTxt={audiodata.sub_title ? audiodata.sub_title : null }
                         description={audiodata.description ? audiodata.description : null}
                     />
                 </View>

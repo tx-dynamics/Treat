@@ -95,7 +95,7 @@ const PodCastVideo = ({ navigation, route }) => {
             />
         <ScrollView>
             {isGuestName ?  
-            <Apptext style={styles.monthTxt}>Series 1 Guest : {isGuestName}</Apptext>
+            <Apptext style={styles.monthTxt}>Series 1 {isGuestName} : {isGuestName}</Apptext>
             : null
             }
             <View style={{marginTop:wp('8%')}}>
@@ -116,6 +116,7 @@ const PodCastVideo = ({ navigation, route }) => {
                     isSubTxt={false}
                     isLeftTxt={true}
                     isSubLeftTxt={true}
+                    onPress={() => navigation.navigate("TreatVideo",{videodata: item})}
                     setLeftTxt={item.title ? item.title : null}
                     setSubLeftTxt={item.description ? item.description.substring(0,15) : null}
                     />

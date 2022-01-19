@@ -105,6 +105,7 @@ const FrameWorkNavigator = () => {
 
             <StackNavigator.Screen name="FrameWork" component={FrameWork} />
             <StackNavigator.Screen name="Library" component={Library} />
+            <StackNavigator.Screen name="TreatVideo" component={TreatVideo} />
         </StackNavigator.Navigator>
     )
 }
@@ -119,6 +120,7 @@ const PodCastNavigator = () => {
 
             <StackNavigator.Screen name="Podcast" component={Podcast} />
             <StackNavigator.Screen name="PodCastVideo" component={PodCastVideo} />
+            <StackNavigator.Screen name="TreatVideo" component={TreatVideo} />
         </StackNavigator.Navigator>
     )
 }
@@ -133,8 +135,8 @@ const ZoomNavigator = () => {
 
             <StackNavigator.Screen name="ZoomLive" component={ZoomLive} />
             <StackNavigator.Screen name="JoinMeeting" component={JoinMeeting} />
-            
             <StackNavigator.Screen name="PodCastVideo" component={PodCastVideo} />
+            <StackNavigator.Screen name="TreatVideo" component={TreatVideo} />
         </StackNavigator.Navigator>
     )
 }
@@ -370,7 +372,7 @@ const MyTabs = () => {
 const MainNavigator = () => {
 
     const user = useSelector((state) => state.auth.user)
-    if (user != null) {
+    if (user != false) {
         return <AppNavigator />
     }
     else {

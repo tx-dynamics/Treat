@@ -15,24 +15,35 @@ import { saveData } from 'src/firebase/utility';
 const Contact = ({ navigation }) => {
 
     const userInfo = useSelector((state) => state.auth.userdata)
-
+    // console.log(userInfo.email)
     const [isName, setName] = useState('');
     const [isLastName, setLastName] = useState('');
-    const [isEmail, setEmail] = useState('');
+    const [isEmail, setEmail] = useState(userInfo.email);
     const [isMsg, setMsg] = useState('');
     const [addDtls, setAddDtls] = useState('');
     const [chkMail, setChkMail] = useState(false);
+    const [msgChk, setMsgChk] = useState(false);
     const [badFormat, setBadFormat] = useState(false);
 
+    const ValidateEmail = (inputText) => {
+        console.log(inputText)
+        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if (inputText.match(mailformat)) {
+             setChkMail(false)
+            return true;
+        }
+        else {
+            setChkMail(true)
+            return false;
+        }
+    }
 
     const saveValues = async () => {
         let success = true;
-        if (isEmail === "" || null) {
-            setChkMail(true)
+        if(isMsg === ""){
+            setMsgChk(true)
         }
         else{
-
-        
         const Details = ({
             firstName: isName,
             lastName: isLastName,
@@ -101,10 +112,15 @@ const Contact = ({ navigation }) => {
                             style={styles.HumanInput}
                             numberOfLines={1}
                             value={isEmail}
+                            editable={false}
                             onChangeText={(val) => {
                                 setEmail(val)
-                                setChkMail(false)
+                                ValidateEmail(val)
                             }}
+                            // onChangeText={(val) => {
+                            //     setEmail(val)
+                            //     setChkMail(false)
+                            // }}
                             placeholder={"Email"}
                             placeholderTextColor={'#929292'}
 
@@ -126,13 +142,20 @@ const Contact = ({ navigation }) => {
                             style={styles.HumanInput}
                             numberOfLines={1}
                             value={isMsg}
-                            onChangeText={(val) => setMsg(val)}
+                            onChangeText={(val) => {
+                                setMsg(val)
+                                setMsgChk(false)
+                            }}
                             placeholder={"Message"}
                             placeholderTextColor={'#929292'}
 
                         />
                     </View>
                 </View>
+                {msgChk ? <View style={{ marginHorizontal: wp('9%'), marginTop: wp('1%') }}>
+                    <Apptext style={{ fontSize: 10, color: "red" }}>
+                        Please Must Enter Message</Apptext>
+                </View> : null}
                 <View style={[styles.inputContainer, { height: wp('45%') }]} >
 
                     <View>

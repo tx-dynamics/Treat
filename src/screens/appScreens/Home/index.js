@@ -144,14 +144,15 @@ const Home = ({ navigation }) => {
                     <HomeWideCard
                         // backImg={require('../../../../assets/human2.png')}
                         backImg={{uri : coverImg.cover}}
-                        isSubTxt={coverImg.description ? true : false}
-                        setSubTxt={coverImg.description ? coverImg.description : null}
+                        label={coverImg.quote ? coverImg.quote : null}
+                        // isSubTxt={coverImg.description ? true : false}
+                        // setSubTxt={coverImg.description ? coverImg.description : null}
                     />
                 </View>
                 <View style={styles.cntrTxt}>
                     {/* <Apptext style={styles.grayTxt}>{`“It takes as much energy to wish as it does to plan.” 
                                     Eleanor Roosevelt`} </Apptext> */}
-                    <Apptext style={styles.grayTxt}>{coverImg.description ? coverImg.description : null } </Apptext>
+                    <Apptext style={styles.grayTxt}>{coverImg.quotee ? coverImg.quotee : null } </Apptext>
                 </View>
                 <Apptext style={styles.monthTxt}>JUNE</Apptext>
                 <View style={styles.CalenderBox}>

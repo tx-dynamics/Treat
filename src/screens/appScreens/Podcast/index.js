@@ -101,8 +101,8 @@ const Podcast = ({ navigation, route }) => {
                 // backImg={require('../../../../assets/podcastCover.png')}
                 backImg={{uri : coverImg.cover }}
                 isLabel={false}
-                isSubTxt={coverImg.description ? true : false}
-                setSubTxt={coverImg.description ? coverImg.description : null}
+                // isSubTxt={coverImg.description ? true : false}
+                // setSubTxt={coverImg.description ? coverImg.description : null}
                 />
             </View>
             {/* <Apptext style={styles.cntrTxt}>{`World renowned speakers share first

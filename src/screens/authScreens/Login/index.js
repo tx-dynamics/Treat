@@ -13,6 +13,8 @@ import { setUser, setUserData } from 'src/redux/actions/authAction';
 import { useDispatch } from "react-redux";
 import auth from '@react-native-firebase/auth';
 import {getData} from 'src/firebase/utility';
+import { useSelector } from 'react-redux';
+
 
 
 const SignIn = ({ navigation }) => {
@@ -27,6 +29,10 @@ const SignIn = ({ navigation }) => {
     const [weakPass ,setWeakPass] = useState(false);
     const [badFormat ,setBadFormat] = useState(false);
     const [noUser, setNoUser] = useState(false);
+
+    
+    const user = useSelector((state) => state.auth.user)
+    console.log("user", user)
 
     const checkValues = () => {
         if (email === "" && password === "") {
@@ -66,8 +72,11 @@ const SignIn = ({ navigation }) => {
                   var user1= auth().currentUser;
                   console.log(user1)
                   if(user1.uid){
+                      console.log("In IF")
                     dispatch(setUser(true))
                     dispatch(setUserData(user1))
+                    // setLoading(false)
+                    // navigation.replace("Home")
                   }
                   else{
                     ToastAndroid.show("Please verify your email before sign in",ToastAndroid.LONG);
