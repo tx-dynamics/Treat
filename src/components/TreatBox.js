@@ -18,7 +18,7 @@ const TreatBox = ({ leftTitle, rightTitle, leftImgName,
                      <View style={styles.grayBoxDirection}>
                     <Apptext style={styles.SightingText}>{leftTitle}</Apptext>
                     </View>
-                <Apptext style={styles.SightingText1}>{subTxt}</Apptext>
+                <Apptext style={styles.SightingText1}>{subTxt} </Apptext>
                 </ImageBackground>
 
             </TouchableOpacity>

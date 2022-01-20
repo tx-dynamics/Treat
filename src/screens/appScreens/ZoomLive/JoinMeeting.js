@@ -145,12 +145,12 @@ const styles = StyleSheet.create({
     desctxt: {
         fontSize: 14,
         fontFamily: 'Poppins',
+
         color: DefaultStyles.colors.secondary
     },
     Desc: {
         fontSize: 12,
         fontFamily: 'Poppins',
-        marginHorizontal: wp('6%'),
         lineHeight: 22,
         marginTop: wp('2%'),
         textAlign: 'left'

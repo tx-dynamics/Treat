@@ -2,6 +2,7 @@ import firestore from '@react-native-firebase/firestore';
 import { setCover } from 'src/redux/actions/authAction';
 import { useDispatch } from "react-redux";
 import auth from '@react-native-firebase/auth';
+
 // import storage from '@react-native-firebase/storage';
 
 
@@ -46,27 +47,6 @@ export async function saveData(collection, doc, jsonObject) {
       console.error('Error writing document: ', error);
 
     });
-}
-
-export async function saveFvrtsData(collection, doc, jsonObject, cond) {
-console.log("jsonObject",cond)
-
-if (cond === "update" ) {
-  console.log("Update")
-  console.log(jsonObject)
-}
-else{
-  console.log("Insert")
-  firestore().collection(collection).doc(doc).set({media:jsonObject}, { merge: true })
-  .then(function () {
-    async () => {
-      console.log('Document successfully written!');
-      return true;
-    };
-  })
-}
-  
-
 }
 
 export function getData(collection, doc, objectKey) {
@@ -168,4 +148,33 @@ export async function getAllOptions(collection) {
 
 export async function passwordReset(email) {
   return auth().sendPasswordResetEmail(email);
+}
+
+export async function saveFvrtsData(collection, doc, jsonObject, cond) {
+  console.log("jsonObject",cond)
+  
+  if (cond === "update" ) {
+    console.log("Update")
+    console.log(jsonObject)
+  }
+  else{
+    console.log("Insert")
+    firestore().collection(collection).doc(doc).set({media:jsonObject}, { merge: true })
+    .then(function () {
+      async () => {
+        console.log('Document successfully written!');
+        return true;
+      };
+    })
+  }
+  }
+
+  
+export async function addToArray(collection, doc, array, value) {
+  console.log(collection,doc,array,value)
+      await firestore().collection(collection)
+      .doc(doc)
+      .set({
+        [array]: firestore.FieldValue.arrayUnion(value),
+      },{merge: true});
 }

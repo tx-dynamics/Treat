@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { View, TouchableOpacity,ActivityIndicator, ToastAndroid, Alert,Image, StyleSheet, ScrollView, } from 'react-native';
 import {
     widthPercentageToDP as wp,
@@ -34,6 +34,8 @@ const SignIn = ({ navigation }) => {
     const user = useSelector((state) => state.auth.user)
     console.log("user", user)
 
+  
+
     const checkValues = () => {
         if (email === "" && password === "") {
             setMailChk(true)
@@ -67,7 +69,6 @@ const SignIn = ({ navigation }) => {
                 setWeakPass(false)
                 setBadFormat(false)
                 setDuplicateEmail(false)
-                
                   let userinfo = await getData('users', user.user.uid);
                   var user1= auth().currentUser;
                   console.log(user1)

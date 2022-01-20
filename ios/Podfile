@@ -12,6 +12,8 @@ target 'Treat' do
     :hermes_enabled => false
   )
 
+  pod 'tipsi-stripe', :path => '../node_modules/tipsi-stripe'
+
   target 'TreatTests' do
     inherit! :complete
     # Pods for testing

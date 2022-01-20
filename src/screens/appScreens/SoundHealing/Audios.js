@@ -10,10 +10,11 @@ import TreatHeader from 'src/components/TreatHeader';
 import Card from 'src/components/Card';
 import AudioCard from 'src/components/AudioCard';
 import TrackPlayer from 'react-native-track-player';
-import { saveData, saveFvrtsData,getListing,getFvrtsListing } from "src/firebase/utility";
+import { saveData, saveFvrtsData,getListing,getFvrtsListing, addToArray } from "src/firebase/utility";
 import { useSelector } from 'react-redux';
 import { useDispatch } from "react-redux";
 import { setAudioBtn, setAudioID } from 'src/redux/actions/authAction';
+import { Alert } from 'react-native';
 
 
 const Audios = ({ navigation, route }) => {
@@ -112,7 +113,7 @@ const Audios = ({ navigation, route }) => {
     }
 
     useEffect(() => {
-        getFvListing();
+        // getFvListing();
         if (audiodata.id === audioId) {
             dispatch(setAudioBtn(true))
         }
@@ -120,7 +121,27 @@ const Audios = ({ navigation, route }) => {
             dispatch(setAudioBtn(false))
             console.log("Not Same")
         }
-    }, [])
+    }, []);
+
+    const FavMeth = async() => {
+         let hrt = isHeart ? false : true;
+         let success = await addToArray("FavoriteListings",userInfo.uid, 'media',
+         {
+             id: audiodata.id ? audiodata.id : null,
+             title: audiodata.title ? audiodata.title : null,
+             description: audiodata.description ? audiodata.description : null,
+             sub_title: audiodata.sub_title ? audiodata.sub_title : null,
+             url: audiodata.url ? audiodata.url : null,
+             thumbnail: audiodata.thumbnail ? audiodata.thumbnail : null,
+             userId: userInfo.uid ? userInfo.uid : null,
+             isLike: hrt
+         }
+         );
+        //  console.log(success)
+         Alert.alert("Item Saved")
+
+       }
+
     return (
         <View style={styles.container}>
             <TreatHeader
@@ -147,7 +168,8 @@ const Audios = ({ navigation, route }) => {
                         videoName={audiodata.title ? audiodata.title : null}
                         onPress={() => {
                             updateHeart()
-                            heartMethod(audiodata)
+                            // heartMethod(audiodata)
+                            FavMeth()
                         }}
                         boxImg={isHeart ? require('../../../../assets/redHeart.png') : require('../../../../assets/heartBox.png')}
                         subTxt={audiodata.sub_title ? audiodata.sub_title : null }

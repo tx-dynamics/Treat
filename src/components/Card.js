@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
         marginHorizontal:wp('7%'),
         marginTop:-17,
         fontSize:wp('3.5%'),
+        width:wp('60%'),
         fontFamily:"Poppins-Regular",
         color:DefaultStyles.colors.gray
     },

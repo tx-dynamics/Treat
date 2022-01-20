@@ -271,6 +271,7 @@ const styles = StyleSheet.create({
         fontFamily: "Lato-Regular",
         fontSize: wp('4.5%'),
         alignSelf: 'center',
+        width:wp('83%'),
         color: DefaultStyles.colors.primary
 
     },
