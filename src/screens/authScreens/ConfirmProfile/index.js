@@ -19,7 +19,7 @@ const ConfirmProfile = ({ navigation }) => {
     useEffect(() => {
         setTimeout(() => {
                 navigation.replace("Login")
-                dispatch(setUser(false))
+                // dispatch(setUser(false))
         }, 2000);
     }, []);
 

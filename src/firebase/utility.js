@@ -2,36 +2,28 @@ import firestore from '@react-native-firebase/firestore';
 import { setCover } from 'src/redux/actions/authAction';
 import { useDispatch } from "react-redux";
 import auth from '@react-native-firebase/auth';
-
-// import storage from '@react-native-firebase/storage';
+import storage from '@react-native-firebase/storage';
+import {ToastAndroid} from 'react-native';
 
 
 export async function uploadImage(uri) {
-  try {
-    const response = await fetch(uri);
-    const blob = await response.blob();
-    const ref =  storage()
-      .ref('profile')
-      .child(uuid.v4());
-    const task = ref.put(blob);
-    return new Promise((resolve, reject) => {
-      task.on(
-        'state_changed',
-        () => {},
-        err => {
-          reject(err);
-        },
+  console.log("Img Recvd", uri)
+  // let reference = storage().ref(`/files/${imageName}`);         // 2
+  // let task = reference.putFile(uri);               // 3
+  // task.then(() => {                                 // 4
+  //     console.log('Image uploaded to the bucket!');
+  //     ToastAndroid.show("Image Uploaded Successfully", ToastAndroid.LONG);
+     
+  // }).catch((e) => 
+  // {
+  //   ToastAndroid.show(e, ToastAndroid.LONG);
+  //   console.log('uploading image error => ', e)
+  // }
+  // );
+  
 
-        async () => {
-          const url = await task.snapshot.ref.getDownloadURL();
-          resolve(url);
-        },
-      );
-    });
-  } catch (err) {
-    console.log('uploadImage error: ' + err.message);
-  }
 }
+
 
 
 export async function saveData(collection, doc, jsonObject) {
@@ -153,13 +145,21 @@ export async function passwordReset(email) {
 export async function saveFvrtsData(collection, doc, jsonObject, cond) {
   console.log("jsonObject",cond)
   
-  if (cond === "update" ) {
+  if (cond == "update" ) {
     console.log("Update")
     console.log(jsonObject)
+    await firestore().collection(collection)
+      .doc(doc)
+      .set({
+        media: jsonObject,
+       });
+      // .update({
+      //  media: firestore.FieldValue.arrayUnion(value),
+      // });
   }
   else{
     console.log("Insert")
-    firestore().collection(collection).doc(doc).set({media:jsonObject}, { merge: true })
+    firestore().collection(collection).doc(doc).set({media:[jsonObject]}, { merge: true })
     .then(function () {
       async () => {
         console.log('Document successfully written!');
@@ -174,7 +174,8 @@ export async function addToArray(collection, doc, array, value) {
   console.log(collection,doc,array,value)
       await firestore().collection(collection)
       .doc(doc)
-      .set({
+      .update({
         [array]: firestore.FieldValue.arrayUnion(value),
-      },{merge: true});
+      });
 }
+

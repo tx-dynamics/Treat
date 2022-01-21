@@ -95,7 +95,7 @@ const PodCastVideo = ({ navigation, route }) => {
             />
         <ScrollView>
             {isGuestName ?  
-            <Apptext style={styles.monthTxt}>Series 1 {isGuestName} : {isGuestName}</Apptext>
+            <Apptext style={styles.monthTxt}>{catName} : {isGuestName}</Apptext>
             : null
             }
             <View style={{marginTop:wp('8%')}}>

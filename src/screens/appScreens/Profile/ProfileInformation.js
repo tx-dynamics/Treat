@@ -63,6 +63,9 @@ const ProfileInformation = ({ navigation }) => {
         if (isEmail === "") {
             setChkMail(true)
         }
+        else if(badFormat === true){
+        ToastAndroid.show("Correct Your Email Before Saving", ToastAndroid.LONG);
+        }
         else {
         const Details = ({
             email: isEmail,
@@ -241,7 +244,7 @@ const ProfileInformation = ({ navigation }) => {
                                         value={idNumber}
                                         placeholder='Identification Number'
                                         keyboardType='number-pad'
-                                        maxLength={11}
+                                        maxLength={14}
                                         onChangeText={(val) => setIdNumber(val)}
                                         style={styles.input}
                                     />

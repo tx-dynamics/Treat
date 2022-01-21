@@ -9,11 +9,13 @@ import Apptext from 'src/components/Apptext';
 import Header from 'src/components/Header';
 import ToggleSwitch from 'toggle-switch-react-native'
 import { Collapse, CollapseHeader, CollapseBody, AccordionList } from 'accordion-collapse-react-native';
-import { saveData, getListing, uploadImage} from 'src/firebase/utility';
+import { saveData, getListing, uploadImage } from 'src/firebase/utility';
 import { useSelector } from 'react-redux';
 import auth from '@react-native-firebase/auth';
 import firebase from '@react-native-firebase/app';
 import ImagePicker from "react-native-image-crop-picker";
+import storage from '@react-native-firebase/storage';
+
 
 
 const ProfileView = ({ navigation }) => {
@@ -40,17 +42,55 @@ const ProfileView = ({ navigation }) => {
             writeTempFile: true,
             // mediaType: "photo",
             //   cropperCircleOverlay: true,
-        }).then((image) => {
-            console.log(image)
-            setProfileUrl(image.path);
-            uploadImage(image.path)
-            //   let splittedName = image.path.split("/");
-            //   setFileName(splittedName[splittedName.length - 1]);
+        }).then(async (image) => {
+            // setProfileUrl(image.path);
+            // let imgPath = awaituploadImage(image.path)
+            try {
+                const response = await fetch(image.path);
+                const blob = await response.blob();
+                const ref = storage().ref('files');
+                // .child(uuid.v4());
+                const task = ref.put(blob);
+                return new Promise((resolve, reject) => {
+                    task.on(
+                        'state_changed',
+                        () => { },
+                        err => {
+                            reject(err);
+                        },
+
+                        async () => {
+                            const url = await task.snapshot.ref.getDownloadURL();
+                              console.log("File available at", url)
+                            resolve(url);
+                            let Details = {
+                                email: isEmail,
+                                fullName: isName,
+                                TermsConditions: true,
+                                isBlocked: false,
+                                identificationNumber: idNumber,
+                                profilePhoto: url
+                            };
+                            await saveData('users', userInfo.uid, Details);
+                            ToastAndroid.show("Image Uploaded Successfully", ToastAndroid.LONG);
+                            setProfileUrl(url ? url : null)
+                            listingData();
+                            //   console.log("File available at", url)
+
+                        },
+                    );
+                });
+            } catch (err) {
+                console.log('uploadImage error: ' + err.message);
+                ToastAndroid.show(err.message , ToastAndroid.LONG);
+            }
         });
     }
 
     const listingData = async () => {
         let res = await getListing("users", userInfo.uid)
+        console.log("res", res.profilePhoto )
+        setProfileUrl(res.profilePhoto ? res.profilePhoto : null)
         setName(res.displayName ? res.displayName : null)
         setEmail(res.email ? res.email : null)
         setIdNumber(res.identificationNumber ? res.identificationNumber : null)
@@ -86,10 +126,10 @@ const ProfileView = ({ navigation }) => {
             ToastAndroid.show("Please Enter Valid Email Address Before Saving", ToastAndroid.LONG);
         }
         else {
-                await saveData('users', userInfo.uid, Details);
-                ToastAndroid.show("Record Saved", ToastAndroid.LONG);
-                navigation.navigate("Home")
-        
+            await saveData('users', userInfo.uid, Details);
+            ToastAndroid.show("Record Saved", ToastAndroid.LONG);
+            navigation.navigate("Home")
+
         }
 
 
@@ -100,7 +140,7 @@ const ProfileView = ({ navigation }) => {
         listingData();
     }, []);
 
- 
+
     return (
         <View style={styles.container}>
             <Header
@@ -110,11 +150,14 @@ const ProfileView = ({ navigation }) => {
                 onPressLeft={() => navigation.goBack()}
             />
             <ScrollView>
-                <TouchableOpacity 
-                onPress={handleChoosePhoto}
-                style={styles.circleImg} >
-                    {/* <Image source={{uri : profilePath}}  /> */}
-                    <Image source={require('../../../../assets/boy.png')} />
+                <TouchableOpacity
+                    onPress={handleChoosePhoto}
+                    >
+                    {profilePath ? <Image style={styles.circleImg} 
+                    source={{uri: profilePath }} />
+                        :
+                        <Image style={styles.circleImg} source={require('../../../../assets/empty-image.png')} />
+                    }
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.txtView}>
                     <Apptext style={styles.Txt}>Edit Profile</Apptext>
@@ -168,7 +211,7 @@ const ProfileView = ({ navigation }) => {
                             style={styles.HumanInput}
                             numberOfLines={1}
                             value={idNumber}
-                            maxLength={11}
+                            maxLength={14}
                             onChangeText={(val) => setIdNumber(val)}
                             keyboardType='number-pad'
                             placeholder={"Identification Number"}
@@ -206,6 +249,9 @@ const styles = StyleSheet.create({
         height: 70,
         marginTop: wp('5%'),
         borderRadius: 50,
+        borderWidth:1,
+        borderColor:"lightgray",
+        // backgroundColor:"lightgray",
         alignSelf: 'center'
     },
     txtView: {

@@ -351,6 +351,7 @@ const CardPayment = ({ props, route, navigation }) => {
                                 <TextInput
                                     style={{ width: wp('39%'), height: 48, }}
                                     value={phoneNumber}
+                                    maxLength={14}
                                     onChangeText={(val) => {
                                         setPhoneNumber(val)
                                         setPhnChk(false)

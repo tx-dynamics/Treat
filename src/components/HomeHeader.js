@@ -12,7 +12,7 @@ const HomeHeader = ({headrImg,headerTitle,rightHeaderImg,onPress, leftOnPress, r
         <View style={styles.MainContainer}>
             <View style={{flexDirection:'row',}}>
            <TouchableOpacity onPress={leftOnPress}>
-            <ImageBackground style={styles.imgBox} source={headrImg}>
+            <ImageBackground imageStyle={{borderRadius:50 }}  style={styles.imgBox} source={headrImg}>
             </ImageBackground>
            </TouchableOpacity>
            <Apptext style={styles.headerTxt}>{headerTitle}</Apptext>
@@ -51,7 +51,8 @@ const styles = StyleSheet.create({
         marginTop:wp('2%'),
         marginHorizontal:wp('5%'),
         height:wp('13%') ,
-        borderRadius:50
+        borderRadius:50,
+     
     },
     headerTxt:{
         marginTop:wp('5%'),

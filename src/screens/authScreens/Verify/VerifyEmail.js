@@ -12,14 +12,30 @@ import CountryPicker from 'react-native-country-picker-modal'
 import { CountryCode, Country } from 'src/screens/authScreens/Verify/types';
 import { Divider } from 'react-native-elements';
 import { passwordReset } from 'src/firebase/utility';
+import { useSelector } from 'react-redux';
+
 
 const VerifyEmail = ({ navigation }) => {
+
+
+    const userInfo = useSelector((state) => state.auth.userdata);
+
+    const user = useSelector((state) => state.auth.user)
 
     const [isVisibe, setVisible] = useState(false)
     const [countryCode, setCountryCode] = useState('US');
     const [chkMail, setChkMail] = useState(false);
     const [badFormat, setBadFormat] = useState(false);
     const [isEmail, setEmail] = useState('');
+
+    const chkEmailStatus = () => {
+        if (user === true) {
+            setEmail(userInfo.email)
+        }
+        else {
+
+        }
+    }
 
 
     const onSelect = (country) => {
@@ -49,7 +65,10 @@ const VerifyEmail = ({ navigation }) => {
             await passwordReset(isEmail)
                 .then(data => {
                     ToastAndroid.show("Reset Link Sent On Your Email ", ToastAndroid.LONG);
-                    navigation.navigate('ConfirmProfile')
+                    {user === true ? 
+                        navigation.navigate('Settings')
+                        : 
+                        navigation.navigate('ConfirmProfile')}
                 })
                 .catch(function (error) {
                     success = false;
@@ -65,6 +84,9 @@ const VerifyEmail = ({ navigation }) => {
         }
     }
 
+    useEffect(() => {
+        chkEmailStatus()
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -94,7 +116,7 @@ const VerifyEmail = ({ navigation }) => {
                     </Apptext>
                 </View>
                 <View style={{ flexDirection: 'row', marginTop: wp('4%'), marginHorizontal: wp('4%'), justifyContent: 'space-evenly' }}>
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                         onPress={() => setVisible(true)} style={styles.inputContainer}>
                         <CountryPicker
                             {...{
@@ -104,10 +126,11 @@ const VerifyEmail = ({ navigation }) => {
                             visible={isVisibe}
                         />
                         <Image style={{ marginTop: wp('3%'), marginLeft: wp('2%') }} source={require('../../../../assets/arrowDown.png')} />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
 
                     <HumanFormInput
                         labelValue={isEmail}
+                        editable={user === true ? false : true }
                         onChangeText={(val) => {
                             setEmail(val)
                             ValidateEmail(val)
@@ -119,16 +142,16 @@ const VerifyEmail = ({ navigation }) => {
                         placeholderText="example@gmail.com"
                         myClr={DefaultStyles.colors.white}
                         myRadius={5}
-                        myWidth={wp('66%')}
+                        myWidth={wp('90%')}
                         autoCapitalize="none"
                         autoCorrect={false}
                     />
                 </View>
-                {chkMail ? <View style={{ marginHorizontal: wp('30%'), marginTop: wp('2%') }}>
+                {chkMail ? <View style={{ marginHorizontal: wp('7%'), marginTop: wp('2%') }}>
                     <Apptext style={{ fontSize: 10, color: "red" }}>
                         Please Enter Valid Email</Apptext>
                 </View> : null}
-                {badFormat ? <View style={{ marginHorizontal: wp('30%'), marginTop: wp('1%') }}>
+                {badFormat ? <View style={{ marginHorizontal: wp('7%'), marginTop: wp('1%') }}>
                     <Apptext style={{ fontSize: 10, color: "red" }}>
                         The email address is badly formatted</Apptext>
                 </View> : null}

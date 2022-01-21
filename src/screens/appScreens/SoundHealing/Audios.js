@@ -29,6 +29,7 @@ const Audios = ({ navigation, route }) => {
     const [isHeart, setHeart] = useState(false);
     const [isRandomNum, setRandomNum] = useState('');
     const [isAzanDon, setAzanDon] = useState([]);
+    const [yeData, setmyData] = useState(false);
 
     const updateHeart = () => {
         setHeart(!isHeart)
@@ -50,21 +51,12 @@ const Audios = ({ navigation, route }) => {
     const getFvListing = async() => {
         let res = await getFvrtsListing("FavoriteListing", userInfo.uid)
         setAzanDon(res)
-         console.log(res)
-        // console.log(audiodata.id)
-        // res.map((item) => setRandomNum(item)) 
+        // console.log(res)
         
     }
     const heartMethod = async (item) => {
         
         let str = RandomNumberFunction(item.title, item.id);
-        isAzanDon.map((item) => {
-            if (item.id === audiodata.id) {
-                item.isLike = !item.isLike
-            }
-        })
-        console.log(isAzanDon)
-    
         let hrt = isHeart ? false : true;
 
         let Details = {
@@ -77,8 +69,18 @@ const Audios = ({ navigation, route }) => {
             userId: userInfo.uid ? userInfo.uid : null,
             isLike: hrt
         };
+
+        isAzanDon.map((item) => {
+            if (item.id === audiodata.id) {
+                console.log(item.id)
+                setmyData(true)
+                item.isLike = !item.isLike
+            }
+        })
         console.log("isAzanDon",isAzanDon)
-        await saveFvrtsData('FavoriteListing', userInfo.uid, isAzanDon.length > 0 ? isAzanDon : Details,isAzanDon.length > 0 ? "update" : "insert")
+     
+        await saveFvrtsData('FavoriteListing', userInfo.uid, yeData === true ? isAzanDon : Details, yeData === true ? "update" : "insert")
+        getFvListing();
         // .then((data) => {
         //     console.log("UIn")
         //     getFvListing();
@@ -113,7 +115,7 @@ const Audios = ({ navigation, route }) => {
     }
 
     useEffect(() => {
-        // getFvListing();
+        getFvListing();
         if (audiodata.id === audioId) {
             dispatch(setAudioBtn(true))
         }
@@ -168,8 +170,8 @@ const Audios = ({ navigation, route }) => {
                         videoName={audiodata.title ? audiodata.title : null}
                         onPress={() => {
                             updateHeart()
-                            // heartMethod(audiodata)
-                            FavMeth()
+                            heartMethod(audiodata)
+                            // FavMeth()
                         }}
                         boxImg={isHeart ? require('../../../../assets/redHeart.png') : require('../../../../assets/heartBox.png')}
                         subTxt={audiodata.sub_title ? audiodata.sub_title : null }

@@ -20,9 +20,9 @@ const Home = ({ navigation }) => {
 
     const userInfo = useSelector((state) => state.auth.userdata)
 
-
     const [coverImg, setCoverImg] = useState('');
     const [islistingData, setListingData] = useState([]);
+    const [profilePath, setProfileUrl] = useState('');
     const [userId, setUserId] = useState('');
 
     const chkData = async () => {
@@ -31,8 +31,11 @@ const Home = ({ navigation }) => {
     }
 
     const listingData = async () => {
-        
+            
             let res = await getListing("FavoriteListing", userInfo.uid)
+            let rest = await getListing("users", userInfo.uid)
+            console.log("res", rest.profilePhoto )
+            setProfileUrl(rest.profilePhoto ? rest.profilePhoto : null)
             let result  = res.media.filter((item) => item.isLike === true && item.userId === userInfo.uid);
             setListingData(result)
     }
@@ -131,7 +134,7 @@ const Home = ({ navigation }) => {
     return (
         <View style={[styles.container]}>
             <HomeHeader
-                headrImg={require('../../../../assets/boyImg.png')}
+                headrImg={profilePath ? {uri: profilePath} : require('../../../../assets/empty-image.png')}
                 headerTitle={"Welcome"}
                 leftOnPress={() => navigation.navigate('withoutBottomTabnavigator', { screen: 'ProfileView' })}
                 rightHeaderImg={require('../../../../assets/settingIcon.png')}
