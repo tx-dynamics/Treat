@@ -81,7 +81,7 @@ const Library = ({ navigation,route }) => {
 
     const listingData = async () => {
         let res = await getListing(dbName , catName)
-        // setListingData(res.media)
+        setListingData(res.media)
         console.log("res",res)
         setPageHeading(res.pageHeading)
         

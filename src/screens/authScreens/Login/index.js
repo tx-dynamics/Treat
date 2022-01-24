@@ -12,7 +12,7 @@ import FormButton from 'src/components/FormButton';
 import { setUser, setUserData } from 'src/redux/actions/authAction';
 import { useDispatch } from "react-redux";
 import auth from '@react-native-firebase/auth';
-import {getData} from 'src/firebase/utility';
+import {getData, saveInitialData} from 'src/firebase/utility';
 import { useSelector } from 'react-redux';
 
 
@@ -76,6 +76,7 @@ const SignIn = ({ navigation }) => {
                       console.log("In IF")
                     dispatch(setUser(true))
                     dispatch(setUserData(user1))
+                    await saveInitialData("FavoriteListing", user1.uid)
                     // setLoading(false)
                     // navigation.replace("Home")
                   }

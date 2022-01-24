@@ -15,25 +15,25 @@ const WorkSchedule = ({ navigation }) => {
 
     const data = [
         {
-            label: 'Days, 12h'
+            label: '8:00 am'
         },
         {
-            label: 'Days, 8h'
+            label: '10:00 am'
         },
         {
-            label: 'Mid, 09-2100'
+            label: '12:00 pm'
         },
         {
-            label: 'Mid, 1100-2300'
+            label: '2:00 pm'
         },
         {
-            label: 'Mid, 1500-0300'
+            label: '4:00 pm'
         },
         {
-            label: 'Nights, 12h'
+            label: '9:00 pm'
         },
         {
-            label: 'Nights, 8h,'
+            label: '10:00 pm'
         },
 
     ];

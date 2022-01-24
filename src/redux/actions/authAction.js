@@ -20,3 +20,10 @@ export const setAudioID = (data) => async (dispatch) => {
 export const setUserActive = (data) => async (dispatch) => {
     dispatch({type: "userActive" , payload : data})
 }
+export const setItemLikes = (data) => async (dispatch) => {
+    dispatch({type: "itemLikes" , payload : data})
+}
+
+export const setLikeID = (data) => async (dispatch) => {
+    dispatch({type: "Likeid" , payload : data})
+}

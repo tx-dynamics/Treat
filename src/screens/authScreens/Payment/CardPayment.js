@@ -21,7 +21,7 @@ import Video from 'react-native-video';
 import auth from '@react-native-firebase/auth';
 import { saveData } from 'src/firebase/utility';
 import { useSelector } from 'react-redux';
-
+import { CreditCardInput, LiteCreditCardInput } from "react-native-credit-card-input";
 
 const CardPayment = ({ props, route, navigation }) => {
 
@@ -182,12 +182,6 @@ const CardPayment = ({ props, route, navigation }) => {
                                     <Apptext style={{ color: "white", fontFamily: 'Poppins', fontSize: 10 }}>{isDay + " / " + isYear}</Apptext>
                                 </View>
                             </ImageBackground>
-                            <ResponsiveText style={{
-                                fontFamily: 'Poppins',
-                                color: "gray", textAlign: 'center', marginTop: 16,
-                                width: wp('80%'), alignSelf: 'center'
-                            }} >By adding debit / creadit card you agree to the
-                                Terms & Condition</ResponsiveText>
                             <ResponsiveText
                                 style={{
                                     fontFamily: 'Poppins', fontSize: 12,

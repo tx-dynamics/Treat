@@ -48,7 +48,7 @@ const ProfileView = ({ navigation }) => {
             try {
                 const response = await fetch(image.path);
                 const blob = await response.blob();
-                const ref = storage().ref('files');
+                const ref = storage().ref(`/files/${image.mime}`);
                 // .child(uuid.v4());
                 const task = ref.put(blob);
                 return new Promise((resolve, reject) => {

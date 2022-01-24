@@ -31,19 +31,19 @@ const Home = ({ navigation }) => {
     }
 
     const listingData = async () => {
-            
-            let res = await getListing("FavoriteListing", userInfo.uid)
-            let rest = await getListing("users", userInfo.uid)
-            console.log("res", rest.profilePhoto )
-            setProfileUrl(rest.profilePhoto ? rest.profilePhoto : null)
-            let result  = res.media.filter((item) => item.isLike === true && item.userId === userInfo.uid);
-            setListingData(result)
+
+        let res = await getListing("FavoriteListing", userInfo.uid)
+        let rest = await getListing("users", userInfo.uid)
+        console.log("res", rest.profilePhoto)
+        setProfileUrl(rest.profilePhoto ? rest.profilePhoto : null)
+        let result = res.media.filter((item) => item.isLike === true && item.userId === userInfo.uid);
+        setListingData(result)
     }
 
     useEffect(() => {
         chkData();
         listingData();
-    }, [])
+    },[])
 
     const DATA = [
         {
@@ -134,7 +134,7 @@ const Home = ({ navigation }) => {
     return (
         <View style={[styles.container]}>
             <HomeHeader
-                headrImg={profilePath ? {uri: profilePath} : require('../../../../assets/empty-image.png')}
+                headrImg={profilePath ? { uri: profilePath } : require('../../../../assets/empty-image.png')}
                 headerTitle={"Welcome"}
                 leftOnPress={() => navigation.navigate('withoutBottomTabnavigator', { screen: 'ProfileView' })}
                 rightHeaderImg={require('../../../../assets/settingIcon.png')}
@@ -146,16 +146,16 @@ const Home = ({ navigation }) => {
                 <View style={{ marginTop: wp('9%') }}>
                     <HomeWideCard
                         // backImg={require('../../../../assets/human2.png')}
-                        backImg={{uri : coverImg.cover}}
+                        backImg={{ uri: coverImg.cover }}
                         label={coverImg.quote ? coverImg.quote : null}
-                        // isSubTxt={coverImg.description ? true : false}
-                        // setSubTxt={coverImg.description ? coverImg.description : null}
+                    // isSubTxt={coverImg.description ? true : false}
+                    // setSubTxt={coverImg.description ? coverImg.description : null}
                     />
                 </View>
                 <View style={styles.cntrTxt}>
                     {/* <Apptext style={styles.grayTxt}>{`“It takes as much energy to wish as it does to plan.” 
                                     Eleanor Roosevelt`} </Apptext> */}
-                    <Apptext style={styles.grayTxt}>{coverImg.quotee ? coverImg.quotee : null } </Apptext>
+                    <Apptext style={styles.grayTxt}>{coverImg.quotee ? coverImg.quotee : null} </Apptext>
                 </View>
                 <Apptext style={styles.monthTxt}>JUNE</Apptext>
                 <View style={styles.CalenderBox}>
@@ -225,19 +225,19 @@ const Home = ({ navigation }) => {
                     }}
                     ListEmptyComponent={() => {
                         return (
-                          <Apptext style={{ alignSelf: "center", marginTop: 50 }}>
-                            No Item Found
-                          </Apptext>
+                            <Apptext style={{ alignSelf: "center", marginTop: 50 }}>
+                                No Item Found
+                            </Apptext>
                         );
-                      }}
+                    }}
                     horizontal={false}
-                    keyExtractor={(item, index) => index }
+                    keyExtractor={(item, index) => index}
                     renderItem={({ item, index }) => (
                         <HomeBox
-                            yellowBoxTxt={index + 1 +" MIN"}
+                            yellowBoxTxt={index + 1 + " MIN"}
                             leftTitle={item.title}
                             subTitle={item.sub_title}
-                            leftImgName={{uri : item.thumbnail}}
+                            leftImgName={{ uri: item.thumbnail }}
                             heartImg={item.isLike ? require('../../../../assets/smallRedHeart.png') : require('../../../../assets/redHeart.png')}
                             onPress={updateHeart}
                         />

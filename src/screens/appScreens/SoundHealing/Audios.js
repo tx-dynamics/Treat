@@ -10,10 +10,10 @@ import TreatHeader from 'src/components/TreatHeader';
 import Card from 'src/components/Card';
 import AudioCard from 'src/components/AudioCard';
 import TrackPlayer from 'react-native-track-player';
-import { saveData, saveFvrtsData,getListing,getFvrtsListing, addToArray } from "src/firebase/utility";
+import { saveData, saveFvrtsData,getListing,removeToArray, getFvrtsListing,saveFav, addToArray } from "src/firebase/utility";
 import { useSelector } from 'react-redux';
 import { useDispatch } from "react-redux";
-import { setAudioBtn, setAudioID } from 'src/redux/actions/authAction';
+import { setAudioBtn, setLikeID, setAudioID, setItemLikes } from 'src/redux/actions/authAction';
 import { Alert } from 'react-native';
 
 
@@ -25,17 +25,21 @@ const Audios = ({ navigation, route }) => {
     const userInfo = useSelector((state) => state.auth.userdata)
     const audioCntrl = useSelector((state) => state.auth.audioBtn)
     const audioId = useSelector((state) => state.auth.audioID)
+    const FavItems = useSelector((state) => state.auth.ItemLikes)
+    const likeID = useSelector((state) => state.auth.likeId)
+
 
     const [isHeart, setHeart] = useState(false);
     const [isRandomNum, setRandomNum] = useState('');
     const [isAzanDon, setAzanDon] = useState([]);
     const [yeData, setmyData] = useState(false);
+    const [isID, setID] = useState([]);
 
     const updateHeart = () => {
         setHeart(!isHeart)
     }
     const [isPlaying, setPlaying] = useState(false);
-
+    // console.log("ItemLikes", FavItems)
     const RandomNumberFunction = (name, num) => {
         // console.log(name, num)
         const txt = name;
@@ -50,14 +54,21 @@ const Audios = ({ navigation, route }) => {
 
     const getFvListing = async() => {
         let res = await getFvrtsListing("FavoriteListing", userInfo.uid)
-        setAzanDon(res)
-        // console.log(res)
-        
+        dispatch(setItemLikes(res))
+        FavItems.forEach(myFunction)  
     }
+
+    const myFunction = (item) => {
+        setID([item.id])
+      }
     const heartMethod = async (item) => {
         
         let str = RandomNumberFunction(item.title, item.id);
         let hrt = isHeart ? false : true;
+
+        await saveFav("FavoriteListing", userInfo.uid, {
+            UID: userInfo.uid,
+          });
 
         let Details = {
             id: audiodata.id ? audiodata.id : null,
@@ -67,24 +78,36 @@ const Audios = ({ navigation, route }) => {
             url: audiodata.url ? audiodata.url : null,
             thumbnail: audiodata.thumbnail ? audiodata.thumbnail : null,
             userId: userInfo.uid ? userInfo.uid : null,
-            isLike: hrt
+            isLike: true
         };
-
-        isAzanDon.map((item) => {
-            if (item.id === audiodata.id) {
-                console.log(item.id)
-                setmyData(true)
-                item.isLike = !item.isLike
-            }
-        })
-        console.log("isAzanDon",isAzanDon)
-     
-        await saveFvrtsData('FavoriteListing', userInfo.uid, yeData === true ? isAzanDon : Details, yeData === true ? "update" : "insert")
-        getFvListing();
-        // .then((data) => {
-        //     console.log("UIn")
-        //     getFvListing();
+        let result  =  isID.includes(audiodata.id);
+        if(result === true){
+            console.log("exists")
+            await removeToArray("FavoriteListing",userInfo.uid, 'media',
+            {
+                id: audiodata.id,
+                media: Details
+            });
+        } else{
+            console.log("Value does not exists!")
+            await addToArray("FavoriteListing",userInfo.uid, 'media',
+            {
+                id: audiodata.id,
+                media: Details
+            });
+        }
+        // isAzanDon.map((item) => {
+        //     if (item.id === audiodata.id) {
+        //         console.log("ITEMID", item.id , "DBID =>" , audiodata.id ) 
+        //         setmyData(true)
+        //         item.isLike = !item.isLike
+        //     }
         // })
+        // console.log("isAzanDon",isAzanDon)
+       
+        // await saveFvrtsData('FavoriteListing', userInfo.uid, yeData === true ? isAzanDon : Details, yeData === true ? "update" : "insert")
+        getFvListing();
+     
     }
 
     const start = async () => {
@@ -127,20 +150,31 @@ const Audios = ({ navigation, route }) => {
 
     const FavMeth = async() => {
          let hrt = isHeart ? false : true;
-         let success = await addToArray("FavoriteListings",userInfo.uid, 'media',
-         {
-             id: audiodata.id ? audiodata.id : null,
-             title: audiodata.title ? audiodata.title : null,
-             description: audiodata.description ? audiodata.description : null,
-             sub_title: audiodata.sub_title ? audiodata.sub_title : null,
-             url: audiodata.url ? audiodata.url : null,
-             thumbnail: audiodata.thumbnail ? audiodata.thumbnail : null,
-             userId: userInfo.uid ? userInfo.uid : null,
-             isLike: hrt
-         }
-         );
+         let success1 = await saveFav("FavoriteListing", userInfo.uid, {
+            id: audiodata.id,
+            title: audiodata.title ? audiodata.title : null,
+            description: audiodata.description ? audiodata.description : null,
+            sub_title: audiodata.sub_title ? audiodata.sub_title : null,
+            url: audiodata.url ? audiodata.url : null,
+            thumbnail: audiodata.thumbnail ? audiodata.thumbnail : null,
+            userId: userInfo.uid ? userInfo.uid : null,
+            isLike: hrt
+          });
+    
+        //  let success = await addToArray("FavoriteListings",userInfo.uid, 'media',
+        //  {
+        //      id: audiodata.id ? audiodata.id : null,
+        //      title: audiodata.title ? audiodata.title : null,
+        //      description: audiodata.description ? audiodata.description : null,
+        //      sub_title: audiodata.sub_title ? audiodata.sub_title : null,
+        //      url: audiodata.url ? audiodata.url : null,
+        //      thumbnail: audiodata.thumbnail ? audiodata.thumbnail : null,
+        //      userId: userInfo.uid ? userInfo.uid : null,
+        //      isLike: hrt
+        //  }
+        //  );
         //  console.log(success)
-         Alert.alert("Item Saved")
+        //  Alert.alert("Item Saved")
 
        }
 

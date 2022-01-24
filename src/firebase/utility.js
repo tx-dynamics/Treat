@@ -7,7 +7,7 @@ import {ToastAndroid} from 'react-native';
 
 
 export async function uploadImage(uri) {
-  console.log("Img Recvd", uri)
+  // console.log("Img Recvd", uri)
   // let reference = storage().ref(`/files/${imageName}`);         // 2
   // let task = reference.putFile(uri);               // 3
   // task.then(() => {                                 // 4
@@ -121,7 +121,18 @@ export async function getFvrtsListing(collection, doc1) {
   });
   return data;
 }
-
+export async function saveInitialData(collection, userId) {
+  await firestore()
+     .collection(collection)
+     .doc(userId)
+     .set({media:[]})
+     .then(function() {
+       // alert("Data saved succesfuly");
+     })
+     .catch(function(error) {
+       alert(error);
+     });
+ }
 export async function getAllOptions(collection) {
   console.log(collection)
   let data = [];
@@ -159,7 +170,7 @@ export async function saveFvrtsData(collection, doc, jsonObject, cond) {
   }
   else{
     console.log("Insert")
-    firestore().collection(collection).doc(doc).set({media:[jsonObject]}, { merge: true })
+    firestore().collection(collection).doc(doc).set({media:firestore.FieldValue.arrayUnion(jsonObject)}, { merge: true })
     .then(function () {
       async () => {
         console.log('Document successfully written!');
@@ -171,11 +182,31 @@ export async function saveFvrtsData(collection, doc, jsonObject, cond) {
 
   
 export async function addToArray(collection, doc, array, value) {
-  console.log(collection,doc,array,value)
+  // console.log(collection,doc,array,value)
       await firestore().collection(collection)
       .doc(doc)
       .update({
         [array]: firestore.FieldValue.arrayUnion(value),
       });
 }
-
+export async function removeToArray(collection, doc, array, value) {
+  
+  await firestore().collection(collection)
+      .doc(doc)
+      .update({
+        [array]: firestore.FieldValue.arrayRemove(value),
+      });
+}
+export async function saveFav(collection, doc, jsonObject) {
+  await firestore().collection(collection).doc(doc).set(jsonObject, { merge: true })
+    .then(function () {
+      async () => {
+      console.log("Document successfully written!");
+      return true;
+      };
+    })
+    .catch(function (error) {
+      console.error("Error writing document: ", error);
+      return false;
+    });
+}

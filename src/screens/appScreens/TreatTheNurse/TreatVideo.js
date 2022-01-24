@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import { View,StyleSheet,FlatList ,Image, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, FlatList, Image, ScrollView } from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -12,7 +12,8 @@ import Card from 'src/components/Card';
 import VideoCard from 'src/components/VideoCard';
 import { saveData, saveFvrtsData, getListing } from "src/firebase/utility";
 import { useSelector } from 'react-redux';
-
+import { useDispatch } from "react-redux";
+import { setAudioBtn, setAudioID } from 'src/redux/actions/authAction';
 
 const TreatVideo = ({ navigation, route }) => {
     const DATA = [
@@ -52,12 +53,13 @@ const TreatVideo = ({ navigation, route }) => {
             dt: "01 Feb",
             move: "Detail"
         },
-  
+
 
     ];
 
-    const {videodata} = route.params;
+    const { videodata } = route.params;
     const userInfo = useSelector((state) => state.auth.userdata)
+    let dispatch = useDispatch();
 
 
     const [isHeart, setHeart] = useState(false);
@@ -68,78 +70,79 @@ const TreatVideo = ({ navigation, route }) => {
 
 
     // const listingData = async () => {
-     
+
     // }
- 
+
     // useEffect(() => {
     //     listingData();
     // },[]);
 
-   const heartMethod = async() => {
+    const heartMethod = async () => {
 
-    // let res = await getListing("FavoriteListing", userInfo.uid)
-    // console.log(res.media)
-    // let result = res.media.map((item, index) => (item))
-    // console.log(result);
-    // result.map((item) => {
-    //     if(item.id === videodata.id){
-    //         // console.log(item)
-    //         item.isLike =! item.isLike
-    //         console.log(item)
-    //     }
-    // } )
+        // let res = await getListing("FavoriteListing", userInfo.uid)
+        // console.log(res.media)
+        // let result = res.media.map((item, index) => (item))
+        // console.log(result);
+        // result.map((item) => {
+        //     if(item.id === videodata.id){
+        //         // console.log(item)
+        //         item.isLike =! item.isLike
+        //         console.log(item)
+        //     }
+        // } )
 
-    let hrt = isHeart ? false : true ;
+        let hrt = isHeart ? false : true;
 
-    let Details = {
-        id: videodata.id ? videodata.id : null,
-        title: videodata.title ? videodata.title : null,
-        description: videodata.description ? videodata.description : null,
-        sub_title: videodata.sub_title ? videodata.sub_title : null,
-        url : videodata.url ? videodata.url : null,
-        thumbnail: videodata.thumbnail ? videodata.thumbnail : null,
-        userId : userInfo.uid ? userInfo.uid : null,
-        isLike : hrt
-    };
-  
-    await saveFvrtsData('FavoriteListing', userInfo.uid,Details);
-   }
+        let Details = {
+            id: videodata.id ? videodata.id : null,
+            title: videodata.title ? videodata.title : null,
+            description: videodata.description ? videodata.description : null,
+            sub_title: videodata.sub_title ? videodata.sub_title : null,
+            url: videodata.url ? videodata.url : null,
+            thumbnail: videodata.thumbnail ? videodata.thumbnail : null,
+            userId: userInfo.uid ? userInfo.uid : null,
+            isLike: hrt
+        };
+
+        await saveFvrtsData('FavoriteListing', userInfo.uid, Details);
+    }
 
     return (
         <View style={styles.container}>
             <TreatHeader
-            leftIcon={"arrow-back"}
-            onPressLeft={() => navigation.goBack()}
-            onPressRight={() => navigation.navigate("Settings")}
+                leftIcon={"arrow-back"}
+                onPressLeft={() => navigation.goBack()}
+                onPressRight={() => navigation.navigate("Settings")}
             />
-        <ScrollView>
-            <Apptext style={styles.monthTxt}>{videodata.title ? videodata.title : null}</Apptext>
-            <View style={{marginTop:wp('4%')}}>
-               <VideoCard
-               backImg={{uri : videodata.thumbnail}}
-               videoUrl={videodata.url ? videodata.url : 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'}
-               videoCntrl={isPlaying ? require('../../../../assets/pause1.png') : require('../../../../assets/videoIcon.png')}
-               isPaused={paused}
-               onPress={() => {
-                setPlaying(!isPlaying)
-                isPlaying ? setPaused(true) : setPaused(false)
-                
-            }}
-               />
-            </View>
-            <View style={{marginTop:wp('10%')}}>
-                <Card
-                videoName={videodata.title ? videodata.title : null}
-                boxImg={isHeart ? require('../../../../assets/redHeart.png') : require('../../../../assets/heartBox.png')  }
-                onPress={() => {
-                    setHeart(!isHeart)
-                    heartMethod(isHeart)
-                }}
-                subTxt={videodata.sub_title ? videodata.sub_title : null }
-                description={videodata.description ? videodata.description : null }
-                />
-            </View>
-        </ScrollView>
+            <ScrollView>
+                <Apptext style={styles.monthTxt}>{videodata.title ? videodata.title : null}</Apptext>
+                <View style={{ marginTop: wp('4%') }}>
+                    <VideoCard
+                        backImg={{ uri: videodata.thumbnail }}
+                        videoUrl={videodata.url ? videodata.url : 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'}
+                        videoCntrl={isPlaying ? require('../../../../assets/pause1.png') : require('../../../../assets/videoIcon.png')}
+                        isPaused={paused}
+                        onPress={() => {
+                            setPlaying(!isPlaying)
+                            isPlaying ? setPaused(true) : setPaused(false)
+                            
+
+                        }}
+                    />
+                </View>
+                <View style={{ marginTop: wp('10%') }}>
+                    <Card
+                        videoName={videodata.title ? videodata.title : null}
+                        boxImg={isHeart ? require('../../../../assets/redHeart.png') : require('../../../../assets/heartBox.png')}
+                        onPress={() => {
+                            setHeart(!isHeart)
+                            heartMethod(isHeart)
+                        }}
+                        subTxt={videodata.sub_title ? videodata.sub_title : null}
+                        description={videodata.description ? videodata.description : null}
+                    />
+                </View>
+            </ScrollView>
         </View>
     )
 }
@@ -154,20 +157,20 @@ const styles = StyleSheet.create({
     headerLogo: {
         alignItems: 'center',
         justifyContent: 'center',
-      },
-    text2:{
-        width:158,
-        fontFamily:"Poppins-Medium",
-        fontSize:16,
-        color:DefaultStyles.colors.secondary
+    },
+    text2: {
+        width: 158,
+        fontFamily: "Poppins-Medium",
+        fontSize: 16,
+        color: DefaultStyles.colors.secondary
 
     },
-    monthTxt:{
-        fontFamily:"Poppins-Regular",
-        fontSize:wp('5%'),
-        alignSelf:'center',
-        marginTop:wp('6%'),
-        color:DefaultStyles.colors.textColor
+    monthTxt: {
+        fontFamily: "Poppins-Regular",
+        fontSize: wp('5%'),
+        alignSelf: 'center',
+        marginTop: wp('6%'),
+        color: DefaultStyles.colors.textColor
     },
-  
-    });
+
+});

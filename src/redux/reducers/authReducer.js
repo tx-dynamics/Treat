@@ -4,7 +4,9 @@ const INITIAL_STATE = {
     userdata: null,
     audioBtn : false,
     audioID : null,
-    userActive:false
+    userActive:false,
+    ItemLikes:[],
+    likeId:[]
 
 }
 export default function (state = INITIAL_STATE, action){
@@ -21,6 +23,10 @@ export default function (state = INITIAL_STATE, action){
             return {...state, audioID: action.payload}
         case "userActive" :
                 return {...state, userActive: action.payload}
+        case "itemLikes" :
+                    return {...state, ItemLikes: action.payload}
+        case "Likeid" :
+            return {...state, likeId: action.payload}
         default:
             return state
     }
