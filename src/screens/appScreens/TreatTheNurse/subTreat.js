@@ -165,6 +165,7 @@ const subTreat = ({ navigation, route}) => {
                     <FlatList
                         data={optionsList}
                         numColumns={3}
+                        style={{alignSelf:'center'}}
                         horizontal={false}
                         keyExtractor={(index) => index}
                         renderItem={({ item,index }) => (

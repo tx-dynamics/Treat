@@ -8,8 +8,11 @@ import DefaultStyles from "src/config/Styles";
 import Apptext from 'src/components/Apptext';
 import Header from 'src/components/Header';
 import FvrtComp from 'src/components/FvrtComp';
-import { getAllOfCollection, getFvrtsListing,saveFvrtsData, getListing } from "src/firebase/utility";
+import { getAllOfCollection, getFvrtsListing,saveFvrtsData,saveFav, getListing } from "src/firebase/utility";
 import { useSelector } from 'react-redux';
+import { useDispatch } from "react-redux";
+import { setItemLikes } from 'src/redux/actions/authAction';
+import firestore from '@react-native-firebase/firestore';
 
 
 const Fvrts = ({ navigation }) => {
@@ -55,26 +58,33 @@ const Fvrts = ({ navigation }) => {
 
     ];
 
-
+    let dispatch = useDispatch();
     const userInfo = useSelector((state) => state.auth.userdata)
+    const FavItems = useSelector((state) => state.auth.ItemLikes)
 
     const [islistingData, setListingData] = useState([]);
     const [isLike, setLike] = useState(true);
     const [isDesc, setDesc] = useState([]);
+    const [isReferesh, setReferesh] = useState(false);
 
 
-    const listingData = async () => {
-
-        let res = await getFvrtsListing("FavoriteListing", userInfo.uid)
-        let result = res.media.filter((item) => item.isLike === true && item.userId === userInfo.uid);
-        setListingData(result)
+    const getFvListing = async() => {
+        let res = await getListing("FavoriteListing", userInfo.uid)
+        dispatch(setItemLikes(res.media))
+        if (FavItems === undefined) {
+            console.log("Undefined found")    
+        }
+        else{
+            console.log("FavItems",FavItems)
+            
+        }
     }
-
     useEffect(() => {
-        listingData();
-    }, [])
-    const heartMethod = async(item,index) => {
+        getFvListing();
+    }, [isReferesh]);
 
+       const heartMethod = async (item) => {   
+        let hrt = item.isLike ? false : true;
         let Details = {
             id: item.id ? item.id : null,
             title: item.title ? item.title : null,
@@ -83,11 +93,43 @@ const Fvrts = ({ navigation }) => {
             url : item.url ? item.url : null,
             thumbnail: item.thumbnail ? item.thumbnail : null,
             userId : userInfo.uid ? userInfo.uid : null,
-            isLike : isLike
+            isLike : hrt
         };
 
-        await saveFvrtsData('FavoriteListing', userInfo.uid,Details);
-       }
+        let exist ;
+        let indexes ;
+        if (typeof FavItems === "undefined") {
+            console.log("Undefined")
+        }
+        else{
+            FavItems.map((val, index) => 
+            {
+                if (item.id === val.id) {
+                    console.log("exists")
+                    console.log("index", index)
+                    exist = true;
+                    indexes = index;
+                }     
+            })
+        }
+    if (exist === true) {
+        console.log(indexes)
+        
+        FavItems.splice(indexes,1)
+        await firestore().collection("FavoriteListing").doc(userInfo.uid).delete().
+        then(async() => {
+            // getFvListing();
+            setReferesh(!isReferesh)
+            console.log("Favitems",FavItems)
+            await saveFav("FavoriteListing",userInfo.uid, FavItems)
+        })
+    }
+    else{
+        console.log("FavItems",FavItems)
+        FavItems.push(Details)
+        await saveFav("FavoriteListing",userInfo.uid, FavItems)
+    }
+    }
 
     return (
         <View style={styles.container}>
@@ -98,7 +140,7 @@ const Fvrts = ({ navigation }) => {
             <ScrollView>
                 <View style={{ marginTop: wp('8%') }} >
                     <FlatList
-                        data={islistingData }
+                        data={FavItems }
                         keyExtractor={(item, index) => index}
                         ListEmptyComponent={() => {
                             return (
@@ -113,7 +155,7 @@ const Fvrts = ({ navigation }) => {
                                 labelValue={item.title}
                                 rightonPress={() => {
                                     setLike(false)
-                                    heartMethod(item,index);
+                                    heartMethod(item);
                                    
                                 }}
                                 rightImgName={item.isLike ? require('../../../../assets/redHeart.png') : require('../../../../assets/heart.png')}

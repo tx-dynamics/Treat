@@ -4,12 +4,13 @@ import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import firestore from '@react-native-firebase/firestore';
 import DefaultStyles from "src/config/Styles";
 import Apptext from 'src/components/Apptext';
 import TreatHeader from 'src/components/TreatHeader';
 import Card from 'src/components/Card';
 import AudioCard from 'src/components/AudioCard';
-import TrackPlayer from 'react-native-track-player';
+import TrackPlayer,{Capability }from 'react-native-track-player';
 import { saveData, saveFvrtsData,getListing,removeToArray, getFvrtsListing,saveFav, addToArray } from "src/firebase/utility";
 import { useSelector } from 'react-redux';
 import { useDispatch } from "react-redux";
@@ -33,6 +34,7 @@ const Audios = ({ navigation, route }) => {
     const [isRandomNum, setRandomNum] = useState('');
     const [isAzanDon, setAzanDon] = useState([]);
     const [yeData, setmyData] = useState(false);
+    const [isRefresh, setReferesh] = useState(false);
     const [isID, setID] = useState([]);
 
     const updateHeart = () => {
@@ -53,22 +55,42 @@ const Audios = ({ navigation, route }) => {
     };
 
     const getFvListing = async() => {
-        let res = await getFvrtsListing("FavoriteListing", userInfo.uid)
-        dispatch(setItemLikes(res))
-        FavItems.forEach(myFunction)  
+        console.log("In")
+        // let res = await getFvrtsListing("FavoriteListing", userInfo.uid)
+        let res = await getListing("FavoriteListing", userInfo.uid)
+        console.log("res",res)
+        dispatch(setItemLikes(res.media))
+        if (FavItems === undefined) {
+            console.log("Undefined found")    
+        //  dispatch(setItemLikes([]))
+        }
+        else{
+            console.log("FavItems",FavItems)
+            FavItems.forEach((val) => 
+          { 
+             if (val.id === audiodata.id) {
+                setHeart(true)
+             }  
+             else{
+                
+             }
+            }  
+            )  
+        }
     }
 
     const myFunction = (item) => {
-        setID([item.id])
+        console.log("id",[item])
+        // setID([item.id])
       }
     const heartMethod = async (item) => {
         
         let str = RandomNumberFunction(item.title, item.id);
         let hrt = isHeart ? false : true;
 
-        await saveFav("FavoriteListing", userInfo.uid, {
-            UID: userInfo.uid,
-          });
+        // await saveFav("FavoriteListing", userInfo.uid, {
+        //     UID: userInfo.uid,
+        //   });
 
         let Details = {
             id: audiodata.id ? audiodata.id : null,
@@ -78,24 +100,90 @@ const Audios = ({ navigation, route }) => {
             url: audiodata.url ? audiodata.url : null,
             thumbnail: audiodata.thumbnail ? audiodata.thumbnail : null,
             userId: userInfo.uid ? userInfo.uid : null,
-            isLike: true
+            isLike: hrt
         };
         let result  =  isID.includes(audiodata.id);
-        if(result === true){
-            console.log("exists")
-            await removeToArray("FavoriteListing",userInfo.uid, 'media',
-            {
-                id: audiodata.id,
-                media: Details
-            });
-        } else{
-            console.log("Value does not exists!")
-            await addToArray("FavoriteListing",userInfo.uid, 'media',
-            {
-                id: audiodata.id,
-                media: Details
-            });
+        let exist ;
+        let indexes ;
+        if (typeof FavItems === "undefined") {
+            console.log("Undefined")
         }
+        else{
+            FavItems.map((val, index) => 
+            {
+                if (audiodata.id === val.id) {
+                    console.log("exists")
+                    console.log("index", index)
+                    exist = true;
+                    indexes = index;
+                }     
+            })
+        }
+    if (exist === true) {
+        console.log(indexes)
+        FavItems.splice(indexes,1)
+        await firestore().collection("FavoriteListing").doc(userInfo.uid).delete().
+        then(async() => {
+            await saveFav("FavoriteListing",userInfo.uid, FavItems)
+        })
+    }
+    else{
+        console.log("FavItems",FavItems)
+        FavItems.push(Details)
+        await saveFav("FavoriteListing",userInfo.uid, FavItems)
+    }
+    console.log("Details", FavItems)
+        
+        // console.log("result",result)
+
+        // if(result === true){
+        //     console.log("exists")
+        //     await firestore().collection("FavoriteListing")
+        //     .doc(userInfo.uid)
+        //     .update({
+        //       media: firestore.FieldValue.arrayRemove(Details),
+        //     }).then(async() => {
+        //         let res = await getListing("FavoriteListing", userInfo.uid)
+        //         console.log("res",res)
+        //         dispatch(setItemLikes(res.media))
+        //         if (FavItems === undefined) {
+        //             console.log("Undefined found")
+        //         }
+        //         else{
+        //             console.log("FavItems",FavItems)
+        //             FavItems.forEach(myFunction)  
+        //         }
+        //         setReferesh(!isRefresh)
+        //     })
+        //     // await removeToArray("FavoriteListing",userInfo.uid, Details)
+            
+        // } else{
+        //     console.log("Value does not exists!")
+        //     await firestore().collection("FavoriteListing")
+        //     .doc(userInfo.uid)
+        //     .update({
+        //       media: firestore.FieldValue.arrayUnion(Details),
+        //     }).then(async() => {
+        //         let res = await getListing("FavoriteListing", userInfo.uid)
+        //         console.log("res",res)
+        //         dispatch(setItemLikes(res.media))
+        //         if (FavItems === undefined) {
+        //             console.log("Undefined found")
+        //         }
+        //         else{
+        //             console.log("FavItems",FavItems)
+        //             FavItems.forEach(myFunction)  
+        //         }
+        //         setReferesh(!isRefresh)
+        //     })
+        //     // await addToArray("FavoriteListing",userInfo.uid, Details)
+            
+        //     // await addToArray("FavoriteListing",userInfo.uid, 'media',
+        //     // {
+        //     //     id: audiodata.id,
+        //     //     media: Details
+        //     // });
+        // }
         // isAzanDon.map((item) => {
         //     if (item.id === audiodata.id) {
         //         console.log("ITEMID", item.id , "DBID =>" , audiodata.id ) 
@@ -106,14 +194,13 @@ const Audios = ({ navigation, route }) => {
         // console.log("isAzanDon",isAzanDon)
        
         // await saveFvrtsData('FavoriteListing', userInfo.uid, yeData === true ? isAzanDon : Details, yeData === true ? "update" : "insert")
-        getFvListing();
+       
      
     }
 
     const start = async () => {
         // Set up the player
-        await TrackPlayer.setupPlayer();
-
+        await TrackPlayer.setupPlayer();  
         // Add a track to the queue
         await TrackPlayer.add({
             id: audiodata.id ? audiodata.id : null,
@@ -126,6 +213,20 @@ const Audios = ({ navigation, route }) => {
 
         // Start playing it
         await TrackPlayer.play();
+        await TrackPlayer.updateOptions({
+            // Media controls capabilities
+            capabilities: [
+                Capability.Play,
+                Capability.Pause,
+            ],
+        
+            // Capabilities that will show up when the notification is in the compact form on Android
+            compactCapabilities: [Capability.Play, Capability.Pause],
+        
+            // Icons for the notification on Android (if you don't like the default ones)
+            playIcon: require('../../../../assets/videoIcon.png'),
+            pauseIcon: require('../../../../assets/pause1.png'),
+        });
     };
     const stop = () => {
         TrackPlayer.stop();
@@ -136,9 +237,11 @@ const Audios = ({ navigation, route }) => {
         audioCntrl ? stop() : start()
         dispatch(setAudioID(audiodata.id))
     }
-
     useEffect(() => {
         getFvListing();
+    },[isRefresh]);
+
+    useEffect(() => {
         if (audiodata.id === audioId) {
             dispatch(setAudioBtn(true))
         }
@@ -149,7 +252,9 @@ const Audios = ({ navigation, route }) => {
     }, []);
 
     const FavMeth = async() => {
-         let hrt = isHeart ? false : true;
+        //  let hrt = isHeart ? false : true;
+         let hrt = !isHeart;
+
          let success1 = await saveFav("FavoriteListing", userInfo.uid, {
             id: audiodata.id,
             title: audiodata.title ? audiodata.title : null,
@@ -182,7 +287,9 @@ const Audios = ({ navigation, route }) => {
         <View style={styles.container}>
             <TreatHeader
                 onPressLeft={() => navigation.goBack()}
-                onPressRight={() => navigation.navigate("Settings")}
+                onPressRight={() => 
+                    navigation.navigate("Settings")
+                }
 
             />
             <ScrollView>
@@ -193,6 +300,7 @@ const Audios = ({ navigation, route }) => {
                         audioCntrl={audioCntrl ? require('../../../../assets/pause1.png') : require('../../../../assets/videoIcon.png')}
                         onPress={() => {
                             chkPlayer()
+                            // console.log("dura",getDuration())
                             // setPlaying(!isPlaying)
                             // isPlaying ? stop() : start()
 

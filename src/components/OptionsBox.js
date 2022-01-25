@@ -25,8 +25,9 @@ export default OptionsBox;
 
 const styles = StyleSheet.create({
     MainContainer: {
-        // width: wp('90%'),
-        marginHorizontal:wp('5%'),
+        // width: wp('20%'),
+        marginHorizontal:wp('3%'),
+       
         height: wp('20%'),
     },
     directionView: {
@@ -36,6 +37,7 @@ const styles = StyleSheet.create({
         backgroundColor: DefaultStyles.colors.lightred,
         borderRadius: 20,
         alignItems:'center',
+   
         
     },
     circleView: {
@@ -44,7 +46,8 @@ const styles = StyleSheet.create({
         height: wp('9%'),
         borderRadius: 20,
         alignItems:'center',
-        justifyContent:'center'
+        justifyContent:'center',
+        
     },
     countTxt:{
         color:DefaultStyles.colors.white

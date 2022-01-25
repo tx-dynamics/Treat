@@ -39,7 +39,7 @@ const ProfileInformation = ({ navigation }) => {
     const listingData = async () => {
         let res = await getListing("users", userInfo.uid)
         setUserActive(!userCntrl)
-        setName(res.displayName ? res.displayName : null)
+        setName(res.fullName ? res.fullName : null)
         setEmail(res.email ? res.email : null)
         setIdNumber(res.identificationNumber ? res.identificationNumber : null)
 
@@ -69,7 +69,7 @@ const ProfileInformation = ({ navigation }) => {
         else {
         const Details = ({
             email: isEmail,
-            displayName: isName,
+            fullName: isName,
             identificationNumber: idNumber
         })
         await saveData('users', userInfo.uid, Details);
@@ -192,6 +192,7 @@ const ProfileInformation = ({ navigation }) => {
                                     <TextInput
                                         value={isEmail}
                                         placeholder='Email'
+                                        editable={false}
                                         onChangeText={(val) => {
                                             setEmail(val)
                                             ValidateEmail(val)

@@ -93,7 +93,7 @@ export async function getAllOfCollection(collection) {
 }
 
 export async function getListing(collection, doc1) {
-  console.log(collection, doc1)
+  // console.log(collection, doc1)
   let data = await firestore().collection(collection).doc(doc1).get().then(function (doc) {
     if (doc.exists) {
       return doc.data() ;
@@ -112,9 +112,8 @@ export async function getFvrtsListing(collection, doc1) {
     if (doc.exists) {
      doc.data().media.forEach(function(doc) {
       data.push(doc)
+     
       })
-      // data = doc.data().media;
-      // return doc.data().media.randomNumber ;
     } else {
       return false;
     }
@@ -181,24 +180,24 @@ export async function saveFvrtsData(collection, doc, jsonObject, cond) {
   }
 
   
-export async function addToArray(collection, doc, array, value) {
+export async function addToArray(collection, doc,value) {
   // console.log(collection,doc,array,value)
       await firestore().collection(collection)
       .doc(doc)
       .update({
-        [array]: firestore.FieldValue.arrayUnion(value),
+        media: firestore.FieldValue.arrayUnion(value),
       });
 }
-export async function removeToArray(collection, doc, array, value) {
+export async function removeToArray(collection, doc,value) {
   
   await firestore().collection(collection)
       .doc(doc)
       .update({
-        [array]: firestore.FieldValue.arrayRemove(value),
+        media: firestore.FieldValue.arrayRemove(value),
       });
 }
 export async function saveFav(collection, doc, jsonObject) {
-  await firestore().collection(collection).doc(doc).set(jsonObject, { merge: true })
+  await firestore().collection(collection).doc(doc).set({media: jsonObject})
     .then(function () {
       async () => {
       console.log("Document successfully written!");

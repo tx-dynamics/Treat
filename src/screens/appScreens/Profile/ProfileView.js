@@ -43,12 +43,13 @@ const ProfileView = ({ navigation }) => {
             // mediaType: "photo",
             //   cropperCircleOverlay: true,
         }).then(async (image) => {
+            console.log(image)
             // setProfileUrl(image.path);
             // let imgPath = awaituploadImage(image.path)
             try {
                 const response = await fetch(image.path);
                 const blob = await response.blob();
-                const ref = storage().ref(`/files/${image.mime}`);
+                const ref = storage().ref(`/files/image/${image.path}`);
                 // .child(uuid.v4());
                 const task = ref.put(blob);
                 return new Promise((resolve, reject) => {
@@ -61,7 +62,7 @@ const ProfileView = ({ navigation }) => {
 
                         async () => {
                             const url = await task.snapshot.ref.getDownloadURL();
-                              console.log("File available at", url)
+                            console.log("File available at", url)
                             resolve(url);
                             let Details = {
                                 email: isEmail,
@@ -82,17 +83,18 @@ const ProfileView = ({ navigation }) => {
                 });
             } catch (err) {
                 console.log('uploadImage error: ' + err.message);
-                ToastAndroid.show(err.message , ToastAndroid.LONG);
+                ToastAndroid.show(err.message, ToastAndroid.LONG);
             }
         });
     }
-
+    let myEmail = ""; 
     const listingData = async () => {
         let res = await getListing("users", userInfo.uid)
-        console.log("res", res.profilePhoto )
+        console.log("res", res)
         setProfileUrl(res.profilePhoto ? res.profilePhoto : null)
-        setName(res.displayName ? res.displayName : null)
+        setName(res.fullName ? res.fullName : null)
         setEmail(res.email ? res.email : null)
+        myEmail = res.email ? res.email : null;
         setIdNumber(res.identificationNumber ? res.identificationNumber : null)
 
     }
@@ -111,14 +113,32 @@ const ProfileView = ({ navigation }) => {
     }
 
     const saveValues = async () => {
-        // if (nameRegex.test(isName)) {
-        //     Alert.alert("Char")
-        // }
         let success = true;
+     
+    //     this.reauthenticate(this.state.currentPassword)
+    //     .then(() => {
+    //         var user = auth().currentUser;
+    //         user
+    //             .updatePassword(password)
+    //             .then(() => {
+    //                 console.log('Password updated!');
+    //             })
+    //             .catch(error => {
+    //                 console.log(error);
+    //             });
+    //     })
+    //     .catch(error => {
+    //         console.log(error);
+    //     });
+    // reauthenticate = currentPassword => {
+    //     var user = auth().currentUser;
+    //     var cred = auth.EmailAuthProvider.credential(user.email, currentPassword);
+    //     return user.reauthenticateWithCredential(cred);
+    // };
 
         const Details = ({
             email: isEmail,
-            displayName: isName,
+            fullName: isName,
             identificationNumber: idNumber
         })
 
@@ -129,11 +149,9 @@ const ProfileView = ({ navigation }) => {
             await saveData('users', userInfo.uid, Details);
             ToastAndroid.show("Record Saved", ToastAndroid.LONG);
             navigation.navigate("Home")
-
         }
-
-
         return success;
+
     }
 
     useEffect(() => {
@@ -152,9 +170,9 @@ const ProfileView = ({ navigation }) => {
             <ScrollView>
                 <TouchableOpacity
                     onPress={handleChoosePhoto}
-                    >
-                    {profilePath ? <Image style={styles.circleImg} 
-                    source={{uri: profilePath }} />
+                >
+                    {profilePath ? <Image style={styles.circleImg}
+                        source={{ uri: profilePath }} />
                         :
                         <Image style={styles.circleImg} source={require('../../../../assets/empty-image.png')} />
                     }
@@ -190,6 +208,7 @@ const ProfileView = ({ navigation }) => {
                             numberOfLines={1}
                             keyboardType='email-address'
                             value={isEmail}
+                            editable={false}
                             onChangeText={(val) => {
                                 setEmail(val)
                                 ValidateEmail(val)
@@ -249,8 +268,8 @@ const styles = StyleSheet.create({
         height: 70,
         marginTop: wp('5%'),
         borderRadius: 50,
-        borderWidth:1,
-        borderColor:"lightgray",
+        borderWidth: 1,
+        borderColor: "lightgray",
         // backgroundColor:"lightgray",
         alignSelf: 'center'
     },

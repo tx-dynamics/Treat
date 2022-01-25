@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, FlatList, Image, ScrollView } from 'react-native';
 import {
@@ -7,13 +8,14 @@ import {
 import DefaultStyles from "src/config/Styles";
 import Apptext from 'src/components/Apptext';
 import TreatHeader from 'src/components/TreatHeader';
+import firestore from '@react-native-firebase/firestore';
 import { Divider } from 'react-native-elements';
 import Card from 'src/components/Card';
 import VideoCard from 'src/components/VideoCard';
-import { saveData, saveFvrtsData, getListing } from "src/firebase/utility";
+import { saveData, saveFvrtsData, getListing,saveFav } from "src/firebase/utility";
 import { useSelector } from 'react-redux';
 import { useDispatch } from "react-redux";
-import { setAudioBtn, setAudioID } from 'src/redux/actions/authAction';
+import { setAudioBtn, setAudioID,setItemLikes  } from 'src/redux/actions/authAction';
 
 const TreatVideo = ({ navigation, route }) => {
     const DATA = [
@@ -59,6 +61,9 @@ const TreatVideo = ({ navigation, route }) => {
 
     const { videodata } = route.params;
     const userInfo = useSelector((state) => state.auth.userdata)
+    const FavItems = useSelector((state) => state.auth.ItemLikes)
+    const likeID = useSelector((state) => state.auth.likeId)
+
     let dispatch = useDispatch();
 
 
@@ -67,30 +72,36 @@ const TreatVideo = ({ navigation, route }) => {
     const [paused, setPaused] = useState(true);
     const [islistingData, setListingData] = useState([]);
     const [isValue, setValue] = useState([]);
+    const [isRefresh, setReferesh] = useState(false);
 
+    const getFvListing = async() => {
+        console.log("In")
+        let res = await getListing("FavoriteListing", userInfo.uid)
+        console.log("res",res)
+        dispatch(setItemLikes(res.media))
+        if (FavItems === undefined) {
+            console.log("Undefined found")    
+        }
+        else{
+            console.log("FavItems",FavItems)
+            FavItems.forEach((val) => 
+          { 
+             if (val.id === videodata.id) {
+                setHeart(true)
+             }  
+             else{
+                
+             }
+            }  
+            )  
+        }
+    }
+    useEffect(() => {
+        getFvListing();
+    },[isRefresh]);
 
-    // const listingData = async () => {
-
-    // }
-
-    // useEffect(() => {
-    //     listingData();
-    // },[]);
-
-    const heartMethod = async () => {
-
-        // let res = await getListing("FavoriteListing", userInfo.uid)
-        // console.log(res.media)
-        // let result = res.media.map((item, index) => (item))
-        // console.log(result);
-        // result.map((item) => {
-        //     if(item.id === videodata.id){
-        //         // console.log(item)
-        //         item.isLike =! item.isLike
-        //         console.log(item)
-        //     }
-        // } )
-
+    const heartMethod = async (item) => {
+        
         let hrt = isHeart ? false : true;
 
         let Details = {
@@ -103,8 +114,35 @@ const TreatVideo = ({ navigation, route }) => {
             userId: userInfo.uid ? userInfo.uid : null,
             isLike: hrt
         };
-
-        await saveFvrtsData('FavoriteListing', userInfo.uid, Details);
+        let exist ;
+        let indexes ;
+        if (typeof FavItems === "undefined") {
+            console.log("Undefined")
+        }
+        else{
+            FavItems.map((val, index) => 
+            {
+                if (videodata.id === val.id) {
+                    console.log("exists")
+                    console.log("index", index)
+                    exist = true;
+                    indexes = index;
+                }     
+            })
+        }
+    if (exist === true) {
+        console.log(indexes)
+        FavItems.splice(indexes,1)
+        await firestore().collection("FavoriteListing").doc(userInfo.uid).delete().
+        then(async() => {
+            await saveFav("FavoriteListing",userInfo.uid, FavItems)
+        })
+    }
+    else{
+        console.log("FavItems",FavItems)
+        FavItems.push(Details)
+        await saveFav("FavoriteListing",userInfo.uid, FavItems)
+    }
     }
 
     return (
@@ -136,7 +174,7 @@ const TreatVideo = ({ navigation, route }) => {
                         boxImg={isHeart ? require('../../../../assets/redHeart.png') : require('../../../../assets/heartBox.png')}
                         onPress={() => {
                             setHeart(!isHeart)
-                            heartMethod(isHeart)
+                            heartMethod(videodata)
                         }}
                         subTxt={videodata.sub_title ? videodata.sub_title : null}
                         description={videodata.description ? videodata.description : null}

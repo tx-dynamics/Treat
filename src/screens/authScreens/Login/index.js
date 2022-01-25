@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import auth from '@react-native-firebase/auth';
 import {getData, saveInitialData} from 'src/firebase/utility';
 import { useSelector } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -73,9 +74,16 @@ const SignIn = ({ navigation }) => {
                   var user1= auth().currentUser;
                   console.log(user1)
                   if(user1.uid){
-                      console.log("In IF")
-                    dispatch(setUser(true))
                     dispatch(setUserData(user1))
+                    dispatch(setUser(true))
+                    // try {
+                    //     const jsonValue = user1;
+                    //     await AsyncStorage.setItem('userProfile', user1)
+                    //       console.log(jsonValue)  
+                    //         dispatch(setUser(true))
+                    //   } catch (e) {
+                    //     console.log("Error")
+                    //   }
                     await saveInitialData("FavoriteListing", user1.uid)
                     // setLoading(false)
                     // navigation.replace("Home")

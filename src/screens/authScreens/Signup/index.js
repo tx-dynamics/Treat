@@ -123,10 +123,17 @@ const Signup = ({ navigation }) => {
             <View style={{ marginTop: 30 }}>
                 <FormInput
                     labelValue={name}
-                    onChangeText={(txt) => {
-                        setName(txt)
+                    onChangeText={(e) => {
+                        let value = e
+                        value = value.replace(/[^A-Za-z]/ig, '')
+                        setName(value)
                         setNameChk(false)
+
                     }}
+                    // onChangeText={(txt) => {
+                    //     setName(txt)
+                    //     setNameChk(false)
+                    // }}
                     placeholderText="Name"
                     keyboardType='default'
                     autoCapitalize="none"

@@ -13,17 +13,28 @@ import HomeHeader from 'src/components/HomeHeader';
 import HomeWideCard from 'src/components/HomeWideCard';
 import CalendarStrip from 'react-native-calendar-strip';
 import moment from 'moment';
-import { getAllOfCollection, getData, getListing } from "src/firebase/utility";
+import { getAllOfCollection, getData, saveFav,getListing } from "src/firebase/utility";
 import { useSelector } from 'react-redux';
+import { useDispatch } from "react-redux";
+import { setItemLikes } from 'src/redux/actions/authAction';
+import firestore from '@react-native-firebase/firestore';
+import { ActivityIndicator } from 'react-native-paper';
+
 
 const Home = ({ navigation }) => {
 
     const userInfo = useSelector((state) => state.auth.userdata)
-
+    console.log("userInfo",userInfo)
+    let dispatch = useDispatch();
+    const [isReferesh, setReferesh] = useState(false);
     const [coverImg, setCoverImg] = useState('');
+    const [isLoading, setLoading] = useState(true);
     const [islistingData, setListingData] = useState([]);
     const [profilePath, setProfileUrl] = useState('');
     const [userId, setUserId] = useState('');
+    const [isMonth, setMonth] = useState('');
+    
+    const FavItems = useSelector((state) => state.auth.ItemLikes)
 
     const chkData = async () => {
         let res = await getAllOfCollection("home")
@@ -32,85 +43,29 @@ const Home = ({ navigation }) => {
 
     const listingData = async () => {
 
-        let res = await getListing("FavoriteListing", userInfo.uid)
-        let rest = await getListing("users", userInfo.uid)
-        console.log("res", rest.profilePhoto)
-        setProfileUrl(rest.profilePhoto ? rest.profilePhoto : null)
-        let result = res.media.filter((item) => item.isLike === true && item.userId === userInfo.uid);
-        setListingData(result)
+        // let res = await getListing("FavoriteListing", userInfo.uid)
+        // let rest = await getListing("users", userInfo.uid)
+            
+            let rest = await getListing("users", userInfo.uid)
+            console.log("rst",rest)
+            setProfileUrl(rest.profilePhoto ? rest.profilePhoto : null)
+        // let result = res.media.filter((item) => item.isLike === true && item.userId === userInfo.uid);
+        // setListingData(result)
     }
 
     useEffect(() => {
         chkData();
-        listingData();
-    },[])
+        setTimeout(() => { 
+            listingData();
+            setLoading(false)
+    }, 2000);
+    },[navigation])
 
-    const DATA = [
-        {
-            id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-            count: "+5",
-            label: "Lorem Ipsum",
-            msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            Img: require("../../../../assets/human1.png"),
-            dt: "5 minutes ago",
-            move: "Detail"
-        },
-        {
-            id: 'bd7acbewweea-c1b1-46c2-aed5-3ad53abb28ba',
-            count: "",
-            label: 'Lorem Ipsum',
-            msg: "Will do, super, thank you",
-            Img: require("../../../../assets/human2.png"),
-            dt: "2 hours ago",
-            move: "Detail"
-        },
-        {
-            id: 'bd7acbea-c1bewew1-46c2-aed5-3ad53abb28ba',
-            count: "+3",
-            label: "Smith",
-            msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            Img: require("../../../../assets/human1.png"),
-            dt: "3 hours ago",
-            move: "Detail"
-        },
-        {
-            id: 'bd7acbea-c1b1-4efwffde6c2-aed5-3ad53abb28ba',
-            count: "+22",
-            label: "Aliz",
-            msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            Img: require("../../../../assets/human2.png"),
-            dt: "01 Feb",
-            move: "Detail"
-        },
-        {
-            id: 'bd7acbfsdea-c1b1-46c2-aed5-3ad53abb28ba',
-            count: "+5",
-            label: 'Alexa',
-            msg: "Uploaded a file",
-            Img: require("../../../../assets/human1.png"),
-            dt: "18 Mar",
-            move: "Detail"
-        },
-        {
-            id: 'bd7acddbea-c1b1-46c2-aed5-3ad53abb28ba',
-            count: "+5",
-            label: "John",
-            msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            Img: require("../../../../assets/human2.png"),
-            dt: "01 Feb",
-            move: "Detail"
-        },
-        {
-            id: 'bd7acbeda-c1b1-46c2-aed5-3ad53abb28ba',
-            count: "+5",
-            label: 'Marzena',
-            msg: "potem sie zobaczy",
-            Img: require("../../../../assets/human1.png"),
-            dt: "01 Feb",
-            move: "Detail"
-        },
-
-    ];
+    useEffect(() => {
+        getFvListing();
+        setMonth(moment(new Date).format("MMMM"))
+    }, [navigation]);
+  
 
     const [isHeart, setHeart] = useState(true);
     const [isDate, setDate] = useState('');
@@ -127,9 +82,73 @@ const Home = ({ navigation }) => {
 
     const onDayPress = async (day) => {
 
-        console.log(moment(day).format("D MMM YYYY"))
-
+        console.log(moment(day).format("D MMMM YYYY"))
+       
     };
+    const getFvListing = async() => {
+        let res = await getListing("FavoriteListing", userInfo.uid)
+        dispatch(setItemLikes(res.media))
+        if (FavItems === undefined) {
+            console.log("Undefined found")    
+        }
+        else{
+            console.log("FavItems",FavItems)
+            
+        }
+    }
+
+       const heartMethod = async (item) => {   
+        let hrt = item.isLike ? false : true;
+        let Details = {
+            id: item.id ? item.id : null,
+            title: item.title ? item.title : null,
+            description: item.description ? item.description : null,
+            sub_title: item.sub_title ? item.sub_title : null,
+            url : item.url ? item.url : null,
+            thumbnail: item.thumbnail ? item.thumbnail : null,
+            userId : userInfo.uid ? userInfo.uid : null,
+            isLike : hrt
+        };
+
+        let exist ;
+        let indexes ;
+        if (typeof FavItems === "undefined") {
+            console.log("Undefined")
+        }
+        else{
+            FavItems.map((val, index) => 
+            {
+                if (item.id === val.id) {
+                    console.log("exists")
+                    console.log("index", index)
+                    exist = true;
+                    indexes = index;
+                }     
+            })
+        }
+    if (exist === true) {
+        console.log(indexes)
+        
+        FavItems.splice(indexes,1)
+        await firestore().collection("FavoriteListing").doc(userInfo.uid).delete().
+        then(async() => {
+            // getFvListing();
+            setReferesh(!isReferesh)
+            console.log("Favitems",FavItems)
+            await saveFav("FavoriteListing",userInfo.uid, FavItems)
+        })
+    }
+    else{
+        console.log("FavItems",FavItems)
+        FavItems.push(Details)
+        await saveFav("FavoriteListing",userInfo.uid, FavItems)
+    }
+    }
+if (isLoading) {
+    return <ActivityIndicator size={"small"} color={DefaultStyles.colors.primary}  />
+}
+else{
+
 
     return (
         <View style={[styles.container]}>
@@ -157,7 +176,7 @@ const Home = ({ navigation }) => {
                                     Eleanor Roosevelt`} </Apptext> */}
                     <Apptext style={styles.grayTxt}>{coverImg.quotee ? coverImg.quotee : null} </Apptext>
                 </View>
-                <Apptext style={styles.monthTxt}>JUNE</Apptext>
+                <Apptext style={styles.monthTxt}>{isMonth}</Apptext>
                 <View style={styles.CalenderBox}>
                     <CalendarStrip
                         scrollable={true}
@@ -217,7 +236,7 @@ const Home = ({ navigation }) => {
                     </TouchableOpacity>
                 </View>
                 <FlatList
-                    data={islistingData}
+                    data={FavItems}
                     numColumns={2}
                     style={{
                         marginBottom: wp('4%'),
@@ -239,7 +258,9 @@ const Home = ({ navigation }) => {
                             subTitle={item.sub_title}
                             leftImgName={{ uri: item.thumbnail }}
                             heartImg={item.isLike ? require('../../../../assets/smallRedHeart.png') : require('../../../../assets/redHeart.png')}
-                            onPress={updateHeart}
+                            onPress={() => {
+                                setHeart(false)
+                                heartMethod(item)}}
                         />
 
                     )}
@@ -248,6 +269,7 @@ const Home = ({ navigation }) => {
             </ScrollView>
         </View>
     )
+                            }
 }
 
 export default Home;
