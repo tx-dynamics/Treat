@@ -6,9 +6,11 @@ const INITIAL_STATE = {
     audioID : null,
     userActive:false,
     ItemLikes:[],
-    likeId:[]
-
+    likeId:[],
+    SplahStatus:true,
+    PlayStatus: false,
 }
+
 export default function (state = INITIAL_STATE, action){
     switch(action.type){
         case "User" :
@@ -27,6 +29,10 @@ export default function (state = INITIAL_STATE, action){
                     return {...state, ItemLikes: action.payload}
         case "Likeid" :
             return {...state, likeId: action.payload}
+        case "splashStatus" :
+            return {...state, SplahStatus: action.payload}
+        case "PlayStatus" :
+            return {...state, PlayStatus: action.payload}
         default:
             return state
     }

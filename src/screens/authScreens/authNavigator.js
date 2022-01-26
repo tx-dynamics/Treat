@@ -14,17 +14,30 @@ import AskPaymentOption from "src/screens/authScreens/Payment/AskPaymentOption";
 import CardPayment from 'src/screens/authScreens/Payment/CardPayment';
 import CreditCard from 'src/screens/authScreens/Payment/CreditCard';
 import PaymentDone from "src/screens/authScreens/Payment/PaymentDone";
-
+import { useSelector } from 'react-redux';
 
 const AuthStack = createNativeStackNavigator()
 
-const AuthNavigator = () => {
+
+const SplashNavigator = () => {
     return (
         <AuthStack.Navigator
         screenOptions = {{
             headerShown: false
         }}>
             <AuthStack.Screen name ="Splash" component={Splash}/>
+            
+        </AuthStack.Navigator>
+    )
+}
+
+const ExtraNavigator = () => {
+    return (
+        <AuthStack.Navigator
+        screenOptions = {{
+            headerShown: false
+        }}>
+            {/* <AuthStack.Screen name ="SplashNavigator" component={SplashNavigator}/> */}
             <AuthStack.Screen name ="Login" component={Login}/>
             <AuthStack.Screen name ="Signup" component={Signup}/>
             <AuthStack.Screen name ="Agreement" component={Agreement}/>
@@ -50,6 +63,19 @@ const AuthNavigator = () => {
             
         </AuthStack.Navigator>
     )
+}
+
+const AuthNavigator = () => {   
+    
+    const splashchk = useSelector((state) => state.auth.SplashStatus)
+    
+     if (splashchk) {
+         return <SplashNavigator />
+     }
+     else{
+         return <ExtraNavigator />
+     }
+    
 }
 
 export default AuthNavigator

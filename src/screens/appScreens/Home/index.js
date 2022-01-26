@@ -13,7 +13,7 @@ import HomeHeader from 'src/components/HomeHeader';
 import HomeWideCard from 'src/components/HomeWideCard';
 import CalendarStrip from 'react-native-calendar-strip';
 import moment from 'moment';
-import { getAllOfCollection, getData, saveFav,getListing } from "src/firebase/utility";
+import { getAllOfCollection, getData, saveFav,getListing, saveInitialData} from "src/firebase/utility";
 import { useSelector } from 'react-redux';
 import { useDispatch } from "react-redux";
 import { setItemLikes } from 'src/redux/actions/authAction';
@@ -24,7 +24,7 @@ import { ActivityIndicator } from 'react-native-paper';
 const Home = ({ navigation }) => {
 
     const userInfo = useSelector((state) => state.auth.userdata)
-    console.log("userInfo",userInfo)
+    // console.log("userInfo",userInfo)
     let dispatch = useDispatch();
     const [isReferesh, setReferesh] = useState(false);
     const [coverImg, setCoverImg] = useState('');
@@ -88,8 +88,9 @@ const Home = ({ navigation }) => {
     const getFvListing = async() => {
         let res = await getListing("FavoriteListing", userInfo.uid)
         dispatch(setItemLikes(res.media))
-        if (FavItems === undefined) {
-            console.log("Undefined found")    
+        if (typeof FavItems === "undefined") {
+            console.log("Undefined")
+            await saveInitialData("FavoriteListing", userInfo.uid)
         }
         else{
             console.log("FavItems",FavItems)

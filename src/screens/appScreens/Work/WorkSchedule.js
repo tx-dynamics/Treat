@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import RadioButtonRN from 'radio-buttons-react-native';
 
 
-const WorkSchedule = ({ navigation }) => {
+const WorkSchedule = ({ navigation, route }) => {
 
     const data = [
         {
@@ -39,6 +39,7 @@ const WorkSchedule = ({ navigation }) => {
     ];
 
     const [check2, setCheck2] = useState(false);
+    const [isShiftTime, setShiftTime] = useState('');
 
     return (
         <View style={styles.container}>
@@ -63,7 +64,7 @@ const WorkSchedule = ({ navigation }) => {
                         }}
                         selectedBtn={(e) => {
                             setCheck2(true)
-                            console.log(e)
+                            setShiftTime(e.label)
                         }}
                         icon={
                             <Icon
@@ -77,7 +78,7 @@ const WorkSchedule = ({ navigation }) => {
                 </View>
                 {check2 ? (
                     <TouchableOpacity
-                        onPress={() => navigation.navigate("PickDate")}
+                        onPress={() => navigation.navigate("PickDate", {shift: isShiftTime})}
                         style={styles.buttonContainer}>
                         <Apptext style={styles.buttonText}>{"Submit"}</Apptext>
                     </TouchableOpacity>

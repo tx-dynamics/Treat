@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, TouchableOpacity, Image, StyleSheet, ScrollView, } from 'react-native';
+import { View, TouchableOpacity, Image,ToastAndroid, StyleSheet, ScrollView, } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -8,25 +8,71 @@ import Apptext from 'src/components/Apptext';
 import DefaultStyles from "src/config/Styles";
 import Header from 'src/components/Header';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
-import moment from 'moment';
+import moment, { now } from 'moment';
 import Marking from 'react-native-calendars/src/calendar/day/marking';
+import { MarkingProps } from './marking';
+import { saveData } from 'src/firebase/utility';
+import { useSelector } from 'react-redux';
 
-const PickDate = ({ navigation }) => {
 
+const PickDate = ({ navigation,route }) => {
+
+  const {shift} = route.params;
+  const userInfo = useSelector((state) => state.auth.userdata)
+  
   const [isValue, setValue] = useState('');
-
   const [isLastMonth, setLastMonth] = useState(1)
+  const [isCurrentMonth, setCurrentMonth] = useState();
   const [isNextMonth , setNextMonth] = useState(1)
 
   var currentMonth =  moment().startOf("month").format('MMMM');
-  var lastMonth =  moment().subtract(isLastMonth, "month").startOf("month").format('MMMM');
+  var lastMonth =  moment().subtract(isLastMonth,"month").startOf("month").format('MMMM');
   var nextMonth =  moment().add(isNextMonth , "month").startOf("month").format('MMMM');
+
+
+  const checkMonths = () => {
+    setLastMonth(isLastMonth - 1)
+    setNextMonth(isNextMonth + 1)
+    setCurrentMonth(nextMonth)
+  }
+
+  useEffect(() => {
+    setCurrentMonth(currentMonth)
+  },[])
+  
+  const saveValues = async () => {
+    let success = true;
+    if(isValue === "" || undefined || null){
+      ToastAndroid.show("Must Select Date Before Saving", ToastAndroid.LONG); 
+    }
+    else{
+   
+    const Details = ({
+      ShiftTime: shift ? shift : null,
+      date: isValue ? isValue : null
+    })
+
+    await saveData('WorkSchedule', userInfo.uid, Details)
+    .then(data => {
+        ToastAndroid.show("Record Saved", ToastAndroid.LONG);
+        navigation.navigate('Settings')
+    })
+        .catch(function (error) {
+            success = false;
+            console.log(error.code + ':: ' + error.message);
+            ToastAndroid.show(error.code, ToastAndroid.LONG);
+        });
+    return success;
+      }   
+}
+
 
   return (
     <View style={styles.container}>
       <Header
         label={"Work Schedule"}
         rightImg={require('../../../../assets/tick.png')}
+        onPressRight={() => {saveValues()}}
         onPressLeft={() => navigation.goBack()}
       />
       <ScrollView >
@@ -109,21 +155,37 @@ const PickDate = ({ navigation }) => {
             }}
 
           />
-
         </View>
+        
+        <View style={styles.centerBox1}>
+        {
+          isValue ? (
+            <Apptext style={styles.LCNTxt}>You Selected : {isValue ? isValue : null}</Apptext>
+       
+          ) : null
+        }
+      </View>
         <View style={styles.generalBox}>
           <TouchableOpacity 
-          onPress={() => setLastMonth(isLastMonth + 1)}
+          onPress={() => {
+            checkMonths();
+            // setLastMonth(isLastMonth + 1)
+            // setCurrentMonth(isLastMonth)
+          }}
           style={styles.leftTxt}>
             <Image source={require('../../../../assets/last.png')} />
             <Apptext style={styles.LCNTxt, { color: 'lightgray' }}>
               {lastMonth.substring(0,3) }</Apptext>
           </TouchableOpacity>
           <View style={styles.centerBox}>
-            <Apptext style={styles.LCNTxt}>{currentMonth}</Apptext>
+            <Apptext style={styles.LCNTxt}>{isCurrentMonth}</Apptext>
           </View>
           <TouchableOpacity 
-          onPress={() => setNextMonth(isNextMonth + 1)}
+          onPress={() => {
+            checkMonths();
+            // setNextMonth(isNextMonth + 1)
+            // setCurrentMonth(isNextMonth)
+          }}
           style={styles.rightBox}>
             <Apptext style={[styles.LCNTxt, { color: 'lightgray' }]}>
               {nextMonth.substring(0,3) }</Apptext>
@@ -185,7 +247,7 @@ const styles = StyleSheet.create({
   generalBox: {
     width: wp('60%'),
     height: wp('10%'),
-    marginTop: wp('22%'),
+    marginTop: wp('5%'),
     flexDirection: 'row',
     alignSelf: 'center'
   },
@@ -208,6 +270,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: wp('9%'),
+  },
+  centerBox1: {
+    width: wp('100%'),
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop:wp('5%')
   },
   LCNTxt: {
     fontSize: 14,

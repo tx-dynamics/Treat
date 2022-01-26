@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, FlatList, Image, TouchableOpacity, ScrollView, TextInput } from 'react-native';
+import { View, StyleSheet, FlatList, Image,ToastAndroid, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -12,19 +12,22 @@ import OptionsBox from 'src/components/OptionsBox';
 import OptionsBigBox from 'src/components/OptionsBigBox';
 import ToggleSwitch from 'toggle-switch-react-native'
 import { getAllOfCollection,getData, getListing} from "src/firebase/utility";
-
-
+import { useSelector } from 'react-redux';
+import { saveData } from 'src/firebase/utility';
 
 const subTreat = ({ navigation, route}) => {
     const {videodata} = route.params;
     console.log("videodata", videodata);
 
 
+    const userInfo = useSelector((state) => state.auth.userdata)
     const [islistingData, setListingData] = useState([]);
     const [isItem, setSelectedItem] = useState([]);
     const [pageData, setPageData] = useState('');
     const [optionsList, setOptionsList] = useState('');
     const [isQuestion, setQuestion] = useState('');
+    const [answerName, setAnswerName] = useState('');
+    const [isChk, setChk] = useState(false);
 
 
     const listingData = async () => {
@@ -39,12 +42,20 @@ const subTreat = ({ navigation, route}) => {
     },[])
 
     const addCategories = async (item) => {
+        // console.log(item.id)
+        // console.log(index)
+        // if (item.id != index) {
+        //     setChk(true)
+        // }
+        // else{
+        //     setChk(false)
+        // }
         var selectedIdss = [...isItem]
-        if (selectedIdss.includes(item)) {
-            selectedIdss = selectedIdss.filter(id => id !== item)
+        if (selectedIdss.includes(item.id)) {
+            selectedIdss = selectedIdss.filter(id => id !== item.id)
         }
         else {
-            selectedIdss.push(item)
+            selectedIdss.push(item.id)
         }
         await setSelectedItem(selectedIdss)
     }
@@ -130,7 +141,33 @@ const subTreat = ({ navigation, route}) => {
 
 
     ];
-   
+    const saveValues = async () => {
+
+        let success = true;
+        console.log("isItem",isItem)
+        if(answerName === undefined || "" ){
+            ToastAndroid.show("Select At Least One Option", ToastAndroid.LONG);
+        }
+        else{
+        const Details = ({
+            Question : isQuestion ? isQuestion : '',
+            Answer : answerName
+        })
+
+        await saveData('TreatAnalysis', userInfo.uid, Details)
+        .then(data => {
+            // ToastAndroid.show("Answer Saved", ToastAndroid.LONG);
+            // navigation.navigate('Support')
+            navigation.navigate("TreatVideo",{videodata: videodata})
+        })
+            .catch(function (error) {
+                success = false;
+                ToastAndroid.show(error.code, ToastAndroid.LONG);
+                console.log(error.code + ':: ' + error.message);
+            });
+        return success;
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -167,11 +204,11 @@ const subTreat = ({ navigation, route}) => {
                         numColumns={3}
                         style={{alignSelf:'center'}}
                         horizontal={false}
-                        keyExtractor={(index) => index}
+                        keyExtractor={(item, index) => item.id}
                         renderItem={({ item,index }) => (
                             <OptionsBox
                                 count={index + 1}
-                                label={item}
+                                label={item.name}
                             />
 
                         )}
@@ -197,15 +234,16 @@ const subTreat = ({ navigation, route}) => {
                 <View style={{ marginTop: wp('5%') }}>
                     <FlatList
                         data={optionsList}
-                        keyExtractor={(index) => index }
+                        keyExtractor={(item, index) => item.id }
                         renderItem={({ item,index }) => (
                             <OptionsBigBox
                                 onPress={() => {
-                                    addCategories(index)
+                                    addCategories(item)
+                                    setAnswerName(item.name)
                                     // navigation.navigate("Library")
                                 }}
-                                myStl={isItem.includes(index) ? true : false}
-                                leftTitle={item}
+                                myStl={isItem.includes(item.id) ? true : false}
+                                leftTitle={item.name}
                                 count={index + 1}
                             />
 
@@ -214,7 +252,9 @@ const subTreat = ({ navigation, route}) => {
                 </View>
                 <View style={{ marginTop: wp('18%') }}>
                     <TouchableOpacity
-                        onPress={() => navigation.navigate("TreatVideo",{videodata: videodata})}
+                        onPress={() => {
+                            saveValues()
+                        }}
                         style={styles.buttonContainer}>
                         <Apptext style={styles.buttonText}>{"Finish !"}</Apptext>
                     </TouchableOpacity>

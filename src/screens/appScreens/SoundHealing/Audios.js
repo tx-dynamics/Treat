@@ -10,11 +10,11 @@ import Apptext from 'src/components/Apptext';
 import TreatHeader from 'src/components/TreatHeader';
 import Card from 'src/components/Card';
 import AudioCard from 'src/components/AudioCard';
-import TrackPlayer,{Capability }from 'react-native-track-player';
+import TrackPlayer,{Capability,State,usePlaybackState,useProgress,useTrackPlayerEvents }from 'react-native-track-player';
 import { saveData, saveFvrtsData,getListing,removeToArray, getFvrtsListing,saveFav, addToArray } from "src/firebase/utility";
 import { useSelector } from 'react-redux';
 import { useDispatch } from "react-redux";
-import { setAudioBtn, setLikeID, setAudioID, setItemLikes } from 'src/redux/actions/authAction';
+import { setAudioBtn, setLikeID, setAudioID, setItemLikes,setPlayStatus } from 'src/redux/actions/authAction';
 import { Alert } from 'react-native';
 
 
@@ -23,10 +23,13 @@ const Audios = ({ navigation, route }) => {
     const { audiodata } = route.params;
     let dispatch = useDispatch();
 
+    const playbackState = usePlaybackState();
+
     const userInfo = useSelector((state) => state.auth.userdata)
     const audioCntrl = useSelector((state) => state.auth.audioBtn)
     const audioId = useSelector((state) => state.auth.audioID)
     const FavItems = useSelector((state) => state.auth.ItemLikes)
+    const playStatus = useSelector((state) => state.auth.PlayStatus)
     const likeID = useSelector((state) => state.auth.likeId)
 
 
@@ -212,7 +215,7 @@ const Audios = ({ navigation, route }) => {
         });
 
         // Start playing it
-        await TrackPlayer.play();
+        // await TrackPlayer.play();
         await TrackPlayer.updateOptions({
             // Media controls capabilities
             capabilities: [
@@ -228,12 +231,28 @@ const Audios = ({ navigation, route }) => {
             pauseIcon: require('../../../../assets/pause1.png'),
         });
     };
-    const stop = () => {
-        TrackPlayer.stop();
-    };
+    // const stop = () => {
+    //     TrackPlayer.stop();
+    // };
+    const togglePlayback = async(playbackState) => {
+        
+        const currentTrack = await TrackPlayer.getCurrentTrack();
+        if (currentTrack !== null ) {
+            if (playbackState === State.Paused) {
+
+                await TrackPlayer.play();
+                dispatch(setAudioBtn(true))
+            }
+            else{
+                dispatch(setAudioBtn(false))
+                await TrackPlayer.pause();
+            }
+        }
+    }
 
     const chkPlayer = () => {
         dispatch(setAudioBtn(!audioCntrl))
+        dispatch(setPlayStatus(!playStatus))
         audioCntrl ? stop() : start()
         dispatch(setAudioID(audiodata.id))
     }
@@ -242,13 +261,14 @@ const Audios = ({ navigation, route }) => {
     },[isRefresh]);
 
     useEffect(() => {
-        if (audiodata.id === audioId) {
-            dispatch(setAudioBtn(true))
-        }
-        else {
-            dispatch(setAudioBtn(false))
-            console.log("Not Same")
-        }
+        start();
+        // if (audiodata.id === audioId && playStatus) {
+        //     dispatch(setAudioBtn(true))
+        // }
+        // else {
+        //     dispatch(setAudioBtn(false))
+        //     console.log("Not Same")
+        // }
     }, []);
 
     const FavMeth = async() => {
@@ -297,9 +317,12 @@ const Audios = ({ navigation, route }) => {
                     <AudioCard
                         // backImg={require('../../../../assets/TreatCover.png')}
                         backImg={{ uri: audiodata.thumbnail }}
-                        audioCntrl={audioCntrl ? require('../../../../assets/pause1.png') : require('../../../../assets/videoIcon.png')}
+                        // audioCntrl={audioCntrl ? require('../../../../assets/pause1.png') : require('../../../../assets/videoIcon.png')}
+                        audioCntrl={playbackState === State.Playing ? require('../../../../assets/pause1.png') : require('../../../../assets/videoIcon.png')}
                         onPress={() => {
-                            chkPlayer()
+                            togglePlayback(playbackState)
+                            // start();
+                            // chkPlayer()
                             // console.log("dura",getDuration())
                             // setPlaying(!isPlaying)
                             // isPlaying ? stop() : start()

@@ -14,7 +14,6 @@ import { useDispatch } from "react-redux";
 import auth from '@react-native-firebase/auth';
 import {getData, saveInitialData} from 'src/firebase/utility';
 import { useSelector } from 'react-redux';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -84,7 +83,7 @@ const SignIn = ({ navigation }) => {
                     //   } catch (e) {
                     //     console.log("Error")
                     //   }
-                    await saveInitialData("FavoriteListing", user1.uid)
+                    // await saveInitialData("FavoriteListing", user1.uid)
                     // setLoading(false)
                     // navigation.replace("Home")
                   }

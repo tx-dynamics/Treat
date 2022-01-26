@@ -27,3 +27,9 @@ export const setItemLikes = (data) => async (dispatch) => {
 export const setLikeID = (data) => async (dispatch) => {
     dispatch({type: "Likeid" , payload : data})
 }
+export const setSplash = (data) => async (dispatch) => {
+    dispatch({type: "splahStatus" , payload : data})
+}
+export const setPlayStatus = (data) => async (dispatch) => {
+    dispatch({type: "PlayStatus" , payload : data})
+}

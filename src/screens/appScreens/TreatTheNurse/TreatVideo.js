@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, FlatList, Image, ScrollView } from 'react-native';
+import { View, StyleSheet, FlatList, Image,ToastAndroid,ScrollView } from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -15,7 +15,8 @@ import VideoCard from 'src/components/VideoCard';
 import { saveData, saveFvrtsData, getListing,saveFav } from "src/firebase/utility";
 import { useSelector } from 'react-redux';
 import { useDispatch } from "react-redux";
-import { setAudioBtn, setAudioID,setItemLikes  } from 'src/redux/actions/authAction';
+import { setAudioBtn, setAudioID,setItemLikes,setPlayStatus } from 'src/redux/actions/authAction';
+
 
 const TreatVideo = ({ navigation, route }) => {
     const DATA = [
@@ -58,21 +59,21 @@ const TreatVideo = ({ navigation, route }) => {
 
 
     ];
-
     const { videodata } = route.params;
-    const userInfo = useSelector((state) => state.auth.userdata)
-    const FavItems = useSelector((state) => state.auth.ItemLikes)
-    const likeID = useSelector((state) => state.auth.likeId)
-
     let dispatch = useDispatch();
 
 
+    const userInfo = useSelector((state) => state.auth.userdata)
+    const FavItems = useSelector((state) => state.auth.ItemLikes)
+    const likeID = useSelector((state) => state.auth.likeId)
     const [isHeart, setHeart] = useState(false);
     const [isPlaying, setPlaying] = useState(false);
     const [paused, setPaused] = useState(true);
     const [islistingData, setListingData] = useState([]);
     const [isValue, setValue] = useState([]);
     const [isRefresh, setReferesh] = useState(false);
+    const audioCntrl = useSelector((state) => state.auth.audioBtn)
+    console.log("audioCntrl",audioCntrl)
 
     const getFvListing = async() => {
         console.log("In")
@@ -144,6 +145,15 @@ const TreatVideo = ({ navigation, route }) => {
         await saveFav("FavoriteListing",userInfo.uid, FavItems)
     }
     }
+const chkPreviousAudio = () => {
+    if (audioCntrl === true) {
+        ToastAndroid.show("Please Stop Running Audio First", ToastAndroid.LONG);
+    }
+    else{
+        setPlaying(!isPlaying)
+        isPlaying ? setPaused(true) : setPaused(false)
+    }
+}
 
     return (
         <View style={styles.container}>
@@ -161,10 +171,7 @@ const TreatVideo = ({ navigation, route }) => {
                         videoCntrl={isPlaying ? require('../../../../assets/pause1.png') : require('../../../../assets/videoIcon.png')}
                         isPaused={paused}
                         onPress={() => {
-                            setPlaying(!isPlaying)
-                            isPlaying ? setPaused(true) : setPaused(false)
-                            
-
+                          chkPreviousAudio();
                         }}
                     />
                 </View>

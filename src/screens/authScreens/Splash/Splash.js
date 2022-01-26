@@ -1,11 +1,17 @@
 import React,{useState, useEffect} from 'react';
 import {StyleSheet,Image, Text, View } from 'react-native';
+import { useDispatch } from "react-redux";
+import { setSplash } from 'src/redux/actions/authAction';
+
 
 const Splash = ({navigation}) => {
+
+    let dispatch = useDispatch();
 
     useEffect(() => {
         setTimeout(() => {
             navigation.replace("Login")
+            dispatch(setSplash(false));
         }, 2000);
     }, []);
 
