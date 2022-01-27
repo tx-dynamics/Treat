@@ -11,11 +11,13 @@ import TreatHeader from 'src/components/TreatHeader';
 import firestore from '@react-native-firebase/firestore';
 import { Divider } from 'react-native-elements';
 import Card from 'src/components/Card';
+import {useIsFocused} from '@react-navigation/native';
 import VideoCard from 'src/components/VideoCard';
 import { saveData, saveFvrtsData, getListing,saveFav } from "src/firebase/utility";
 import { useSelector } from 'react-redux';
 import { useDispatch } from "react-redux";
 import { setAudioBtn, setAudioID,setItemLikes,setPlayStatus } from 'src/redux/actions/authAction';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 const TreatVideo = ({ navigation, route }) => {
@@ -61,7 +63,7 @@ const TreatVideo = ({ navigation, route }) => {
     ];
     const { videodata } = route.params;
     let dispatch = useDispatch();
-
+    const isFocused = useIsFocused();
 
     const userInfo = useSelector((state) => state.auth.userdata)
     const FavItems = useSelector((state) => state.auth.ItemLikes)
@@ -97,9 +99,17 @@ const TreatVideo = ({ navigation, route }) => {
             )  
         }
     }
+    
+    // useFocusEffect(
+    //     React.useCallback(() => {
+    //         getFvListing();
+    //     }, [navigation])
+    //   );
+
     useEffect(() => {
         getFvListing();
-    },[isRefresh]);
+    },[isFocused]);
+   
 
     const heartMethod = async (item) => {
         

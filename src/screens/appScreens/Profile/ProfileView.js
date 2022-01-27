@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, ToastAndroid, Image, ScrollView, TextInput, Alert } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, ToastAndroid, ActivityIndicator, Image, ScrollView, TextInput, Alert } from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -31,6 +31,7 @@ const ProfileView = ({ navigation }) => {
     const [idNumber, setIdNumber] = useState('');
     const [isMailChk, setMailChk] = useState(false);
     const [isNameChk, setNameChk] = useState(false);
+    const [isLoading, setLoading] = useState(false);
 
 
     const handleChoosePhoto = () => {
@@ -53,6 +54,8 @@ const ProfileView = ({ navigation }) => {
                 // .child(uuid.v4());
                 const task = ref.put(blob);
                 return new Promise((resolve, reject) => {
+                    
+                    setLoading(true)
                     task.on(
                         'state_changed',
                         () => { },
@@ -76,6 +79,7 @@ const ProfileView = ({ navigation }) => {
                             ToastAndroid.show("Image Uploaded Successfully", ToastAndroid.LONG);
                             setProfileUrl(url ? url : null)
                             listingData();
+                            setLoading(false)
                             //   console.log("File available at", url)
 
                         },
@@ -87,7 +91,7 @@ const ProfileView = ({ navigation }) => {
             }
         });
     }
-    let myEmail = ""; 
+    let myEmail = "";
     const listingData = async () => {
         let res = await getListing("users", userInfo.uid)
         console.log("res", res)
@@ -114,27 +118,27 @@ const ProfileView = ({ navigation }) => {
 
     const saveValues = async () => {
         let success = true;
-     
-    //     this.reauthenticate(this.state.currentPassword)
-    //     .then(() => {
-    //         var user = auth().currentUser;
-    //         user
-    //             .updatePassword(password)
-    //             .then(() => {
-    //                 console.log('Password updated!');
-    //             })
-    //             .catch(error => {
-    //                 console.log(error);
-    //             });
-    //     })
-    //     .catch(error => {
-    //         console.log(error);
-    //     });
-    // reauthenticate = currentPassword => {
-    //     var user = auth().currentUser;
-    //     var cred = auth.EmailAuthProvider.credential(user.email, currentPassword);
-    //     return user.reauthenticateWithCredential(cred);
-    // };
+
+        //     this.reauthenticate(this.state.currentPassword)
+        //     .then(() => {
+        //         var user = auth().currentUser;
+        //         user
+        //             .updatePassword(password)
+        //             .then(() => {
+        //                 console.log('Password updated!');
+        //             })
+        //             .catch(error => {
+        //                 console.log(error);
+        //             });
+        //     })
+        //     .catch(error => {
+        //         console.log(error);
+        //     });
+        // reauthenticate = currentPassword => {
+        //     var user = auth().currentUser;
+        //     var cred = auth.EmailAuthProvider.credential(user.email, currentPassword);
+        //     return user.reauthenticateWithCredential(cred);
+        // };
 
         const Details = ({
             email: isEmail,
@@ -177,6 +181,10 @@ const ProfileView = ({ navigation }) => {
                         <Image style={styles.circleImg} source={require('../../../../assets/empty-image.png')} />
                     }
                 </TouchableOpacity>
+                {isLoading ? (
+
+                    <ActivityIndicator size={"small"} color={DefaultStyles.colors.primary} />
+                ) : null}
                 <TouchableOpacity style={styles.txtView}>
                     <Apptext style={styles.Txt}>Edit Profile</Apptext>
                 </TouchableOpacity>

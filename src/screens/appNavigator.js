@@ -54,6 +54,10 @@ const GeneralNavigator = () => {
                 
             <StackNavigator.Screen name="HomeNavigator" component={HomeNavigator} />
             <StackNavigator.Screen name="Settings" component={Settings} />
+            <StackNavigator.Screen name="Audios" component={Audios} />
+                 <StackNavigator.Screen name="subTreat" component={subTreat} />
+            <StackNavigator.Screen name="TreatVideo" component={TreatVideo} />
+
            
 
         </StackNavigator.Navigator>
@@ -89,8 +93,8 @@ const TreatNavigator = () => {
                 headerShown: false
             }}>
             <StackNavigator.Screen name="TreatTheNurse" component={TreatTheNurse} />
-            <StackNavigator.Screen name="subTreat" component={subTreat} />
-            <StackNavigator.Screen name="TreatVideo" component={TreatVideo} />
+            {/* <StackNavigator.Screen name="subTreat" component={subTreat} />
+            <StackNavigator.Screen name="TreatVideo" component={TreatVideo} /> */}
         </StackNavigator.Navigator>
     )
 }
@@ -150,7 +154,7 @@ const SoundHealingNavigator = () => {
             }}>
 
             <StackNavigator.Screen name="SoundHealing" component={SoundHealing} />
-            <StackNavigator.Screen name="Audios" component={Audios} />
+            {/* <StackNavigator.Screen name="Audios" component={Audios} /> */}
             {/* <StackNavigator.Screen name="Settings" component={Settings} /> */}
         </StackNavigator.Navigator>
     )

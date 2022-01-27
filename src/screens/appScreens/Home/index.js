@@ -12,6 +12,7 @@ import HomeBox from 'src/components/HomeBox';
 import HomeHeader from 'src/components/HomeHeader';
 import HomeWideCard from 'src/components/HomeWideCard';
 import CalendarStrip from 'react-native-calendar-strip';
+import { useFocusEffect } from '@react-navigation/native';
 import moment from 'moment';
 import { getAllOfCollection, getData, saveFav,getListing, saveInitialData} from "src/firebase/utility";
 import { useSelector } from 'react-redux';
@@ -52,6 +53,13 @@ const Home = ({ navigation }) => {
         // let result = res.media.filter((item) => item.isLike === true && item.userId === userInfo.uid);
         // setListingData(result)
     }
+
+    useFocusEffect(
+        React.useCallback(() => {
+            listingData();
+            getFvListing();
+        }, [navigation])
+      );
 
     useEffect(() => {
         chkData();
@@ -167,7 +175,7 @@ else{
                     <HomeWideCard
                         // backImg={require('../../../../assets/human2.png')}
                         backImg={{ uri: coverImg.cover }}
-                        label={coverImg.quote ? coverImg.quote : null}
+                        label={coverImg.quote ? coverImg.quote.substring(0,7)+"..." : null}
                     // isSubTxt={coverImg.description ? true : false}
                     // setSubTxt={coverImg.description ? coverImg.description : null}
                     />

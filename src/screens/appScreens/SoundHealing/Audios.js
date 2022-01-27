@@ -4,6 +4,7 @@ import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import {useIsFocused} from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 import DefaultStyles from "src/config/Styles";
 import Apptext from 'src/components/Apptext';
@@ -16,6 +17,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from "react-redux";
 import { setAudioBtn, setLikeID, setAudioID, setItemLikes,setPlayStatus } from 'src/redux/actions/authAction';
 import { Alert } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 const Audios = ({ navigation, route }) => {
@@ -24,6 +26,7 @@ const Audios = ({ navigation, route }) => {
     let dispatch = useDispatch();
 
     const playbackState = usePlaybackState();
+    const isFocused = useIsFocused();
 
     const userInfo = useSelector((state) => state.auth.userdata)
     const audioCntrl = useSelector((state) => state.auth.audioBtn)
@@ -43,10 +46,10 @@ const Audios = ({ navigation, route }) => {
     const updateHeart = () => {
         setHeart(!isHeart)
     }
-    const [isPlaying, setPlaying] = useState(false);
-    // console.log("ItemLikes", FavItems)
+
+  
+
     const RandomNumberFunction = (name, num) => {
-        // console.log(name, num)
         const txt = name;
         let myNum = 0;
         for (let i = 0; i < txt.length; i++) {
@@ -58,17 +61,12 @@ const Audios = ({ navigation, route }) => {
     };
 
     const getFvListing = async() => {
-        console.log("In")
-        // let res = await getFvrtsListing("FavoriteListing", userInfo.uid)
         let res = await getListing("FavoriteListing", userInfo.uid)
-        console.log("res",res)
         dispatch(setItemLikes(res.media))
         if (FavItems === undefined) {
-            console.log("Undefined found")    
-        //  dispatch(setItemLikes([]))
+            console.log("Undefined found")  
         }
         else{
-            console.log("FavItems",FavItems)
             FavItems.forEach((val) => 
           { 
              if (val.id === audiodata.id) {
@@ -81,6 +79,12 @@ const Audios = ({ navigation, route }) => {
             )  
         }
     }
+
+    // useFocusEffect(
+    //     React.useCallback(() => {
+    //         getFvListing();
+    //     }, [navigation])
+    //   );
 
     const myFunction = (item) => {
         console.log("id",[item])
@@ -201,6 +205,10 @@ const Audios = ({ navigation, route }) => {
      
     }
 
+    useEffect(() => {
+        getFvListing();
+    },[isFocused]);
+    
     const start = async () => {
         // Set up the player
         await TrackPlayer.setupPlayer();  
@@ -211,7 +219,7 @@ const Audios = ({ navigation, route }) => {
             url: audiodata.url ? audiodata.url : null,
             title: audiodata.title ? audiodata.title : "Music Track",
             artist: audiodata.sub_title ? audiodata.sub_title : "Playlist Song",
-            artwork: audioCntrl ? require('../../../../assets/pause1.png') : require('../../../../assets/videoIcon.png')
+            artwork: playbackState === State.Playing ? require('../../../../assets/pause1.png') : require('../../../../assets/videoIcon.png')
         });
 
         // Start playing it
@@ -231,21 +239,26 @@ const Audios = ({ navigation, route }) => {
             pauseIcon: require('../../../../assets/pause1.png'),
         });
     };
-    // const stop = () => {
-    //     TrackPlayer.stop();
-    // };
+    const stop = async() => {
+        await TrackPlayer.pause();
+    };
     const togglePlayback = async(playbackState) => {
+        console.log(playbackState)
+        dispatch(setAudioID(audiodata.id))
         
+        // dispatch(setPlayStatus(!playStatus))
         const currentTrack = await TrackPlayer.getCurrentTrack();
         if (currentTrack !== null ) {
             if (playbackState === State.Paused) {
-
                 await TrackPlayer.play();
                 dispatch(setAudioBtn(true))
+                dispatch(setPlayStatus(true))
             }
             else{
                 dispatch(setAudioBtn(false))
-                await TrackPlayer.pause();
+                dispatch(setPlayStatus(false))
+                // await TrackPlayer.pause();
+                stop();
             }
         }
     }
@@ -256,19 +269,18 @@ const Audios = ({ navigation, route }) => {
         audioCntrl ? stop() : start()
         dispatch(setAudioID(audiodata.id))
     }
-    useEffect(() => {
-        getFvListing();
-    },[isRefresh]);
+  
 
     useEffect(() => {
-        start();
-        // if (audiodata.id === audioId && playStatus) {
-        //     dispatch(setAudioBtn(true))
-        // }
-        // else {
-        //     dispatch(setAudioBtn(false))
-        //     console.log("Not Same")
-        // }
+        
+        if (audiodata.id === audioId ) {
+            console.log("Not Same")
+            // start();
+        }
+        else {
+            stop();
+            console.log("Not Same")
+        }
     }, []);
 
     const FavMeth = async() => {
@@ -321,6 +333,7 @@ const Audios = ({ navigation, route }) => {
                         audioCntrl={playbackState === State.Playing ? require('../../../../assets/pause1.png') : require('../../../../assets/videoIcon.png')}
                         onPress={() => {
                             togglePlayback(playbackState)
+                            start();
                             // start();
                             // chkPlayer()
                             // console.log("dura",getDuration())

@@ -3,12 +3,13 @@ const INITIAL_STATE = {
     cover: null,
     userdata: null,
     audioBtn : false,
-    audioID : null,
+    audioID : 0,
     userActive:false,
     ItemLikes:[],
     likeId:[],
     SplahStatus:true,
     PlayStatus: false,
+    calenderDates:new Date()
 }
 
 export default function (state = INITIAL_STATE, action){
@@ -33,6 +34,8 @@ export default function (state = INITIAL_STATE, action){
             return {...state, SplahStatus: action.payload}
         case "PlayStatus" :
             return {...state, PlayStatus: action.payload}
+        case "CalenderDates" :
+                return {...state, calenderDates: action.payload}
         default:
             return state
     }

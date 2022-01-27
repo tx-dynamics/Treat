@@ -33,3 +33,6 @@ export const setSplash = (data) => async (dispatch) => {
 export const setPlayStatus = (data) => async (dispatch) => {
     dispatch({type: "PlayStatus" , payload : data})
 }
+export const setCalenderDates = (data) => async (dispatch) => {
+    dispatch({type: "CalenderDates" , payload : data})
+}

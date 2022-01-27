@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, FlatList, TouchableOpacity, Image, ScrollView, Alert, Linking } from 'react-native';
+import { View, StyleSheet, FlatList, TouchableOpacity,ToastAndroid, Image, ScrollView, Alert, Linking } from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -9,7 +9,7 @@ import TreatHeader from 'src/components/TreatHeader';
 import SelectBox from 'src/components/SelectBox';
 import Apptext from 'src/components/Apptext';
 import { getAllOfCollection } from "src/firebase/utility";
-import moment from 'moment';
+import moment, { now } from 'moment';
 
 const ZoomLive = ({ navigation, route }) => {
 
@@ -38,16 +38,41 @@ const ZoomLive = ({ navigation, route }) => {
     ];
 
     const [meetingLink, setMeetingLink] = useState([]);
+    const [isTime, setTime] = useState('');
+
+   const convertHMS = (value) => {
+       console.log(value)
+        var date = value.toDate();
+        setTime(date)
+        // var hours = date.getHours();
+        // var minutes = date.getMinutes();
+        // date = hours + ":" + minutes;
+        // console.log(date)
+    
+    }
 
     const chkData = async () => {
         let res = await getAllOfCollection("meeting")
         setMeetingLink([res])
-        console.log("res", res)
+        // console.log("res", res)
+        convertHMS(joinmeeting.time)
+        
     }
 
     useEffect(() => {
         chkData();
     }, []);
+
+    const checkmeetTime = () => {
+        const res = new Date(Date.now())
+        const vatt = moment(res).format('hh:mm')
+        if (vatt === isTime) {
+        Linking.openURL(joinmeeting.link)   
+        }
+        else{   
+        ToastAndroid.show("Please Join the link at given time", ToastAndroid.LONG);
+        }
+    }
 
     const addCategories = async (item) => {
         var selectedIdss = [...isItem]
@@ -79,7 +104,7 @@ const ZoomLive = ({ navigation, route }) => {
                     <Apptext style={styles.hostTxt}>Host:</Apptext>
                     <Apptext style={styles.nameTxt}>{joinmeeting.host ? joinmeeting.host : null }</Apptext>
                     <Apptext style={styles.timeTxt}>Timings: </Apptext>
-                    <Apptext style={styles.meetTime}> {moment(joinmeeting.time).format("HH:mm") } </Apptext>
+                    <Apptext style={styles.meetTime}> {moment(isTime).format('hh:mm')} </Apptext>
                 </View>
                 <View style={{ marginHorizontal: wp('6%'), marginTop: 22 }}>
                     <Apptext style={styles.desctxt}>Description</Apptext>
@@ -87,7 +112,7 @@ const ZoomLive = ({ navigation, route }) => {
                 </View>
                 <View style={{ marginTop: wp('15%'), marginBottom: wp('5%') }}>
                     <TouchableOpacity
-                        onPress={() => Linking.openURL(joinmeeting.link)} 
+                        onPress={() => checkmeetTime()} 
                         style={styles.buttonContainer}>
                         <Apptext style={styles.buttonText}>{"Join"}</Apptext>
                     </TouchableOpacity>

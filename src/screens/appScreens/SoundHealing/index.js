@@ -11,6 +11,7 @@ import { Divider } from 'react-native-elements';
 import TreatBox from 'src/components/TreatBox';
 import HomeWideCard from 'src/components/HomeWideCard';
 import { getAllOfCollection, getListing} from "src/firebase/utility";
+import { useFocusEffect } from '@react-navigation/native';
 
 
 const SoundHealing = ({ navigation, route }) => {
@@ -74,6 +75,8 @@ const SoundHealing = ({ navigation, route }) => {
         chkData();
         listingData();
     }, []);
+
+ 
 
     return (
         <View style={styles.container}>

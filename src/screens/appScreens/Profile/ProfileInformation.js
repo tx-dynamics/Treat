@@ -34,11 +34,14 @@ const ProfileInformation = ({ navigation }) => {
     const [idNumber, setIdNumber] = useState('');
     const [chkMail, setChkMail] = useState(false);
     const [badFormat, setBadFormat] = useState(false);
-
+    const [chkSaveBtn ,setChkSaveBtn] = useState(false)
+ 
 
     const listingData = async () => {
         let res = await getListing("users", userInfo.uid)
-        setUserActive(!userCntrl)
+        console.log(res)
+        dispatch(setUserActive(res.isBlocked ? true : false))
+        // setUserActive(!userCntrl)
         setName(res.fullName ? res.fullName : null)
         setEmail(res.email ? res.email : null)
         setIdNumber(res.identificationNumber ? res.identificationNumber : null)
@@ -70,7 +73,8 @@ const ProfileInformation = ({ navigation }) => {
         const Details = ({
             email: isEmail,
             fullName: isName,
-            identificationNumber: idNumber
+            identificationNumber: idNumber,
+            isBlocked : userCntrl
         })
         await saveData('users', userInfo.uid, Details);
     
@@ -112,6 +116,7 @@ const ProfileInformation = ({ navigation }) => {
                                 onToggle={isOn => {
                                     dispatch(setUserActive(!userCntrl))
                                     // setToggle(!isToggle)
+                                    setChkSaveBtn(true)
                                     console.log("changed to : ", isOn)
                                 }}
                             />
@@ -166,7 +171,7 @@ const ProfileInformation = ({ navigation }) => {
                     </TouchableOpacity>
 
                     {/* ******************************* */}
-                    <TouchableOpacity>
+                    <View>
                         <Collapse
                             isExpanded={isUp1}
                             onToggle={() => setUp1(!isUp1)}
@@ -216,7 +221,7 @@ const ProfileInformation = ({ navigation }) => {
                                 </TouchableOpacity>
                             </CollapseBody>
                         </Collapse>
-                    </TouchableOpacity>
+                    </View>
                     {/* ******************************* */}
                     <TouchableOpacity>
                         <Collapse
@@ -260,6 +265,15 @@ const ProfileInformation = ({ navigation }) => {
                         </Collapse>
                     </TouchableOpacity>
                     {/* ******************************* */}
+                    {chkSaveBtn ? (
+
+                            <TouchableOpacity
+                            onPress={() => saveValues()}
+                            style={styles.bodyBtn}>
+                            <Apptext style={styles.btnTxt}>Save</Apptext>
+                        </TouchableOpacity>
+                        ) : null
+                    }
                 </View>
             </ScrollView>
         </View>

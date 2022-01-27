@@ -9,6 +9,7 @@ import DefaultStyles from "src/config/Styles";
 import Header from 'src/components/Header';
 import Icon from 'react-native-vector-icons/AntDesign';
 import RadioButtonRN from 'radio-buttons-react-native';
+import PushNotification from "react-native-push-notification";
 
 
 const WorkSchedule = ({ navigation, route }) => {
@@ -41,6 +42,22 @@ const WorkSchedule = ({ navigation, route }) => {
     const [check2, setCheck2] = useState(false);
     const [isShiftTime, setShiftTime] = useState('');
 
+
+    const checkNotification = () => { 
+        PushNotification.localNotificationSchedule({
+            //... You can use all the options from localNotifications
+            message: "My Notification Message", // (required)
+            date: new Date(Date.now() + 5 * 1000), // in 60 secs
+            allowWhileIdle: true, // (optional) set notification to work while on doze, default: false
+          
+            /* Android Only Properties */
+            repeatTime: 1, // (optional) Increment of configured repeatType. Check 'Repeating Notifications' section for more info.
+          });
+    }
+    useEffect(() => {
+        checkNotification();
+    },[])
+
     return (
         <View style={styles.container}>
             <Header
@@ -50,7 +67,7 @@ const WorkSchedule = ({ navigation, route }) => {
             <ScrollView >
                 <View style={{ flexDirection: 'row', marginLeft: wp('2%'), alignSelf: 'center' }}>
                     <Apptext style={[styles.userTxt, { fontFamily: 'Poppins-SemiBold', marginTop: wp('10%') }]}>What shift do you work?</Apptext>
-                    <Apptext style={[styles.userTxt, { fontFamily: 'Poppins-SemiBold', marginTop: wp('10%'), color:"red" }]}> *</Apptext>
+                    <Apptext style={[styles.userTxt, { fontFamily: 'Poppins-SemiBold', marginTop: wp('10%'), color: "red" }]}> *</Apptext>
                 </View>
                 <View style={{ marginTop: wp('14%') }}>
                     <RadioButtonRN
@@ -78,7 +95,7 @@ const WorkSchedule = ({ navigation, route }) => {
                 </View>
                 {check2 ? (
                     <TouchableOpacity
-                        onPress={() => navigation.navigate("PickDate", {shift: isShiftTime})}
+                        onPress={() => navigation.navigate("PickDate", { shift: isShiftTime })}
                         style={styles.buttonContainer}>
                         <Apptext style={styles.buttonText}>{"Submit"}</Apptext>
                     </TouchableOpacity>

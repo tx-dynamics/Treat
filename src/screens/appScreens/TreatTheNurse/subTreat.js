@@ -52,12 +52,15 @@ const subTreat = ({ navigation, route}) => {
         // }
         var selectedIdss = [...isItem]
         if (selectedIdss.includes(item.id)) {
+
             selectedIdss = selectedIdss.filter(id => id !== item.id)
+            console.log(selectedIdss)
         }
         else {
             selectedIdss.push(item.id)
         }
         await setSelectedItem(selectedIdss)
+        console.log(isItem)
     }
 
     const DATA = [

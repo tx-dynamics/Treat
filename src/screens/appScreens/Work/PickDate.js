@@ -13,17 +13,23 @@ import Marking from 'react-native-calendars/src/calendar/day/marking';
 import { MarkingProps } from './marking';
 import { saveData } from 'src/firebase/utility';
 import { useSelector } from 'react-redux';
+import { useDispatch } from "react-redux";
+import { setCalenderDates } from 'src/redux/actions/authAction';
 
 
 const PickDate = ({ navigation,route }) => {
-
   const {shift} = route.params;
+
+  let dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userdata)
+  const calenderdates = useSelector((state) => state.auth.CalendarDates)
+  console.log("calenderdates",calenderdates)
   
-  const [isValue, setValue] = useState('');
+  const [isValue, setValue] = useState([]);
   const [isLastMonth, setLastMonth] = useState(1)
   const [isCurrentMonth, setCurrentMonth] = useState();
-  const [isNextMonth , setNextMonth] = useState(1)
+  const [isNextMonth , setNextMonth] = useState(1);
+  const [markedDays, setmarkedDays] = useState();
 
   var currentMonth =  moment().startOf("month").format('MMMM');
   var lastMonth =  moment().subtract(isLastMonth,"month").startOf("month").format('MMMM');
@@ -65,7 +71,25 @@ const PickDate = ({ navigation,route }) => {
     return success;
       }   
 }
-
+ 
+  const markValues = (datees) => {
+    
+    dispatch(setCalenderDates(datees))
+    let markedDay = {};
+    
+    markedDay[moment(datees).format('YYYY-MM-DD')] = {selected: true, selectedColor: 'purple',}
+    if(markedDays)
+    {
+      setTimeout(() => {
+      setmarkedDays(markedDay);
+      }, 300);
+    }
+    else{
+      setTimeout(() => {
+      setmarkedDays(markedDay);
+        }, 300);
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -82,6 +106,9 @@ const PickDate = ({ navigation,route }) => {
         <View style={{ marginTop: wp('6%'), width: 300, alignSelf: 'center' }}>
           <Calendar
             hideArrows={true}
+            marking={true}
+            markedDates={markedDays} 
+            markingType='period'
             theme={{
               textMonthFontSize: wp('5%'),
               textMonthFontFamily: 'Poppins',
@@ -139,12 +166,14 @@ const PickDate = ({ navigation,route }) => {
               return (
                 <TouchableOpacity
                   onPress={() => {
+                    markValues(date.dateString);
                     setValue(date.dateString)
                     console.log('selected day', date.dateString)
                   }}
-                  style={ state === 'disabled' ? styles.filledBoxes : styles.boxesView}>
+                  style={ state === 'disabled' ? styles.disabledBoxes : marking ? styles.filledBoxes : styles.boxesView}>
+                
                   <Apptext
-                    style={state === 'disabled' ? styles.filledBoxesTxt : styles.boxesTxt}
+                    style={state === 'disabled' ? styles.disabledBoxesTxt : marking ? styles.filledBoxesTxt : styles.boxesTxt}
                     // style={[styles.boxesTxt, 
                     // {backgroundColor: state === 'disabled' ? "white" : "green", 
                     // color: state === 'disabled' ? 'black' : 'white'}]}
@@ -158,12 +187,12 @@ const PickDate = ({ navigation,route }) => {
         </View>
         
         <View style={styles.centerBox1}>
-        {
+        {/* {
           isValue ? (
             <Apptext style={styles.LCNTxt}>You Selected : {isValue ? isValue : null}</Apptext>
        
           ) : null
-        }
+        } */}
       </View>
         <View style={styles.generalBox}>
           <TouchableOpacity 
@@ -291,6 +320,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 0.5,
     borderColor: DefaultStyles.colors.white
+  },
+  disabledBoxes: {
+    width: 42,
+    height: 42,
+    marginBottom: -14,
+    backgroundColor: DefaultStyles.colors.lightgray,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 0.5,
+    borderColor: "lightgray"
+  },
+  disabledBoxesTxt: {
+    textAlign: 'center',
+    color: 'gray',
+    fontSize: 12
   },
   boxesView: {
     width: 42,

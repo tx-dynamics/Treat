@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import auth from '@react-native-firebase/auth';
 import {getData, saveInitialData} from 'src/firebase/utility';
 import { useSelector } from 'react-redux';
+import PushNotification from "react-native-push-notification";
 
 
 
@@ -34,7 +35,18 @@ const SignIn = ({ navigation }) => {
     const user = useSelector((state) => state.auth.user)
     console.log("user", user)
 
-  
+    const createChannels = () => {
+        PushNotification.createChannel(
+            {
+                channelId: "1234",
+                channelName: "TechXpert"
+            }
+        )
+      }
+
+      useEffect(() => {
+        createChannels();
+      },[])
 
     const checkValues = () => {
         if (email === "" && password === "") {
