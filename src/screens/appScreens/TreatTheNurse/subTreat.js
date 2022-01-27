@@ -57,6 +57,7 @@ const subTreat = ({ navigation, route}) => {
             console.log(selectedIdss)
         }
         else {
+            selectedIdss = [];
             selectedIdss.push(item.id)
         }
         await setSelectedItem(selectedIdss)
