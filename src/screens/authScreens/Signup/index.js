@@ -216,7 +216,7 @@ const Signup = ({ navigation }) => {
                 />
             </View>
             <TouchableOpacity 
-            onPress={() => navigation.navigate("AskProblem")}
+            // onPress={() => navigation.navigate("AskProblem")}
             style={styles.methods}>
                 <Apptext style={DefaultStyles.lightTxt}>Other Sign-Up Methods</Apptext>
             </TouchableOpacity>
