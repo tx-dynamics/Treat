@@ -14,10 +14,10 @@ import HomeWideCard from 'src/components/HomeWideCard';
 import CalendarStrip from 'react-native-calendar-strip';
 import { useFocusEffect } from '@react-navigation/native';
 import moment from 'moment';
-import { getAllOfCollection, getData, saveFav,getListing, saveInitialData} from "src/firebase/utility";
+import { getAllOfCollection, getData, saveFav, getListing, saveInitialData } from "src/firebase/utility";
 import { useSelector } from 'react-redux';
 import { useDispatch } from "react-redux";
-import { setItemLikes } from 'src/redux/actions/authAction';
+import { setItemLikes, setCalenderDates } from 'src/redux/actions/authAction';
 import firestore from '@react-native-firebase/firestore';
 import { ActivityIndicator } from 'react-native-paper';
 
@@ -25,7 +25,7 @@ import { ActivityIndicator } from 'react-native-paper';
 const Home = ({ navigation }) => {
 
     const userInfo = useSelector((state) => state.auth.userdata)
-    // console.log("userInfo",userInfo)
+    const calenderdates = useSelector((state) => state.auth.calenderDates)
     let dispatch = useDispatch();
     const [isReferesh, setReferesh] = useState(false);
     const [coverImg, setCoverImg] = useState('');
@@ -34,7 +34,7 @@ const Home = ({ navigation }) => {
     const [profilePath, setProfileUrl] = useState('');
     const [userId, setUserId] = useState('');
     const [isMonth, setMonth] = useState('');
-    
+
     const FavItems = useSelector((state) => state.auth.ItemLikes)
 
     const chkData = async () => {
@@ -43,15 +43,16 @@ const Home = ({ navigation }) => {
     }
 
     const listingData = async () => {
+        let rest = await getListing("users", userInfo.uid)
+        // console.log("rst", rest)
+        setProfileUrl(rest.profilePhoto ? rest.profilePhoto : null)
+    }
 
-        // let res = await getListing("FavoriteListing", userInfo.uid)
-        // let rest = await getListing("users", userInfo.uid)
-            
-            let rest = await getListing("users", userInfo.uid)
-            console.log("rst",rest)
-            setProfileUrl(rest.profilePhoto ? rest.profilePhoto : null)
-        // let result = res.media.filter((item) => item.isLike === true && item.userId === userInfo.uid);
-        // setListingData(result)
+    const getList = async () => {
+        let rest = await getListing("WorkSchedule", userInfo.uid)
+        dispatch(setCalenderDates(rest.dates))
+        // markFunc();
+        // console.log(calenderdates)
     }
 
     useFocusEffect(
@@ -59,21 +60,23 @@ const Home = ({ navigation }) => {
             listingData();
             getFvListing();
         }, [navigation])
-      );
+    );
 
     useEffect(() => {
         chkData();
-        setTimeout(() => { 
+        chky();
+        setTimeout(() => {
             listingData();
+            getList();
             setLoading(false)
-    }, 2000);
-    },[navigation])
+        }, 2000);
+    }, [navigation])
 
     useEffect(() => {
         getFvListing();
         setMonth(moment(new Date).format("MMMM"))
     }, [navigation]);
-  
+
 
     const [isHeart, setHeart] = useState(true);
     const [isDate, setDate] = useState('');
@@ -84,141 +87,162 @@ const Home = ({ navigation }) => {
 
     let datesWhitelist = [{
         start: moment(),
-        end: moment().add(7, 'days')  // total 4 days enabled
+        end: moment().add(14, 'days')  // total 4 days enabled
     }];
+    
+    // let markedDatesArray = calenderdates;
+    const chky = () => {
+        
+    }
+
+    
+    // let markedDatesArray = [
+    //     {
+    //       date: '2022/01/28',
+    //       dots: [
+    //         {
+    //           backgroundColor: DefaultStyles.colors.secondary,
+    //           color:"white",
+    //           selectedColor: "green",
+    //         },
+    //       ],
+    //     },
+    //   ];
+ 
     let datesBlacklist = [moment().add(0, 'days')]; // 1 day disabled
 
     const onDayPress = async (day) => {
 
         console.log(moment(day).format("D MMMM YYYY"))
-       
+
     };
-    const getFvListing = async() => {
+    const getFvListing = async () => {
         let res = await getListing("FavoriteListing", userInfo.uid)
         dispatch(setItemLikes(res.media))
         if (typeof FavItems === "undefined") {
             console.log("Undefined")
             await saveInitialData("FavoriteListing", userInfo.uid)
         }
-        else{
-            console.log("FavItems",FavItems)
-            
+        else {
+            console.log("FavItems", FavItems)
+
         }
     }
 
-       const heartMethod = async (item) => {   
+    const heartMethod = async (item) => {
         let hrt = item.isLike ? false : true;
         let Details = {
             id: item.id ? item.id : null,
             title: item.title ? item.title : null,
             description: item.description ? item.description : null,
             sub_title: item.sub_title ? item.sub_title : null,
-            url : item.url ? item.url : null,
+            url: item.url ? item.url : null,
             thumbnail: item.thumbnail ? item.thumbnail : null,
-            userId : userInfo.uid ? userInfo.uid : null,
-            isLike : hrt
+            userId: userInfo.uid ? userInfo.uid : null,
+            isLike: hrt
         };
 
-        let exist ;
-        let indexes ;
+        let exist;
+        let indexes;
         if (typeof FavItems === "undefined") {
             console.log("Undefined")
         }
-        else{
-            FavItems.map((val, index) => 
-            {
+        else {
+            FavItems.map((val, index) => {
                 if (item.id === val.id) {
                     console.log("exists")
                     console.log("index", index)
                     exist = true;
                     indexes = index;
-                }     
+                }
             })
         }
-    if (exist === true) {
-        console.log(indexes)
-        
-        FavItems.splice(indexes,1)
-        await firestore().collection("FavoriteListing").doc(userInfo.uid).delete().
-        then(async() => {
-            // getFvListing();
-            setReferesh(!isReferesh)
-            console.log("Favitems",FavItems)
-            await saveFav("FavoriteListing",userInfo.uid, FavItems)
-        })
+        if (exist === true) {
+            console.log(indexes)
+
+            FavItems.splice(indexes, 1)
+            await firestore().collection("FavoriteListing").doc(userInfo.uid).delete().
+                then(async () => {
+                    // getFvListing();
+                    setReferesh(!isReferesh)
+                    console.log("Favitems", FavItems)
+                    await saveFav("FavoriteListing", userInfo.uid, FavItems)
+                })
+        }
+        else {
+            console.log("FavItems", FavItems)
+            FavItems.push(Details)
+            await saveFav("FavoriteListing", userInfo.uid, FavItems)
+        }
     }
-    else{
-        console.log("FavItems",FavItems)
-        FavItems.push(Details)
-        await saveFav("FavoriteListing",userInfo.uid, FavItems)
+    if (isLoading) {
+        return <ActivityIndicator size={"small"} color={DefaultStyles.colors.primary} />
     }
-    }
-if (isLoading) {
-    return <ActivityIndicator size={"small"} color={DefaultStyles.colors.primary}  />
-}
-else{
+    else {
 
 
-    return (
-        <View style={[styles.container]}>
-            <HomeHeader
-                headrImg={profilePath ? { uri: profilePath } : require('../../../../assets/empty-image.png')}
-                headerTitle={"Welcome"}
-                leftOnPress={() => navigation.navigate('withoutBottomTabnavigator', { screen: 'ProfileView' })}
-                rightHeaderImg={require('../../../../assets/settingIcon.png')}
-                onPress={() => navigation.navigate("Settings")}
-            />
+        return (
+            <View style={[styles.container]}>
+                <HomeHeader
+                    headrImg={profilePath ? { uri: profilePath } : require('../../../../assets/empty-image.png')}
+                    headerTitle={"Welcome"}
+                    leftOnPress={() => navigation.navigate('withoutBottomTabnavigator', { screen: 'ProfileView' })}
+                    rightHeaderImg={require('../../../../assets/settingIcon.png')}
+                    onPress={() => navigation.navigate("Settings")}
+                />
 
-            {/* <Divider width={1} style={{marginTop:-7}} color="lightgray" /> */}
-            <ScrollView>
-                <View style={{ marginTop: wp('9%') }}>
-                    <HomeWideCard
-                        // backImg={require('../../../../assets/human2.png')}
-                        backImg={{ uri: coverImg.cover }}
-                        label={coverImg.quote ? coverImg.quote.substring(0,7)+"..." : null}
-                    // isSubTxt={coverImg.description ? true : false}
-                    // setSubTxt={coverImg.description ? coverImg.description : null}
-                    />
-                </View>
-                <View style={styles.cntrTxt}>
-                    {/* <Apptext style={styles.grayTxt}>{`“It takes as much energy to wish as it does to plan.” 
+                {/* <Divider width={1} style={{marginTop:-7}} color="lightgray" /> */}
+                <ScrollView>
+                    <View style={{ marginTop: wp('9%') }}>
+                        <HomeWideCard
+                            // backImg={require('../../../../assets/human2.png')}
+                            backImg={{ uri: coverImg.cover }}
+                            label={coverImg.quote ? coverImg.quote.substring(0, 7) + "..." : null}
+                        // isSubTxt={coverImg.description ? true : false}
+                        // setSubTxt={coverImg.description ? coverImg.description : null}
+                        />
+                    </View>
+                    <View style={styles.cntrTxt}>
+                        {/* <Apptext style={styles.grayTxt}>{`“It takes as much energy to wish as it does to plan.” 
                                     Eleanor Roosevelt`} </Apptext> */}
-                    <Apptext style={styles.grayTxt}>{coverImg.quotee ? coverImg.quotee : null} </Apptext>
-                </View>
-                <Apptext style={styles.monthTxt}>{isMonth}</Apptext>
-                <View style={styles.CalenderBox}>
-                    <CalendarStrip
-                        scrollable={true}
-                        showMonth={false}
-                        numDaysInWeek={7}
-                        calendarAnimation={{ type: 'sequence', duration: 30 }}
-                        daySelectionAnimation={{
-                            type: 'border', duration: 200,
-                            borderWidth: 1, borderHighlightColor: 'white'
-                        }}
-                        onDateSelected={onDayPress}
-                        style={{
-                            width: wp('90%'),
-                            height: wp('30%'),
-                            alignSelf: 'center',
-                            backgroundColor: "#ffecf8", borderRadius: 20, paddingBottom: 10
-                        }}
-                        // calendarHeaderStyle={{color: 'white'}}
-                        calendarColor={'#7743CE'}
-                        iconStyle={{ tintColor: '#ffecf8' }}
-                        dayContainerStyle={{ backgroundColor: "white" }}
-                        dateNumberStyle={{ color: 'black' }}
-                        dateNameStyle={{ color: 'black' }}
-                        highlightDateContainerStyle={{ backgroundColor: DefaultStyles.colors.secondary }}
-                        highlightDateNumberStyle={{ color: 'white' }}
-                        highlightDateNameStyle={{ color: 'white', }}
-                        disabledDateNameStyle={{ color: 'grey' }}
-                        disabledDateNumberStyle={{ color: 'grey' }}
-                        datesWhitelist={datesWhitelist}
-                        // datesBlacklist={datesBlacklist}
-                        iconContainer={{ flex: 0.1 }}
-                    />
-                    {/* <CalendarStrip
+                        <Apptext style={styles.grayTxt}>{coverImg.quotee ? coverImg.quotee : null} </Apptext>
+                    </View>
+                    <Apptext style={styles.monthTxt}>{isMonth}</Apptext>
+                    <View style={styles.CalenderBox}>
+                        <CalendarStrip
+                            scrollable={true}
+                            showMonth={false}
+                            // markedDates={markedDatesArray}
+                            markedDatesStyle={{ backgroundColor: DefaultStyles.colors.secondary, color: "white" }}
+                            numDaysInWeek={7}
+                            calendarAnimation={{ type: 'sequence', duration: 30 }}
+                            daySelectionAnimation={{
+                                type: 'border', duration: 200,
+                                borderWidth: 1, borderHighlightColor: 'white'
+                            }}
+                            onDateSelected={onDayPress}
+                            style={{
+                                width: wp('90%'),
+                                height: wp('30%'),
+                                alignSelf: 'center',
+                                backgroundColor: "#ffecf8", borderRadius: 20, paddingBottom: 10
+                            }}
+                            // calendarHeaderStyle={{color: 'white'}}
+                            calendarColor={'#7743CE'}
+                            iconStyle={{ tintColor: '#ffecf8' }}
+                            dayContainerStyle={{ backgroundColor: "white" }}
+                            dateNumberStyle={{ color: 'black' }}
+                            dateNameStyle={{ color: 'black' }}
+                            highlightDateContainerStyle={{ backgroundColor: DefaultStyles.colors.secondary }}
+                            highlightDateNumberStyle={{ color: 'white' }}
+                            highlightDateNameStyle={{ color: 'white', }}
+                            disabledDateNameStyle={{ color: 'grey' }}
+                            disabledDateNumberStyle={{ color: 'grey' }}
+                            datesWhitelist={datesWhitelist}
+                            // datesBlacklist={datesBlacklist}
+                            iconContainer={{ flex: 0.1 }}
+                        />
+                        {/* <CalendarStrip
                         hideArrows={true}
                         scrollable={true}
                         showMonth={false}
@@ -237,48 +261,49 @@ else{
                         dateNameStyle={{color: 'black'}}
                         iconContainer={{flex: 0.1,color:'transparent',}}
                     /> */}
-                </View>
-                <View style={styles.DirectionView}>
-                    <Apptext style={styles.PrsnlTxt}>Your Personal Library</Apptext>
-                    <TouchableOpacity>
-                        <Apptext style={styles.pinkTxt}>View All</Apptext>
-                    </TouchableOpacity>
-                </View>
-                <FlatList
-                    data={FavItems}
-                    numColumns={2}
-                    style={{
-                        marginBottom: wp('4%'),
-                        // backgroundColor:"red"
-                    }}
-                    ListEmptyComponent={() => {
-                        return (
-                            <Apptext style={{ alignSelf: "center", marginTop: 50 }}>
-                                No Item Found
-                            </Apptext>
-                        );
-                    }}
-                    horizontal={false}
-                    keyExtractor={(item, index) => index}
-                    renderItem={({ item, index }) => (
-                        <HomeBox
-                            yellowBoxTxt={index + 1 + " MIN"}
-                            leftTitle={item.title}
-                            subTitle={item.sub_title}
-                            leftImgName={{ uri: item.thumbnail }}
-                            heartImg={item.isLike ? require('../../../../assets/smallRedHeart.png') : require('../../../../assets/redHeart.png')}
-                            onPress={() => {
-                                setHeart(false)
-                                heartMethod(item)}}
-                        />
+                    </View>
+                    <View style={styles.DirectionView}>
+                        <Apptext style={styles.PrsnlTxt}>Your Personal Library</Apptext>
+                        <TouchableOpacity>
+                            <Apptext style={styles.pinkTxt}>View All</Apptext>
+                        </TouchableOpacity>
+                    </View>
+                    <FlatList
+                        data={FavItems}
+                        numColumns={2}
+                        style={{
+                            marginBottom: wp('4%'),
+                            // backgroundColor:"red"
+                        }}
+                        ListEmptyComponent={() => {
+                            return (
+                                <Apptext style={{ alignSelf: "center", marginTop: 50 }}>
+                                    No Item Found
+                                </Apptext>
+                            );
+                        }}
+                        horizontal={false}
+                        keyExtractor={(item, index) => index}
+                        renderItem={({ item, index }) => (
+                            <HomeBox
+                                yellowBoxTxt={index + 1 + " MIN"}
+                                leftTitle={item.title}
+                                subTitle={item.sub_title}
+                                leftImgName={{ uri: item.thumbnail }}
+                                heartImg={item.isLike ? require('../../../../assets/smallRedHeart.png') : require('../../../../assets/redHeart.png')}
+                                onPress={() => {
+                                    setHeart(false)
+                                    heartMethod(item)
+                                }}
+                            />
 
-                    )}
-                />
+                        )}
+                    />
 
-            </ScrollView>
-        </View>
-    )
-                            }
+                </ScrollView>
+            </View>
+        )
+    }
 }
 
 export default Home;
@@ -303,6 +328,8 @@ const styles = StyleSheet.create({
     },
     grayTxt: {
         fontSize: 10,
+        alignSelf: 'center',
+        width: wp('80%'),
         fontFamily: "Poppins-Regular",
         color: DefaultStyles.colors.gray
     },

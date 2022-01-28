@@ -10,6 +10,9 @@ import Header from 'src/components/Header';
 import Icon from 'react-native-vector-icons/AntDesign';
 import RadioButtonRN from 'radio-buttons-react-native';
 import PushNotification from "react-native-push-notification";
+import { saveData, getListing } from 'src/firebase/utility';
+import { useSelector } from 'react-redux';
+
 
 
 const WorkSchedule = ({ navigation, route }) => {
@@ -39,9 +42,24 @@ const WorkSchedule = ({ navigation, route }) => {
 
     ];
 
+    
+    const userInfo = useSelector((state) => state.auth.userdata)
     const [check2, setCheck2] = useState(false);
     const [isShiftTime, setShiftTime] = useState('');
+    const [isdata, setData] = useState([]);
 
+    const getList = async() => {
+        let rest = await getListing("WorkShifts", "ShiftTimings")
+        console.log("rst",rest.data)
+       
+      }
+
+    //   const convertHMS = (value) => {
+    //       console.lo
+    //     console.log(value)
+    //      var date = value.toDate();
+    //      setTime(date)
+    //  }
 
     const checkNotification = () => { 
         PushNotification.localNotificationSchedule({
@@ -54,7 +72,19 @@ const WorkSchedule = ({ navigation, route }) => {
             repeatTime: 1, // (optional) Increment of configured repeatType. Check 'Repeating Notifications' section for more info.
           });
     }
+
+    const getShift = async() => {
+        let rest = await getListing("WorkSchedule", userInfo.uid)
+        console.log("rst",rest.ShiftTime)
+        setShiftTime(rest.ShiftTime)
+      }
+
     useEffect(() => {
+        getShift();
+    },[]);
+    
+    useEffect(() => {
+        
         checkNotification();
     },[])
 
@@ -82,6 +112,7 @@ const WorkSchedule = ({ navigation, route }) => {
                         selectedBtn={(e) => {
                             setCheck2(true)
                             setShiftTime(e.label)
+                            console.log(e.label)
                         }}
                         icon={
                             <Icon

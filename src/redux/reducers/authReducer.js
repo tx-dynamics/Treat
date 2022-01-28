@@ -9,7 +9,7 @@ const INITIAL_STATE = {
     likeId:[],
     SplahStatus:true,
     PlayStatus: false,
-    calenderDates:new Date()
+    calenderDates:[]
 }
 
 export default function (state = INITIAL_STATE, action){

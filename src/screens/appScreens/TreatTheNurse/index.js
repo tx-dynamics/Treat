@@ -103,9 +103,9 @@ const TreatTheNurse = ({ navigation, route }) => {
                 renderItem={({ item,index }) => (
                     <TreatBox
                     onPress={() => navigation.navigate("subTreat", {videodata : item})}
-                    leftTitle={item.title ? item.title : null}
+                    leftTitle={item.title ? item.title.substring(0,10)+"..." : null}
                     leftImgName={{ uri : item.thumbnail}}
-                    subTxt={item.sub_title ? item.sub_title : null}
+                    subTxt={item.sub_title ? item.sub_title.substring(0,10)+"..." : null}
                 />
                    
                 )}

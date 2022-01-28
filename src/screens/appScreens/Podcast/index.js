@@ -159,6 +159,7 @@ const styles = StyleSheet.create({
     },
     cntrTxt:{
         alignSelf:'center',
+        width:wp('80%'),
         textAlign:'center',
         fontFamily:'Poppins-Regular',
         fontSize:wp('3%'),

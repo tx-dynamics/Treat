@@ -219,20 +219,20 @@ const Audios = ({ navigation, route }) => {
             url: audiodata.url ? audiodata.url : null,
             title: audiodata.title ? audiodata.title : "Music Track",
             artist: audiodata.sub_title ? audiodata.sub_title : "Playlist Song",
-            artwork: playbackState === State.Playing ? require('../../../../assets/pause1.png') : require('../../../../assets/videoIcon.png')
+            // artwork: playbackState === State.Playing ? require('../../../../assets/pause1.png') : require('../../../../assets/videoIcon.png')
         });
 
         // Start playing it
         // await TrackPlayer.play();
         await TrackPlayer.updateOptions({
-            // Media controls capabilities
-            capabilities: [
-                Capability.Play,
-                Capability.Pause,
-            ],
+        //     // Media controls capabilities
+        //     capabilities: [
+        //         Capability.Play,
+        //         Capability.Pause,
+        //     ],
         
-            // Capabilities that will show up when the notification is in the compact form on Android
-            compactCapabilities: [Capability.Play, Capability.Pause],
+        //     // Capabilities that will show up when the notification is in the compact form on Android
+        //     compactCapabilities: [Capability.Play, Capability.Pause],
         
             // Icons for the notification on Android (if you don't like the default ones)
             playIcon: require('../../../../assets/videoIcon.png'),

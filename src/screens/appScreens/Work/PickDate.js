@@ -11,7 +11,7 @@ import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import moment, { now } from 'moment';
 import Marking from 'react-native-calendars/src/calendar/day/marking';
 import { MarkingProps } from './marking';
-import { saveData } from 'src/firebase/utility';
+import { saveData, getListing } from 'src/firebase/utility';
 import { useSelector } from 'react-redux';
 import { useDispatch } from "react-redux";
 import { setCalenderDates } from 'src/redux/actions/authAction';
@@ -22,14 +22,13 @@ const PickDate = ({ navigation,route }) => {
 
   let dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userdata)
-  const calenderdates = useSelector((state) => state.auth.CalendarDates)
-  console.log("calenderdates",calenderdates)
+  const calenderdates = useSelector((state) => state.auth.calenderDates)
   
   const [isValue, setValue] = useState([]);
   const [isLastMonth, setLastMonth] = useState(1)
   const [isCurrentMonth, setCurrentMonth] = useState();
   const [isNextMonth , setNextMonth] = useState(1);
-  const [markedDays, setmarkedDays] = useState();
+  const [markedDays, setmarkedDays] = useState([]);
 
   var currentMonth =  moment().startOf("month").format('MMMM');
   var lastMonth =  moment().subtract(isLastMonth,"month").startOf("month").format('MMMM');
@@ -42,20 +41,27 @@ const PickDate = ({ navigation,route }) => {
     setCurrentMonth(nextMonth)
   }
 
+  const getList = async() => {
+  let rest = await getListing("WorkSchedule", userInfo.uid)
+  console.log("rst",rest)
+  dispatch(setCalenderDates(rest.dates ? rest.dates : []))
+  setmarkedDays(rest.dates ? rest.dates : [])
+}
   useEffect(() => {
     setCurrentMonth(currentMonth)
+    getList();
   },[])
   
   const saveValues = async () => {
     let success = true;
-    if(isValue === "" || undefined || null){
+    if(calenderdates === "" || undefined || null){
       ToastAndroid.show("Must Select Date Before Saving", ToastAndroid.LONG); 
     }
     else{
    
     const Details = ({
       ShiftTime: shift ? shift : null,
-      date: isValue ? isValue : null
+      dates: calenderdates
     })
 
     await saveData('WorkSchedule', userInfo.uid, Details)
@@ -72,23 +78,34 @@ const PickDate = ({ navigation,route }) => {
       }   
 }
  
-  const markValues = (datees) => {
+  const markValues = async(datees) => {
+
+    var selectedIdss = [...markedDays]
+        if (selectedIdss.includes(datees)) {
+            selectedIdss = selectedIdss.filter(id => id !== datees)
+            console.log(selectedIdss)
+        }
+        else {
+            // selectedIdss = [];
+            selectedIdss.push(datees)
+        }
+        await setmarkedDays(selectedIdss)
+        console.log(selectedIdss)
+        dispatch(setCalenderDates(selectedIdss))
+    // let markedDay = {};
     
-    dispatch(setCalenderDates(datees))
-    let markedDay = {};
-    
-    markedDay[moment(datees).format('YYYY-MM-DD')] = {selected: true, selectedColor: 'purple',}
-    if(markedDays)
-    {
-      setTimeout(() => {
-      setmarkedDays(markedDay);
-      }, 300);
-    }
-    else{
-      setTimeout(() => {
-      setmarkedDays(markedDay);
-        }, 300);
-    }
+    // markedDay[moment(datees).format('YYYY-MM-DD')] = {selected: true, selectedColor: 'purple',}
+    // if(markedDays)
+    // {
+    //   setTimeout(() => {
+    //   setmarkedDays(markedDay);
+    //   }, 300);
+    // }
+    // else{
+    //   setTimeout(() => {
+    //   setmarkedDays(markedDay);
+    //     }, 300);
+    // }
   }
 
   return (
@@ -168,15 +185,12 @@ const PickDate = ({ navigation,route }) => {
                   onPress={() => {
                     markValues(date.dateString);
                     setValue(date.dateString)
-                    console.log('selected day', date.dateString)
+                    // console.log('selected day', date.dateString)
                   }}
-                  style={ state === 'disabled' ? styles.disabledBoxes : marking ? styles.filledBoxes : styles.boxesView}>
+                  style={ state === 'disabled' ? styles.disabledBoxes : markedDays.includes(date.dateString) ? styles.filledBoxes : styles.boxesView}>
                 
                   <Apptext
-                    style={state === 'disabled' ? styles.disabledBoxesTxt : marking ? styles.filledBoxesTxt : styles.boxesTxt}
-                    // style={[styles.boxesTxt, 
-                    // {backgroundColor: state === 'disabled' ? "white" : "green", 
-                    // color: state === 'disabled' ? 'black' : 'white'}]}
+                    style={state === 'disabled' ? styles.disabledBoxesTxt : markedDays.includes(date.dateString) ? styles.filledBoxesTxt : styles.boxesTxt}
                     >
                       {date.day}</Apptext>
                 </TouchableOpacity>

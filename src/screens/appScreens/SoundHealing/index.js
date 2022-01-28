@@ -107,7 +107,7 @@ const SoundHealing = ({ navigation, route }) => {
                 renderItem={({ item }) => (
                     <TreatBox
                     onPress={() => navigation.navigate("Audios", {audiodata: item})}
-                    leftTitle={item.title ? item.title : null}
+                    leftTitle={item.title ? item.title.substring(0,5)+"..." : null}
                     subTxt={item.sub_title ? item.sub_title.substring(0,12) + ".....": null}
                     leftImgName={{uri : item.thumbnail}}
                 />
