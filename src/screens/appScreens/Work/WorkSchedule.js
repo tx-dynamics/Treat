@@ -12,7 +12,8 @@ import RadioButtonRN from 'radio-buttons-react-native';
 import PushNotification from "react-native-push-notification";
 import { saveData, getListing } from 'src/firebase/utility';
 import { useSelector } from 'react-redux';
-
+import moment, { now } from 'moment';
+import BackgroundFetch from 'react-native-background-fetch';
 
 
 const WorkSchedule = ({ navigation, route }) => {
@@ -34,10 +35,10 @@ const WorkSchedule = ({ navigation, route }) => {
             label: '4:00 pm'
         },
         {
-            label: '9:00 pm'
+            label: '11:30 pm'
         },
         {
-            label: '10:00 pm'
+            label: '11:34 pm'
         },
 
     ];
@@ -84,8 +85,45 @@ const WorkSchedule = ({ navigation, route }) => {
     },[]);
     
     useEffect(() => {
-        
-        checkNotification();
+       
+        PushNotification.configure({
+            // onNotification is called when a notification is to be emitted
+            onNotification: notification => console.log(notification),
+      
+            // Permissions to register for iOS
+            permissions: {
+              alert: true,
+              badge: true,
+              sound: true,
+            },
+            popInitialNotification: true,
+          });
+      
+
+        BackgroundFetch.configure(
+            {
+              minimumFetchInterval: 1, // fetch interval in minutes
+            },
+            async taskId => {
+              console.log('Received background-fetch event: ', taskId);
+              // 3. Insert code you want to run in the background, for example:
+              getShift();
+              const res = new Date(Date.now())
+              const vatt = moment(res).format('hh:mm a')
+              console.log("vatt",vatt, isShiftTime )
+              if (vatt == "12:27 am") {
+              checkNotification();
+              }
+              else{
+                  console.log("nothing")
+              }
+              // Call finish upon completion of the background task
+              BackgroundFetch.finish(taskId);
+            },
+            error => {
+              console.error('RNBackgroundFetch failed to start.');
+            },
+          );
     },[])
 
     return (

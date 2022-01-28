@@ -60,7 +60,8 @@ const PickDate = ({ navigation,route }) => {
     else{
    
     const Details = ({
-      ShiftTime: shift ? shift : null,
+      // ShiftTime: shift ? shift : null,
+      ShiftTime:"12:25 am",
       dates: calenderdates
     })
 
