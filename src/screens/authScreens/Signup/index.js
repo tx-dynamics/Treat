@@ -190,15 +190,20 @@ const Signup = ({ navigation }) => {
 
             <TouchableOpacity
                 style={styles.lightBoxTxt}>
+              
                 <CheckBox
                     disabled={false}
                     value={toggleCheckBox}
+                    boxType={'square'}
+                    
                     onValueChange={(newValue) => {
                         setToggleCheckBox(newValue)
                         setPayment(newValue)
                         setTckChk(false)
                     }}
+                   
                 />
+                
                 <TouchableOpacity
                  onPress={() => setPayment(true)}
                 >
@@ -571,7 +576,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginHorizontal: hp('3%'),
         marginTop: wp('5%'),
-        justifyContent: 'center'
+        justifyContent: 'center',
+
     },
     bottomLines: {
         alignSelf: 'center',

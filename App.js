@@ -28,8 +28,11 @@ const App = () => {
     <NavigationContainer>
       
       <Provider store={store}>
+      <SafeAreaView  style={{ flex: 1,}}>
       <Main />
+      </SafeAreaView>
       </Provider>
+     
     </NavigationContainer>
   );
 };

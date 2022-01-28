@@ -98,7 +98,8 @@ const Library = ({ navigation,route }) => {
             onPressLeft={() => navigation.goBack()}
             onPressRight={() => navigation.navigate("Settings")}
             />
-        <ScrollView>
+        <>
+        {/* <ScrollView> */}
             
             <View style={{marginTop:wp('6%')}}>
             <FlatList   
@@ -124,7 +125,8 @@ const Library = ({ navigation,route }) => {
                 )}
             />
            </View>
-        </ScrollView>
+           </>
+        {/* </ScrollView> */}
         </View>
     )
 }

@@ -93,7 +93,8 @@ const PodCastVideo = ({ navigation, route }) => {
             onPressLeft={() => navigation.goBack()}
 
             />
-        <ScrollView>
+        <>
+        {/* <ScrollView> */}
             {isGuestName ?  
             <Apptext style={styles.monthTxt}>{catName} : {isGuestName}</Apptext>
             : null
@@ -127,7 +128,8 @@ const PodCastVideo = ({ navigation, route }) => {
             </View>
 
 
-        </ScrollView>
+            </>
+        {/* </ScrollView> */}
         </View>
     )
 }

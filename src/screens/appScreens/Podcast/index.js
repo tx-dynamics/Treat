@@ -94,7 +94,8 @@ const Podcast = ({ navigation, route }) => {
             onPressLeft={() => navigation.goBack()}
 
              />
-        <ScrollView>
+      <>
+        {/* <ScrollView> */}
             <Apptext style={styles.monthTxt}>Podcast</Apptext>
             <View style={{marginTop:wp('3%')}}>
                 <HomeWideCard
@@ -128,7 +129,8 @@ const Podcast = ({ navigation, route }) => {
                 )}
             />
            </View>
-        </ScrollView>
+           </>
+        {/* </ScrollView> */}
         </View>
     )
 }

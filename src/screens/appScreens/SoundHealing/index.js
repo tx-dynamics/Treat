@@ -87,7 +87,8 @@ const SoundHealing = ({ navigation, route }) => {
             onPressRight={() => navigation.navigate("Settings")}
             onPressLeft={() => navigation.goBack()}
             />
-        <ScrollView>
+      <>
+        {/* <ScrollView> */}
             <View style={{marginTop:wp('7%')}}>
                 <HomeWideCard
                 //  backImg={require('../../../../assets/TreatCover.png')}
@@ -115,7 +116,8 @@ const SoundHealing = ({ navigation, route }) => {
                 )}
             />
            </View>
-        </ScrollView>
+           </>
+        {/* </ScrollView> */}
         </View>
     )
 }

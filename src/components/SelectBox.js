@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     SightingContainer:{
         width:wp('90%'),
         marginTop:wp('4%'),
-        marginBottom:1,
+        marginBottom:wp("1%"),
         borderRadius:8,
         alignSelf:'center',
         backgroundColor:DefaultStyles.colors.white,
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
         width:wp('90%'),
         marginTop:wp('4%'),
         borderRadius:8,
-        marginBottom:1,
+        marginBottom:wp("1%"),
         alignSelf:'center',
         backgroundColor:DefaultStyles.colors.secondary,
         shadowColor: "#000",

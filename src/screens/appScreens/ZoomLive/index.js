@@ -66,7 +66,8 @@ const ZoomLive = ({ navigation, route }) => {
             onPressRight={() => navigation.navigate("Settings")}
             onPressLeft={() => navigation.goBack()}
             />
-        <ScrollView>
+       <>
+        {/* <ScrollView> */}
             <Image style={styles.imgStl} source={require('../../../../assets/ZoomScreen.png')} />
             <View style={{marginTop:wp('7%'), marginBottom:wp('5%')}}>
             <FlatList   
@@ -104,7 +105,8 @@ const ZoomLive = ({ navigation, route }) => {
             </View>
             </TouchableOpacity>
            </View>
-        </ScrollView>
+           </>
+        {/* </ScrollView> */}
         </View>
     )
 }

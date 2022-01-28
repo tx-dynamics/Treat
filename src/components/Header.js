@@ -79,7 +79,8 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.34,
     shadowRadius: 6.27,
-
+    borderBottomColor:'lightgray',
+    borderBottomWidth:0.5,
     elevation: 3,
   },
 });

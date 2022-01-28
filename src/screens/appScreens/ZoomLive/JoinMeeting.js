@@ -93,7 +93,7 @@ const ZoomLive = ({ navigation, route }) => {
                 onPressRight={() => navigation.navigate("Settings")}
                 onPressLeft={() => navigation.goBack()}
             />
-            <ScrollView>
+            {/* <ScrollView> */}
                 <View style={styles.pinkBanner}>
                     <Image style={styles.imgStl}
                         // source={require('../../../../assets/ZoomScreen.png')}
@@ -117,7 +117,7 @@ const ZoomLive = ({ navigation, route }) => {
                         <Apptext style={styles.buttonText}>{"Join"}</Apptext>
                     </TouchableOpacity>
                 </View>
-            </ScrollView>
+            {/* </ScrollView> */}
         </View>
     )
 }

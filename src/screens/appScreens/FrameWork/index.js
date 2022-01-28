@@ -91,7 +91,8 @@ const Framework = ({ navigation,route }) => {
             onPressRight={() => navigation.navigate("Settings")}
             onPressLeft={() => navigation.goBack()}
             />
-        <ScrollView>
+     <>
+        {/* <ScrollView> */}
             <Apptext style={styles.monthTxt}>Framework</Apptext>
             <View style={{marginTop:wp('7%')}}>
                 <HomeWideCard
@@ -108,7 +109,9 @@ const Framework = ({ navigation,route }) => {
             <FlatList   
                 data={isOptions}
                 keyExtractor={(item, index) => index}
+               
                 renderItem={({ item,index }) => (
+                
                     <SelectBox
                     onPress={() => {
                         // addCategories(item)
@@ -122,7 +125,8 @@ const Framework = ({ navigation,route }) => {
                 )}
             />
            </View>
-        </ScrollView>
+           </>
+        {/* </ScrollView> */}
         </View>
     )
 }

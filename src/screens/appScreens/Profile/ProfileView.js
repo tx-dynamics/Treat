@@ -294,6 +294,7 @@ const styles = StyleSheet.create({
     HumanInput: {
         width: wp('70%'),
         paddingLeft: wp('5%'),
+       padding:wp('5%')
     },
     inputContainer: {
         width: wp('90%'),

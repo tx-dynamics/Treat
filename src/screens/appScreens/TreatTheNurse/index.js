@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import { View,StyleSheet,FlatList ,Image, ScrollView } from 'react-native';
+import { View,StyleSheet,FlatList ,Image, ScrollView,SafeAreaView,LogBox } from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -70,6 +70,8 @@ const TreatTheNurse = ({ navigation, route }) => {
     }
 
     useEffect(() => {
+            LogBox.ignoreLogs(["VirtualizedLists should never be nested"])
+       
         chkData();
         listingData();
     }, []);
@@ -83,7 +85,9 @@ const TreatTheNurse = ({ navigation, route }) => {
 
             />
             {/* <Divider width={1} style={{marginTop:-7}} color="lightgray" /> */}
-        <ScrollView>
+        
+
+        
             <Apptext style={styles.monthTxt}>Intro</Apptext>
             <View style={{marginTop:wp('7%')}}>
                 <HomeWideCard 
@@ -100,6 +104,7 @@ const TreatTheNurse = ({ navigation, route }) => {
                 numColumns={2}
                 horizontal={false}
                 keyExtractor={(item, index) => index}
+                maxHeight={'75%'}
                 renderItem={({ item,index }) => (
                     <TreatBox
                     onPress={() => navigation.navigate("subTreat", {videodata : item})}
@@ -111,7 +116,9 @@ const TreatTheNurse = ({ navigation, route }) => {
                 )}
             />
            </View>
-        </ScrollView>
+         
+       
+   
         </View>
     )
 }

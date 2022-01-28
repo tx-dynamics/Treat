@@ -192,7 +192,9 @@ const Home = ({ navigation }) => {
                 />
 
                 {/* <Divider width={1} style={{marginTop:-7}} color="lightgray" /> */}
-                <ScrollView>
+               
+                <ScrollView  style={{height:wp('95%')}} keyboardShouldPersistTaps='handled'>
+             
                     <View style={{ marginTop: wp('9%') }}>
                         <HomeWideCard
                             // backImg={require('../../../../assets/human2.png')}
@@ -262,12 +264,14 @@ const Home = ({ navigation }) => {
                         iconContainer={{flex: 0.1,color:'transparent',}}
                     /> */}
                     </View>
+                    </ScrollView>
                     <View style={styles.DirectionView}>
                         <Apptext style={styles.PrsnlTxt}>Your Personal Library</Apptext>
                         <TouchableOpacity>
                             <Apptext style={styles.pinkTxt}>View All</Apptext>
                         </TouchableOpacity>
                     </View>
+                  
                     <FlatList
                         data={FavItems}
                         numColumns={2}
@@ -299,8 +303,10 @@ const Home = ({ navigation }) => {
 
                         )}
                     />
+                  
+                    
 
-                </ScrollView>
+                {/* </ScrollView> */}
             </View>
         )
     }
@@ -311,7 +317,7 @@ export default Home;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // backgroundColor: DefaultStyles.colors.white
+         backgroundColor: DefaultStyles.colors.white
     },
     headerLogo: {
         alignItems: 'center',
