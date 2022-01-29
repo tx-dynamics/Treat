@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, TouchableOpacity, Image, StyleSheet, ScrollView, } from 'react-native';
+import { View, TouchableOpacity, Image, StyleSheet,Alert, ScrollView, } from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -13,8 +13,33 @@ import PushNotification from "react-native-push-notification";
 import { saveData, getListing } from 'src/firebase/utility';
 import { useSelector } from 'react-redux';
 import moment, { now } from 'moment';
-import BackgroundFetch from 'react-native-background-fetch';
+import BackgroundTask from 'react-native-background-task';
 
+
+BackgroundTask.define(async () => {
+    //   const res = new Date(Date.now())
+    //   const vatt = moment(res).format('hh:mm a')
+    //   const userInfo = useSelector((state) => state.auth.userdata)
+    //   let rest = await getListing("WorkSchedule", userInfo.uid)
+
+    //   console.log("vatt",vatt, rest.ShiftTime )
+    //   if (vatt <= rest.ShiftTime) {
+        PushNotification.localNotificationSchedule({
+            //... You can use all the options from localNotifications
+            message: "Work Shift Time", // (required)
+            date: new Date(Date.now() + 5 * 1000), // in 60 secs
+            allowWhileIdle: true, // (optional) set notification to work while on doze, default: false
+          
+            /* Android Only Properties */
+            repeatTime: 1, // (optional) Increment of configured repeatType. Check 'Repeating Notifications' section for more info.
+          });
+    //   }
+    //   else{
+    //       console.log("nothing")
+    //   }
+
+    BackgroundTask.finish()
+  })
 
 const WorkSchedule = ({ navigation, route }) => {
 
@@ -62,6 +87,33 @@ const WorkSchedule = ({ navigation, route }) => {
     //      setTime(date)
     //  }
 
+    const checkStatus = async() => {
+        const status = await BackgroundTask.statusAsync()
+        
+        if (status.available) {
+            // checkNotification();
+          // Everything's fine
+        //   const res = new Date(Date.now())
+        //     const vatt = moment(res).format('hh:mm a')
+        //     console.log("vatt",vatt, isShiftTime )
+        //     if (vatt == isShiftTime) {
+        //     checkNotification();
+        //     }
+        //     else{
+        //         console.log("nothing")
+        //     }
+          console.log("status", status.available)
+          return
+        }
+        
+        const reason = status.unavailableReason
+        if (reason === BackgroundTask.UNAVAILABLE_DENIED) {
+          Alert.alert('Denied', 'Please enable background "Background App Refresh" for this app')
+        } else if (reason === BackgroundTask.UNAVAILABLE_RESTRICTED) {
+          Alert.alert('Restricted', 'Background tasks are restricted on your device')
+        }
+      }
+
     const checkNotification = () => { 
         PushNotification.localNotificationSchedule({
             //... You can use all the options from localNotifications
@@ -85,46 +137,22 @@ const WorkSchedule = ({ navigation, route }) => {
     },[]);
     
     useEffect(() => {
-       
-        PushNotification.configure({
-            // onNotification is called when a notification is to be emitted
-            onNotification: notification => console.log(notification),
-      
-            // Permissions to register for iOS
-            permissions: {
-              alert: true,
-              badge: true,
-              sound: true,
-            },
-            popInitialNotification: true,
-          });
-      
-
-        BackgroundFetch.configure(
-            {
-              minimumFetchInterval: 1, // fetch interval in minutes
-            },
-            async taskId => {
-              console.log('Received background-fetch event: ', taskId);
-              // 3. Insert code you want to run in the background, for example:
-              getShift();
-              const res = new Date(Date.now())
-              const vatt = moment(res).format('hh:mm a')
-              console.log("vatt",vatt, isShiftTime )
-              if (vatt == "12:27 am") {
-              checkNotification();
-              }
-              else{
-                  console.log("nothing")
-              }
-              // Call finish upon completion of the background task
-              BackgroundFetch.finish(taskId);
-            },
-            error => {
-              console.error('RNBackgroundFetch failed to start.');
-            },
-          );
-    },[])
+        BackgroundTask.schedule({
+            period: 900, // Aim to run every 30 mins - more conservative on battery
+          })
+          
+          // Optional: Check if the device is blocking background tasks or not
+          checkStatus()
+            //   const res = new Date(Date.now())
+            //   const vatt = moment(res).format('hh:mm a')
+            // //   console.log("vatt",vatt, isShiftTime )
+            //   if (vatt == "12:27 am") {
+            //   checkNotification();
+            //   }
+            //   else{
+            //       console.log("nothing")
+            //   }
+    })
 
     return (
         <View style={styles.container}>

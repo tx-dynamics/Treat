@@ -58,10 +58,11 @@ const PickDate = ({ navigation,route }) => {
       ToastAndroid.show("Must Select Date Before Saving", ToastAndroid.LONG); 
     }
     else{
-   
+      const res = new Date(Date.now())
+      const vatt = moment(res).format('hh:mm a')
     const Details = ({
-      // ShiftTime: shift ? shift : null,
-      ShiftTime:"12:25 am",
+      ShiftTime: shift ? shift : vatt,
+      // ShiftTime:"12:25 am",
       dates: calenderdates
     })
 
