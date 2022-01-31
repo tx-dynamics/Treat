@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Treat</string>
+    <string name="facebook_app_id">612679809826875</string>
+    <string name="facebook_client_token">48428ee74e0e71935358bd2cbdff6118</string>
+
 </resources>

@@ -1,9 +1,10 @@
-import React, { useState,useEffect } from 'react';
-import { View, TouchableOpacity,ActivityIndicator, ToastAndroid, Alert,Image, StyleSheet, ScrollView, } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, TouchableOpacity, ActivityIndicator, ToastAndroid, Alert, Image, StyleSheet, ScrollView, } from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
 import Apptext from 'src/components/Apptext';
 import DefaultStyles from "src/config/Styles";
 import HumanHeader from 'src/components/HumanHeader';
@@ -12,10 +13,10 @@ import FormButton from 'src/components/FormButton';
 import { setUser, setUserData } from 'src/redux/actions/authAction';
 import { useDispatch } from "react-redux";
 import auth from '@react-native-firebase/auth';
-import {getData, saveInitialData} from 'src/firebase/utility';
+import { getData, saveInitialData,saveData } from 'src/firebase/utility';
 import { useSelector } from 'react-redux';
 import PushNotification from "react-native-push-notification";
-
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 
 const SignIn = ({ navigation }) => {
@@ -26,12 +27,12 @@ const SignIn = ({ navigation }) => {
     const [password, setPassword] = useState('');
     const [mailChk, setMailChk] = useState(false);
     const [passChk, setPassChk] = useState(false);
-    const [duplicateEmail ,setDuplicateEmail] = useState(false);
-    const [weakPass ,setWeakPass] = useState(false);
-    const [badFormat ,setBadFormat] = useState(false);
+    const [duplicateEmail, setDuplicateEmail] = useState(false);
+    const [weakPass, setWeakPass] = useState(false);
+    const [badFormat, setBadFormat] = useState(false);
     const [noUser, setNoUser] = useState(false);
 
-    
+
     const user = useSelector((state) => state.auth.user)
     console.log("user", user)
 
@@ -42,26 +43,26 @@ const SignIn = ({ navigation }) => {
                 channelName: "TechXpert"
             }
         )
-      }
+    }
 
-      useEffect(() => {
+    useEffect(() => {
         createChannels();
-      },[])
+    }, [])
 
     const checkValues = () => {
         if (email === "" && password === "") {
             setMailChk(true)
             setPassChk(true)
         }
-        else if(email === ""){
+        else if (email === "") {
             setMailChk(true)
             setPassChk(false)
         }
-        else if(password === ""){
+        else if (password === "") {
             setPassChk(true)
             setMailChk(false)
         }
-        else{
+        else {
             console.log("Sign IN Called")
             signIn(email, password)
         }
@@ -69,7 +70,7 @@ const SignIn = ({ navigation }) => {
     }
 
     const signIn = async (email, password) => {
-       
+
         let success = true;
         setLoading(true)
         console.log("LoginValues", email, password)
@@ -81,10 +82,10 @@ const SignIn = ({ navigation }) => {
                 setWeakPass(false)
                 setBadFormat(false)
                 setDuplicateEmail(false)
-                  let userinfo = await getData('users', user.user.uid);
-                  var user1= auth().currentUser;
-                  console.log(user1)
-                  if(user1.uid){
+                let userinfo = await getData('users', user.user.uid);
+                var user1 = auth().currentUser;
+                console.log(user1)
+                if (user1.uid) {
                     dispatch(setUserData(user1))
                     dispatch(setUser(true))
                     // try {
@@ -98,10 +99,10 @@ const SignIn = ({ navigation }) => {
                     // await saveInitialData("FavoriteListing", user1.uid)
                     // setLoading(false)
                     // navigation.replace("Home")
-                  }
-                  else{
-                    ToastAndroid.show("Please verify your email before sign in",ToastAndroid.LONG);
-                  }
+                }
+                else {
+                    ToastAndroid.show("Please verify your email before sign in", ToastAndroid.LONG);
+                }
 
                 //    if(user1.emailVerified){
                 //   if (userinfo) {
@@ -124,33 +125,151 @@ const SignIn = ({ navigation }) => {
                 success = false;
                 setLoading(false)
                 console.log(error.code + ':: ' + error.message);
-                if (error.code === 'auth/email-already-in-use'){
+                if (error.code === 'auth/email-already-in-use') {
                     setDuplicateEmail(true)
                 }
-                else if(error.code === 'auth/user-not-found') {
+                else if (error.code === 'auth/user-not-found') {
                     setNoUser(true)
                     setWeakPass(false)
                     setBadFormat(false)
-                    
+
                 }
-                else if(error.code === 'auth/invalid-email') {
+                else if (error.code === 'auth/invalid-email') {
                     setBadFormat(true)
                     setWeakPass(false)
                     setNoUser(false)
-                    
+
                 }
-                else if(error.code === 'auth/wrong-password'){
+                else if (error.code === 'auth/wrong-password') {
                     setWeakPass(true)
                     setPassChk(false)
                     setBadFormat(false)
                     setNoUser(false)
-                  
+
                 }
-                else{
+                else {
                     Alert.alert(error.code)
                 }
             });
         return success;
+    }
+
+    const fbSign = async () => {
+        let result;
+        try {
+            LoginManager.setLoginBehavior('NATIVE_ONLY');
+            result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
+        } catch (error) {
+            LoginManager.setLoginBehavior('WEB_ONLY');
+            result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
+        }
+        if (result.isCancelled) {
+            console.log('Signin cancelled.');
+        } else {
+            const data = await AccessToken.getCurrentAccessToken();
+            if (!data) {
+                Alert.alert('Something went wrong obtaining the users access token');
+            }
+            const response = await fetch(`https://graph.facebook.com/v11.0/me?access_token=${data.accessToken}&fields=name,email,id,picture.type(large)`);
+            var userInfo = await response.json();
+            console.log("fbUserInfo",userInfo)
+            return { "Data": { data } }
+        }
+        (error) => {
+            console.warn('Sign in error', error);
+            return { "Error": { error } }
+        }
+    }
+
+    const onfbButtonPress = async () => {
+        let info = await fbSign();
+        const fb = auth.FacebookAuthProvider.credential(info?.Data?.data?.accessToken);
+        auth().signInWithCredential(fb)
+        .then(async() => {
+                var user1 = auth().currentUser;
+                console.log(user1)
+                if (user1.uid) {
+                    let Details =  {
+                        email: user1.email,
+                        fullName: user1.displayName,
+                        uid: user1.uid,
+                        profilePhoto: user1.photoURL,
+                        isBlocked: user1.emailVerified === true ? true : false ,
+                    };
+                    console.log(Details)
+                    await saveData('users', user1.uid, Details);
+                    dispatch(setUserData(user1))
+                    dispatch(setUser(true))
+                }
+                else {
+                    console.log("error")
+                    Alert.alert("Please verify your email before sign in");
+                }
+            })
+            .catch(function (error) {
+                console.log(error.code + ':: ' + error.message);
+                // Alert.alert("Error : ", error)
+            });
+
+    }
+
+    
+    const GoogleSign = async () => {
+        try {
+            await GoogleSignin.hasPlayServices()
+            const userInfo = await GoogleSignin.signIn()
+            if (userInfo !== "") {
+                // dispatch(setUserData(userInfo))
+                // dispatch(setUser(true))
+                return userInfo;
+            }
+        } catch (error) {
+
+            // Alert.alert("Error : ", error)
+            console.log(error)
+            return { "Error": { error } }
+        }
+    }
+
+    const onGoogleButtonPress = async () => {
+        let info = await GoogleSign();
+        const google = auth.GoogleAuthProvider.credential(info.idToken);
+        auth().signInWithCredential(google)
+            .then(async() => {
+                var user1 = auth().currentUser;
+                console.log(user1)
+                if (user1.uid) {
+                    let Details =  {
+                        email: user1.email,
+                        fullName: user1.displayName,
+                        uid: user1.uid,
+                        profilePhoto: user1.photoURL,
+                        isBlocked: user1.emailVerified === true ? false : true ,
+                    };
+                    console.log(Details)
+                    await saveData('users', user1.uid, Details);
+                    dispatch(setUserData(user1))
+                    dispatch(setUser(true))
+                }
+                else {
+                    console.log("error")
+                    Alert.alert("Please verify your email before sign in");
+                }
+            })
+            .catch(function (error) {
+                console.log(error.code + ':: ' + error.message);
+                // Alert.alert("Error : ", error)
+            });
+
+        // Get the users ID token
+        // const { idToken } = await GoogleSignin.signIn();
+
+        // // Create a Google credential with the token
+        // const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+        // console.log("googleCredential", googleCredential)
+
+        // // Sign-in the user with the credential
+        // return auth().signInWithCredential(googleCredential);
     }
 
     return (
@@ -177,15 +296,15 @@ const SignIn = ({ navigation }) => {
                 </View> : null}
                 {duplicateEmail ? <View style={{ marginHorizontal: wp('6%'), marginTop: wp('1%') }}>
                     <Apptext style={{ fontSize: 10, color: "red" }}>
-                    The email address is already in use by another account.</Apptext>
+                        The email address is already in use by another account.</Apptext>
                 </View> : null}
                 {badFormat ? <View style={{ marginHorizontal: wp('6%'), marginTop: wp('1%') }}>
                     <Apptext style={{ fontSize: 10, color: "red" }}>
-                    The email address is badly formatted</Apptext>
+                        The email address is badly formatted</Apptext>
                 </View> : null}
                 {noUser ? <View style={{ marginHorizontal: wp('6%'), marginTop: wp('1%') }}>
                     <Apptext style={{ fontSize: 10, color: "red" }}>
-                There is no user record corresponding to this identifier. The user may have been deleted.
+                        There is no user record corresponding to this identifier. The user may have been deleted.
                     </Apptext>
                 </View> : null}
                 <FormInput
@@ -204,10 +323,10 @@ const SignIn = ({ navigation }) => {
                         Please Must Enter Password</Apptext>
                 </View> : null}
                 {weakPass ? <View style={{ marginHorizontal: wp('6%'), marginTop: wp('1%') }}>
-                <Apptext style={{ fontSize: 10, color: "red" }}>
-                The password is invalid or the user does not have a password.
+                    <Apptext style={{ fontSize: 10, color: "red" }}>
+                        The password is invalid or the user does not have a password.
                     </Apptext>
-            </View> : null}
+                </View> : null}
             </View>
             <View style={styles.lightBoxTxt}>
                 <TouchableOpacity onPress={() => navigation.navigate("VerifyEmail")}>
@@ -215,17 +334,17 @@ const SignIn = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
             <View style={{ marginTop: wp('6%') }}>
-                {isLoading ?  
-                <ActivityIndicator size={"large"} color={DefaultStyles.colors.primary}  />
-                :
-                  <FormButton
-                    buttonTitle={"Login"} 
-                    onPress={() => {
-                        checkValues()
-                        // dispatch(setUser(true))
-                    }}
-                />
-}
+                {isLoading ?
+                    <ActivityIndicator size={"large"} color={DefaultStyles.colors.primary} />
+                    :
+                    <FormButton
+                        buttonTitle={"Login"}
+                        onPress={() => {
+                            checkValues()
+                            // dispatch(setUser(true))
+                        }}
+                    />
+                }
             </View>
             <TouchableOpacity
                 // onPress={() => navigation.navigate("AskProblem")}
@@ -233,8 +352,12 @@ const SignIn = ({ navigation }) => {
                 <Apptext style={DefaultStyles.lightTxt}>Other Sign-In Methods</Apptext>
             </TouchableOpacity>
             <View style={styles.socialImgs}>
-                <Image source={require('../../../../assets/facebook.png')} />
-                <Image source={require('../../../../assets/google.png')} />
+                <TouchableOpacity onPress={() => onfbButtonPress()}>
+                    <Image source={require('../../../../assets/facebook.png')} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => onGoogleButtonPress()} >
+                    <Image source={require('../../../../assets/google.png')} />
+                </TouchableOpacity>
             </View>
             <View style={styles.bottomLines} >
                 <Apptext style={styles.bottomTxt}> Don't have an account? </Apptext>

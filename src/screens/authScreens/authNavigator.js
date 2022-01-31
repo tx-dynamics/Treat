@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Splash from 'src/screens/authScreens/Splash/Splash'
 import Login from 'src/screens/authScreens/Login'
@@ -15,6 +15,7 @@ import CardPayment from 'src/screens/authScreens/Payment/CardPayment';
 import CreditCard from 'src/screens/authScreens/Payment/CreditCard';
 import PaymentDone from "src/screens/authScreens/Payment/PaymentDone";
 import { useSelector } from 'react-redux';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 const AuthStack = createNativeStackNavigator()
 
@@ -65,10 +66,16 @@ const ExtraNavigator = () => {
     )
 }
 
-const AuthNavigator = () => {   
-    
+const AuthNavigator = () => {  
+
+    useEffect(() => {
+        GoogleSignin.configure({
+            webClientId: '502514669957-rinqikkdfp8iq9nud8ov5hc7n4vkpptv.apps.googleusercontent.com',
+          });
+    },[]);
+
     const splashchk = useSelector((state) => state.auth.SplashStatus)
-    
+
      if (splashchk) {
          return <SplashNavigator />
      }

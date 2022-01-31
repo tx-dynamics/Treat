@@ -132,6 +132,18 @@ export async function saveInitialData(collection, userId) {
        alert(error);
      });
  }
+ export async function saveInitialDates(collection, userId) {
+  await firestore()
+     .collection(collection)
+     .doc(userId)
+     .set({dates:[]})
+     .then(function() {
+       // alert("Data saved succesfuly");
+     })
+     .catch(function(error) {
+       alert(error);
+     });
+ }
 export async function getAllOptions(collection) {
   console.log(collection)
   let data = [];

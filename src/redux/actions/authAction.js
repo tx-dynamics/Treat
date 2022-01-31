@@ -36,3 +36,7 @@ export const setPlayStatus = (data) => async (dispatch) => {
 export const setCalenderDates = (data) => async (dispatch) => {
     dispatch({type: "CalenderDates" , payload : data})
 }
+
+export const setWorkShifts = (data) => async (dispatch) => {
+    dispatch({type: "workShifts" , payload : data})
+}

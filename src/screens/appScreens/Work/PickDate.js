@@ -14,7 +14,7 @@ import { MarkingProps } from './marking';
 import { saveData, getListing } from 'src/firebase/utility';
 import { useSelector } from 'react-redux';
 import { useDispatch } from "react-redux";
-import { setCalenderDates } from 'src/redux/actions/authAction';
+import { setCalenderDates,setWorkShifts } from 'src/redux/actions/authAction';
 
 
 const PickDate = ({ navigation,route }) => {
@@ -23,7 +23,7 @@ const PickDate = ({ navigation,route }) => {
   let dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userdata)
   const calenderdates = useSelector((state) => state.auth.calenderDates)
-  
+  // console.log("calender",calenderdates)
   const [isValue, setValue] = useState([]);
   const [isLastMonth, setLastMonth] = useState(1)
   const [isCurrentMonth, setCurrentMonth] = useState();
@@ -43,14 +43,14 @@ const PickDate = ({ navigation,route }) => {
 
   const getList = async() => {
   let rest = await getListing("WorkSchedule", userInfo.uid)
-  console.log("rst",rest)
   dispatch(setCalenderDates(rest.dates ? rest.dates : []))
   setmarkedDays(rest.dates ? rest.dates : [])
+  console.log("PickPage",rest.dates)
 }
   useEffect(() => {
     setCurrentMonth(currentMonth)
     getList();
-  },[])
+  },[navigation])
   
   const saveValues = async () => {
     let success = true;
@@ -65,6 +65,7 @@ const PickDate = ({ navigation,route }) => {
       // ShiftTime:"12:25 am",
       dates: calenderdates
     })
+    dispatch(setWorkShifts(Details))
 
     await saveData('WorkSchedule', userInfo.uid, Details)
     .then(data => {

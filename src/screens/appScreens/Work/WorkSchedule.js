@@ -13,33 +13,7 @@ import PushNotification from "react-native-push-notification";
 import { saveData, getListing } from 'src/firebase/utility';
 import { useSelector } from 'react-redux';
 import moment, { now } from 'moment';
-import BackgroundTask from 'react-native-background-task';
 
-
-BackgroundTask.define(async () => {
-    //   const res = new Date(Date.now())
-    //   const vatt = moment(res).format('hh:mm a')
-    //   const userInfo = useSelector((state) => state.auth.userdata)
-    //   let rest = await getListing("WorkSchedule", userInfo.uid)
-
-    //   console.log("vatt",vatt, rest.ShiftTime )
-    //   if (vatt <= rest.ShiftTime) {
-        PushNotification.localNotificationSchedule({
-            //... You can use all the options from localNotifications
-            message: "Work Shift Time", // (required)
-            date: new Date(Date.now() + 5 * 1000), // in 60 secs
-            allowWhileIdle: true, // (optional) set notification to work while on doze, default: false
-          
-            /* Android Only Properties */
-            repeatTime: 1, // (optional) Increment of configured repeatType. Check 'Repeating Notifications' section for more info.
-          });
-    //   }
-    //   else{
-    //       console.log("nothing")
-    //   }
-
-    BackgroundTask.finish()
-  })
 
 const WorkSchedule = ({ navigation, route }) => {
 
@@ -57,18 +31,17 @@ const WorkSchedule = ({ navigation, route }) => {
             label: '2:00 pm'
         },
         {
-            label: '4:00 pm'
+            label: '11:40 pm'
         },
         {
-            label: '11:30 pm'
+            label: '11:26 pm'
         },
         {
-            label: '11:34 pm'
+            label: '12:11 am'
         },
 
     ];
 
-    
     const userInfo = useSelector((state) => state.auth.userdata)
     const [check2, setCheck2] = useState(false);
     const [isShiftTime, setShiftTime] = useState('');
@@ -80,39 +53,6 @@ const WorkSchedule = ({ navigation, route }) => {
        
       }
 
-    //   const convertHMS = (value) => {
-    //       console.lo
-    //     console.log(value)
-    //      var date = value.toDate();
-    //      setTime(date)
-    //  }
-
-    const checkStatus = async() => {
-        const status = await BackgroundTask.statusAsync()
-        
-        if (status.available) {
-            // checkNotification();
-          // Everything's fine
-        //   const res = new Date(Date.now())
-        //     const vatt = moment(res).format('hh:mm a')
-        //     console.log("vatt",vatt, isShiftTime )
-        //     if (vatt == isShiftTime) {
-        //     checkNotification();
-        //     }
-        //     else{
-        //         console.log("nothing")
-        //     }
-          console.log("status", status.available)
-          return
-        }
-        
-        const reason = status.unavailableReason
-        if (reason === BackgroundTask.UNAVAILABLE_DENIED) {
-          Alert.alert('Denied', 'Please enable background "Background App Refresh" for this app')
-        } else if (reason === BackgroundTask.UNAVAILABLE_RESTRICTED) {
-          Alert.alert('Restricted', 'Background tasks are restricted on your device')
-        }
-      }
 
     const checkNotification = () => { 
         PushNotification.localNotificationSchedule({
@@ -128,7 +68,7 @@ const WorkSchedule = ({ navigation, route }) => {
 
     const getShift = async() => {
         let rest = await getListing("WorkSchedule", userInfo.uid)
-        console.log("rst",rest.ShiftTime)
+        console.log("rst",rest)
         setShiftTime(rest.ShiftTime)
       }
 
@@ -136,23 +76,7 @@ const WorkSchedule = ({ navigation, route }) => {
         getShift();
     },[]);
     
-    useEffect(() => {
-        BackgroundTask.schedule({
-            period: 900, // Aim to run every 30 mins - more conservative on battery
-          })
-          
-          // Optional: Check if the device is blocking background tasks or not
-          checkStatus()
-            //   const res = new Date(Date.now())
-            //   const vatt = moment(res).format('hh:mm a')
-            // //   console.log("vatt",vatt, isShiftTime )
-            //   if (vatt == "12:27 am") {
-            //   checkNotification();
-            //   }
-            //   else{
-            //       console.log("nothing")
-            //   }
-    })
+ 
 
     return (
         <View style={styles.container}>

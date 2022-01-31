@@ -9,7 +9,8 @@ const INITIAL_STATE = {
     likeId:[],
     SplahStatus:true,
     PlayStatus: false,
-    calenderDates:[]
+    calenderDates:[],
+    workshifts : {}
 }
 
 export default function (state = INITIAL_STATE, action){
@@ -36,6 +37,8 @@ export default function (state = INITIAL_STATE, action){
             return {...state, PlayStatus: action.payload}
         case "CalenderDates" :
                 return {...state, calenderDates: action.payload}
+        case "workShifts" :
+                    return {...state, workshifts: action.payload}
         default:
             return state
     }
