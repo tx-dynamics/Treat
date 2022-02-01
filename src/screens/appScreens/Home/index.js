@@ -522,7 +522,7 @@ const styles = StyleSheet.create({
     },
     CalenderBox: {
         width: wp('90%'),
-        marginTop: wp('5%'),
+        marginTop: wp('15%'),
         height: wp('30%'),
         alignSelf: 'center',
         backgroundColor: "#ffecf8", borderRadius: 20

@@ -233,7 +233,7 @@ const MyTabs = () => {
             <Tab.Screen name="GeneralNavigator" component={GeneralNavigator}
                 options={{
                     tabBarLabel: ({ focused }) => (
-                        <Apptext style={{ fontSize: wp('2%'), fontFamily: "Poppins-Regular", color: focused ? DefaultStyles.colors.secondary : DefaultStyles.colors.primary }}>Home</Apptext>
+                        <Apptext style={{ fontSize: wp('1%'), fontFamily: "Poppins-Regular", color: focused ? DefaultStyles.colors.secondary : DefaultStyles.colors.primary }}>Home</Apptext>
                     ),
                     tabBarIcon: ({ focused }) => (
                         focused ?
@@ -255,7 +255,7 @@ const MyTabs = () => {
                 options={{
                     tabBarLabel: ({ focused }) => (
                         <Apptext style={{
-                            fontSize: wp('2%'), fontFamily: "Poppins-Regular",
+                            fontSize: wp('1%'), fontFamily: "Poppins-Regular",
                             color: focused ? DefaultStyles.colors.secondary : DefaultStyles.colors.primary
                         }}>Treat The Nurse</Apptext>
                     ),
@@ -279,7 +279,7 @@ const MyTabs = () => {
                 options={{
                     tabBarLabel: ({ focused }) => (
                         <Apptext style={{
-                            fontSize: wp('2%'), fontFamily: "Poppins-Regular",
+                            fontSize: wp('1%'), fontFamily: "Poppins-Regular",
                             color: focused ? DefaultStyles.colors.secondary : DefaultStyles.colors.primary
                         }}>FrameWork</Apptext>
                     ),
@@ -302,7 +302,7 @@ const MyTabs = () => {
                 options={{
                     tabBarLabel: ({ focused }) => (
                         <Apptext style={{
-                            fontSize: wp('2%'), fontFamily: "Poppins-Regular",
+                            fontSize: wp('1%'), fontFamily: "Poppins-Regular",
                             color: focused ? DefaultStyles.colors.secondary : DefaultStyles.colors.primary
                         }}>Podcast</Apptext>
                     ),
@@ -325,7 +325,7 @@ const MyTabs = () => {
                 options={{
                     tabBarLabel: ({ focused }) => (
                         <Apptext style={{
-                            fontSize: wp('2%'), fontFamily: "Poppins-Regular",
+                            fontSize: wp('1%'), fontFamily: "Poppins-Regular",
                             color: focused ? DefaultStyles.colors.secondary : DefaultStyles.colors.primary
                         }}>Zoom Live</Apptext>
                     ),
@@ -348,7 +348,7 @@ const MyTabs = () => {
                 options={{
                     tabBarLabel: ({ focused }) => (
                         <Apptext style={{
-                            fontSize: wp('2%'), fontFamily: "Poppins-Regular",
+                            fontSize: wp('1%'), fontFamily: "Poppins-Regular",
                             color: focused ? DefaultStyles.colors.secondary : DefaultStyles.colors.primary
                         }}>Sound Healing</Apptext>
                     ),

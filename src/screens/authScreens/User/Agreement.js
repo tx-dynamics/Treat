@@ -24,15 +24,16 @@ const Agreement = ({ navigation }) => {
            
             <View style={{ alignSelf: 'center' }}>
                 <Apptext style={{fontSize:12,marginTop:18, fontFamily: "Poppins",marginHorizontal:wp('7%')}}>{`By purchasing any (“Program”) from Ashleigh Boyd LLC (“Company”), you (“Client” and collectively, the “Parties”) agree to the following terms of this Purchase Agreement 
-                                    (“Agreement)”: 
+                        (“Agreement)”: 
 
 
-                                    1. SERVICES. 
+                        1. SERVICES. 
 
-    Company agrees to provide its Program and Client
-    agrees to abide by all policies and procedures as
-    outlined in this agreement as a condition of their
-                        participation in the Program.  
+    Company agrees to provide its Program and
+    Client agrees to abide by all policies 
+    and procedures as outlined in this 
+    agreement as a condition of their
+    participation in the Program.  
 
 
                                     2. DISCLAIMER. 

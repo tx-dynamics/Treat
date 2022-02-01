@@ -239,7 +239,7 @@ const PickDate = ({ navigation,route }) => {
           </TouchableOpacity>
         </View>
         <View>
-          <Apptext style={styles.Txt}>{` Personalize the effectiveness pf your 
+          <Apptext style={styles.Txt}>{` Personalize the effectiveness of your 
 daily debriefing app by inputting your
   schedule to ensure you are debriefing.`}</Apptext>
         </View>

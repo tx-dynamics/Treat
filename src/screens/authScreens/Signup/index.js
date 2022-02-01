@@ -15,9 +15,12 @@ import HumanHeader from 'src/components/HumanHeader';
 
 
 
-const Signup = ({ navigation }) => {
+const Signup = ({ navigation,route }) => {
+
+    const {askproblem,ans} = route.params
 
     const [toggleCheckBox, setToggleCheckBox] = useState(false);
+    
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -70,6 +73,8 @@ const Signup = ({ navigation }) => {
                     fullName: firstName,
                     TermsConditions: toggleCheckBox,
                     isBlocked: false,
+                    introQuestion : askproblem,
+                    Answer : ans
                 };
                 console.log(
                     email,
@@ -220,15 +225,15 @@ const Signup = ({ navigation }) => {
                     onPress={() => checkValues()}
                 />
             </View>
-            <TouchableOpacity 
+            {/* <TouchableOpacity 
             // onPress={() => navigation.navigate("AskProblem")}
             style={styles.methods}>
                 <Apptext style={DefaultStyles.lightTxt}>Other Sign-Up Methods</Apptext>
-            </TouchableOpacity>
-            <View style={styles.socialImgs}>
+            </TouchableOpacity> */}
+            {/* <View style={styles.socialImgs}>
                 <Image source={require('../../../../assets/facebook.png')} />
                 <Image source={require('../../../../assets/google.png')} />
-            </View>
+            </View> */}
             <View style={styles.bottomLines} >
                 <Apptext style={styles.bottomTxt}> Already have an account? </Apptext>
                 <TouchableOpacity onPress={() => { navigation.navigate("Login") }}>
@@ -244,46 +249,64 @@ const Signup = ({ navigation }) => {
            
             <View style={{ alignSelf: 'center' }}>
                 <Apptext style={{fontSize:12,marginTop:18, fontFamily: "Poppins",marginHorizontal:wp('7%')}}>{`By purchasing any (“Program”) from Ashleigh Boyd LLC (“Company”), you (“Client” and collectively, the “Parties”) agree to the following terms of this Purchase Agreement 
-                                    (“Agreement)”: 
+                        (“Agreement)”: 
 
 
-                                    1. SERVICES. 
+                        1. SERVICES. 
 
-    Company agrees to provide its Program and Client
-    agrees to abide by all policies and procedures as
-    outlined in this agreement as a condition of their
-                        participation in the Program.  
-
-
-                                    2. DISCLAIMER. 
+    Company agrees to provide its Program 
+    and Client agrees to abide by all 
+    policies and procedures as outlined
+    in this agreement as a condition of
+    their participation in the Program. 
 
 
-    Participant understands Company is not an agent,
-    publicist, accountant, financial planner, lawyer,
-    therapist,medical doctor or any other licensed or
-    registered professional except registered nurse. 
-    Coaching, which is not directive advice, counseling,
-    or therapy, may address overall goals, specific proje
-    -cts,or general conditions in Client’s life or profession.
-    Coaching services may include setting priorities, esta
-    -blishing goals, identifying resources, brainstorming,
-    creating action plans, strategizing, asking clarifying 
-    questions, and providing models, examples, and in-
-    the-moment skills training. Company promises that
-    all information provided by Client will be kept strictly
-    confidential, as permissible by law.  
+                        2. DISCLAIMER. 
 
-    All content found on the ashleighboyd.com and 
-    treatthenurse.com Website, including: text, images, 
-    audio, or other formats were created for informational 
-    purposes only. The Content is not intended to be a
-    substitute for professional medical advice, diagnosis, 
-    or treatment.Always seek the advice of your physician
-    or other qualified health provider with any questions
-    you may have regarding a medical condition. Never 
-    disregard professional medical advice or delay in 
-    seeking it because of something you have read on
-    this Website. 
+
+    Participant understands Company is not
+    an agent,publicist, accountant,finan-
+    cial planner, lawyer,therapist,medical
+    doctor or any other licensed or regis-
+    tered professional except registered 
+    nurse.
+
+    Coaching, which is not directive advice, 
+    counseling,or therapy, may address 
+    overall goals, specific projects,or
+    general conditions in Client’s life
+    or profession.
+    Coaching services may include setting
+    priorities, esta-blishing goals, id-
+    entifying resources, brainstorming,
+    creating action plans, strategizing,
+    asking clarifying questions, and 
+    providing models, examples, and in-
+    the-moment skills training. 
+    
+    Company promises that all infor-
+    mation provided by Client will be
+    kept strictly confidential, as 
+    permissible by law.  
+
+    All content found on the ashle-
+    ighboyd.com and treatthenurse.com
+    
+     Website, including: text, images, 
+    audio, or other formats were created
+    for informational purposes only. 
+    The Content is not intended to be a
+    substitute for professional medical
+    advice, diagnosis,or treatment.
+    
+    Always seek the advice of your 
+    physician or other qualified 
+    health provider with any questions
+    you may have regarding a medical
+    condition. Never disregard prof
+    essional medical advice or delay in 
+    seeking it because of something
+    you have read on this Website. 
 
     If you think you may have a medical emergency and 
     or feeling suicidal or homicidal, call your doctor, go

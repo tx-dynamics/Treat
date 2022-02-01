@@ -9,10 +9,10 @@ import DefaultStyles from "src/config/Styles";
 import HumanHeader from 'src/components/HumanHeader';
 import Icon from 'react-native-vector-icons/AntDesign';
 import RadioButtonRN from 'radio-buttons-react-native';
-import {getListing} from "src/firebase/utility";
+import { getListing } from "src/firebase/utility";
 
 
-const AskProblem = ({ navigation }) => {
+const AskProblem = ({ navigation, route }) => {
 
     const data = [
         {
@@ -36,6 +36,8 @@ const AskProblem = ({ navigation }) => {
     const [pageData, setPageData] = useState('');
     const [optionsList, setOptionsList] = useState([]);
     const [isQuestion, setQuestion] = useState('');
+    const [isAnswer, setAnswer] = useState('');
+    const [isAllow, setAllow] = useState(false)
 
 
     const listingData = async () => {
@@ -44,30 +46,37 @@ const AskProblem = ({ navigation }) => {
         setOptionsList(res.options)
         console.log(res.options)
         setQuestion(res.statement)
-        
+
     }
     useEffect(() => {
         listingData();
-    },[])
+    }, [])
 
     return (
         <View style={styles.container}>
             <ScrollView >
                 <HumanHeader />
-                <View style={{ flexDirection: 'row', 
-        marginLeft:wp('2%'),alignSelf: 'center' }}>
+                <View style={{
+                    flexDirection: 'row',
+                    marginLeft: wp('2%'), alignSelf: 'center'
+                }}>
                     <Apptext style={styles.userTxt}>{isQuestion ? isQuestion : null} </Apptext>
                     {/* <Apptext style={[styles.userTxt, { fontFamily: 'Poppins-SemiBold' }]}>hurdle right now?</Apptext> */}
                 </View>
-                <View style={{marginTop:wp('14%')}}>
+                <View style={{ marginTop: wp('14%') }}>
                     <RadioButtonRN
                         data={optionsList}
-                        boxStyle={{backgroundColor: "white",marginTop:-15,borderColor: "white" }}
+                        boxStyle={{ backgroundColor: "white", marginTop: -15, borderColor: "white" }}
                         circleSize={10}
                         deactiveColor="#f9c26e"
-                        textStyle={{ fontSize: 14, fontFamily: "Poppins-Regular",
-                        color: DefaultStyles.colors.primary }}
-                        selectedBtn={(e) => console.log(e)}
+                        textStyle={{
+                            fontSize: 14, fontFamily: "Poppins-Regular",
+                            color: DefaultStyles.colors.primary
+                        }}
+                        selectedBtn={(e) => {
+                            setAnswer(e.label)
+                            setAllow(true)
+                        }}
                         icon={
                             <Icon
                                 name="checkcircleo"
@@ -79,11 +88,14 @@ const AskProblem = ({ navigation }) => {
 
                 </View>
             </ScrollView>
-            <TouchableOpacity
-                onPress={() => navigation.navigate("AskSubscription")}
-                style={styles.buttonContainer}>
-                <Apptext style={styles.buttonText}>{"Next"}</Apptext>
-            </TouchableOpacity>
+            {isAllow ? (
+
+                <TouchableOpacity
+                    onPress={() => navigation.navigate("Signup", { askproblem: isQuestion, ans: isAnswer })}
+                    style={styles.buttonContainer}>
+                    <Apptext style={styles.buttonText}>{"Next"}</Apptext>
+                </TouchableOpacity>
+            ) : null}
         </View>
     )
 }

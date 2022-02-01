@@ -75,7 +75,7 @@ const AuthNavigator = () => {
     },[]);
 
     const splashchk = useSelector((state) => state.auth.SplashStatus)
-
+    console.log("splash", splashchk)
      if (splashchk) {
          return <SplashNavigator />
      }
