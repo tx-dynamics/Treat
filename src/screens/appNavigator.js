@@ -376,6 +376,9 @@ const MyTabs = () => {
 const MainNavigator = () => {
 
     const user = useSelector((state) => state.auth.user)
+    
+    const userInfo = useSelector((state) => state.auth.userdata)
+  
     if (user != false) {
         return <AppNavigator />
     }

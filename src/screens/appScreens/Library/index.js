@@ -116,9 +116,9 @@ const Library = ({ navigation,route }) => {
                 keyExtractor={(item) => item.title}
                 renderItem={({ item,index }) => (
                     <TreatBox
-                    leftTitle={item.title ? item.title : null}
+                    leftTitle={item.title ? item.title.substring(0,5)+"..." : null}
                     leftImgName={{uri : item.thumbnail}}
-                    subTxt={item.description ? item.description : null }
+                    subTxt={item.sub_title ? item.sub_title.substring(0,12) + ".....": null }
                     leftOnPress={() => navigation.navigate("TreatVideo", {videodata: item}) }
                 />
                    

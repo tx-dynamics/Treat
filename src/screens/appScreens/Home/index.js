@@ -35,7 +35,7 @@ BackgroundTask.define(async () => {
     
     if (typeof works.dates === "undefined") {
         dispatch(setWorkShifts({dates:[]}))
-        console.log("wwwwwwwwwwwwwwwww", works.dates)
+        console.log("Print Works", works.dates)
     }
     else {
     }

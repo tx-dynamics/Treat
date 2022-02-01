@@ -177,12 +177,19 @@ const SignIn = ({ navigation }) => {
         }
         (error) => {
             console.warn('Sign in error', error);
-            return { "Error": { error } }
+            // return { "Error": { error } }
         }
     }
 
     const onfbButtonPress = async () => {
         let info = await fbSign();
+        console.log("fbinfo", info)
+        if (typeof info === "undefined") {
+            console.log("Action Cancelled")
+        }
+        else{
+
+        
         const fb = auth.FacebookAuthProvider.credential(info?.Data?.data?.accessToken);
         auth().signInWithCredential(fb)
         .then(async() => {
@@ -210,6 +217,7 @@ const SignIn = ({ navigation }) => {
                 console.log(error.code + ':: ' + error.message);
                 // Alert.alert("Error : ", error)
             });
+        }
 
     }
 
@@ -227,49 +235,46 @@ const SignIn = ({ navigation }) => {
 
             // Alert.alert("Error : ", error)
             console.log(error)
-            return { "Error": { error } }
+            // return { "Error": { error } }
         }
     }
 
     const onGoogleButtonPress = async () => {
         let info = await GoogleSign();
-        const google = auth.GoogleAuthProvider.credential(info.idToken);
-        auth().signInWithCredential(google)
-            .then(async() => {
-                var user1 = auth().currentUser;
-                console.log(user1)
-                if (user1.uid) {
-                    let Details =  {
-                        email: user1.email,
-                        fullName: user1.displayName,
-                        uid: user1.uid,
-                        profilePhoto: user1.photoURL,
-                        isBlocked: user1.emailVerified === true ? false : true ,
-                    };
-                    console.log(Details)
-                    await saveData('users', user1.uid, Details);
-                    dispatch(setUserData(user1))
-                    dispatch(setUser(true))
-                }
-                else {
-                    console.log("error")
-                    Alert.alert("Please verify your email before sign in");
-                }
-            })
-            .catch(function (error) {
-                console.log(error.code + ':: ' + error.message);
-                // Alert.alert("Error : ", error)
-            });
+        if (typeof info === "undefined") {
+            console.log("Action Cancelled")
+        }
+        else{
+            const google = auth.GoogleAuthProvider.credential(info.idToken);
+            auth().signInWithCredential(google)
+                .then(async() => {
+                    var user1 = auth().currentUser;
+                    console.log(user1)
+                    if (user1.uid) {
+                        let Details =  {
+                            email: user1.email,
+                            fullName: user1.displayName,
+                            uid: user1.uid,
+                            profilePhoto: user1.photoURL,
+                            isBlocked: user1.emailVerified === true ? false : true ,
+                        };
+                        console.log(Details)
+                        await saveData('users', user1.uid, Details);
+                        dispatch(setUserData(user1))
+                        dispatch(setUser(true))
+                    }
+                    else {
+                        console.log("error")
+                        Alert.alert("Please verify your email before sign in");
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error.code + ':: ' + error.message);
+                    // Alert.alert("Error : ", error)
+                });
+        }
+     
 
-        // Get the users ID token
-        // const { idToken } = await GoogleSignin.signIn();
-
-        // // Create a Google credential with the token
-        // const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-        // console.log("googleCredential", googleCredential)
-
-        // // Sign-in the user with the credential
-        // return auth().signInWithCredential(googleCredential);
     }
 
     return (

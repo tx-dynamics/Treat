@@ -118,8 +118,8 @@ const PodCastVideo = ({ navigation, route }) => {
                     isLeftTxt={true}
                     isSubLeftTxt={true}
                     onPress={() => navigation.navigate("TreatVideo",{videodata: item})}
-                    setLeftTxt={item.title ? item.title : null}
-                    setSubLeftTxt={item.description ? item.description.substring(0,15) : null}
+                    setLeftTxt={item.title ? item.title.substring(0,15)+"...." : null}
+                    setSubLeftTxt={item.description ? item.description.substring(0,15) + "..." : null}
                     />
                    
                 )}

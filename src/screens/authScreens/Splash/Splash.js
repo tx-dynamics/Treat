@@ -2,13 +2,27 @@ import React,{useState, useEffect} from 'react';
 import {StyleSheet,Image, Text, View } from 'react-native';
 import { useDispatch } from "react-redux";
 import { setSplash } from 'src/redux/actions/authAction';
+import { useSelector } from 'react-redux';
+import { setUser, setUserData } from 'src/redux/actions/authAction';
 
 
 const Splash = ({navigation}) => {
 
     let dispatch = useDispatch();
+    const userInfo = useSelector((state) => state.auth.userdata)
+    const user = useSelector((state) => state.auth.user)
 
+    console.log("userss", userInfo)
     useEffect(() => {
+        // navigation.replace("Login")
+        // if (userInfo !== null) {
+        // dispatch(setSplash(true)); 
+        // dispatch(setUser(true));   
+        // }
+        // else{
+        // dispatch(setSplash(false));
+        // dispatch(setUser(true));   
+        // }
         setTimeout(() => {
             navigation.replace("Login")
             dispatch(setSplash(false));
