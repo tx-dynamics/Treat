@@ -20,44 +20,44 @@ import { useDispatch } from "react-redux";
 import { setItemLikes, setWorkShifts, setCalenderDates } from 'src/redux/actions/authAction';
 import firestore from '@react-native-firebase/firestore';
 import { ActivityIndicator } from 'react-native-paper';
-import BackgroundTask from 'react-native-background-task';
-import PushNotification from "react-native-push-notification";
+// import BackgroundTask from 'react-native-background-task';
+// import PushNotification from "react-native-push-notification";
 
 
-BackgroundTask.define(async () => {
+// BackgroundTask.define(async () => {
 
-    const res = new Date(Date.now())
-    const currentDate = new Date();
-    const restDate =  moment(currentDate).format('YYYY-MM-DD')
-    const vatt = moment(res).format('hh:mm a')
+//     const res = new Date(Date.now())
+//     const currentDate = new Date();
+//     const restDate =  moment(currentDate).format('YYYY-MM-DD')
+//     const vatt = moment(res).format('hh:mm a')
     
-    const works = useSelector((state) => state.auth.workshifts)
+//     const works = useSelector((state) => state.auth.workshifts)
     
-    if (typeof works.dates === "undefined") {
-        dispatch(setWorkShifts({dates:[]}))
-        console.log("Print Works", works.dates)
-    }
-    else {
-    }
-    let dbDate = "";
-    works.dates.map((val) => {
-        dbDate = val
-    })
-    console.log("values",restDate, vatt, works.ShiftTime, dbDate  )
-    if (vatt <= works.ShiftTime && restDate === dbDate) {
-        PushNotification.localNotificationSchedule({
-            message: "Work Shift Time", // (required)
-            date: new Date(Date.now() + 3 * 1000), // in 60 secs
-            allowWhileIdle: true, // (optional) set notification to work while on doze, default: false
-            /* Android Only Properties */
-            repeatTime: 1, // (optional) Increment of configured repeatType. Check 'Repeating Notifications' section for more info.
-          });
-    }
-    else{
-        // console.log("nothing")
-    }
-    BackgroundTask.finish()
-  })
+//     if (typeof works.dates === "undefined") {
+//         dispatch(setWorkShifts({dates:[]}))
+//         console.log("Print Works", works.dates)
+//     }
+//     else {
+//     }
+//     let dbDate = "";
+//     works.dates.map((val) => {
+//         dbDate = val
+//     })
+//     console.log("values",restDate, vatt, works.ShiftTime, dbDate  )
+//     if (vatt <= works.ShiftTime && restDate === dbDate) {
+//         PushNotification.localNotificationSchedule({
+//             message: "Work Shift Time", // (required)
+//             date: new Date(Date.now() + 3 * 1000), // in 60 secs
+//             allowWhileIdle: true, // (optional) set notification to work while on doze, default: false
+//             /* Android Only Properties */
+//             repeatTime: 1, // (optional) Increment of configured repeatType. Check 'Repeating Notifications' section for more info.
+//           });
+//     }
+//     else{
+//         // console.log("nothing")
+//     }
+//     BackgroundTask.finish()
+//   })
 
 const Home = ({ navigation }) => {
 
@@ -118,33 +118,33 @@ const Home = ({ navigation }) => {
         // console.log("marked", markedDatesArray)
         // dispatch(setCalenderDates(rest.dates))
     }
-    const checkStatus = async() => {
-        const status = await BackgroundTask.statusAsync()
-        if (status.available) {    
-            console.log("works", works)
-          return
-        }
+    // const checkStatus = async() => {
+    //     const status = await BackgroundTask.statusAsync()
+    //     if (status.available) {    
+    //         console.log("works", works)
+    //       return
+    //     }
         
-        const reason = status.unavailableReason
-        if (reason === BackgroundTask.UNAVAILABLE_DENIED) {
-          Alert.alert('Denied', 'Please enable background "Background App Refresh" for this app')
-        } else if (reason === BackgroundTask.UNAVAILABLE_RESTRICTED) {
-          Alert.alert('Restricted', 'Background tasks are restricted on your device')
-        }
-      }
+    //     const reason = status.unavailableReason
+    //     if (reason === BackgroundTask.UNAVAILABLE_DENIED) {
+    //       Alert.alert('Denied', 'Please enable background "Background App Refresh" for this app')
+    //     } else if (reason === BackgroundTask.UNAVAILABLE_RESTRICTED) {
+    //       Alert.alert('Restricted', 'Background tasks are restricted on your device')
+    //     }
+    //   }
 
-      useEffect(() => {
-        BackgroundTask.schedule({
-            period: 900, // Aim to run every 15 mins - more conservative on battery
-          })  
-          checkStatus()
-    },[])
+    //   useEffect(() => {
+    //     BackgroundTask.schedule({
+    //         period: 900, // Aim to run every 15 mins - more conservative on battery
+    //       })  
+    //       checkStatus()
+    // },[])
 
     useFocusEffect(
         React.useCallback(() => {
             listingData();
             getList();
-            checkStatus();
+            // checkStatus();
             getFvListing();
             // chky();
         }, [navigation])
@@ -517,12 +517,12 @@ const styles = StyleSheet.create({
         fontFamily: "Lato-Regular",
         fontSize: wp('4%'),
         alignSelf: 'center',
-        marginTop: wp('7%'),
+        marginTop: wp('1%'),
         color: DefaultStyles.colors.secondary
     },
     CalenderBox: {
         width: wp('90%'),
-        marginTop: wp('15%'),
+        marginTop: wp('2%'),
         height: wp('30%'),
         alignSelf: 'center',
         backgroundColor: "#ffecf8", borderRadius: 20

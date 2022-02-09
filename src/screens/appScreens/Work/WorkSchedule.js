@@ -9,7 +9,7 @@ import DefaultStyles from "src/config/Styles";
 import Header from 'src/components/Header';
 import Icon from 'react-native-vector-icons/AntDesign';
 import RadioButtonRN from 'radio-buttons-react-native';
-import PushNotification from "react-native-push-notification";
+// import PushNotification from "react-native-push-notification";
 import { saveData, getListing } from 'src/firebase/utility';
 import { useSelector } from 'react-redux';
 import moment, { now } from 'moment';
@@ -54,17 +54,17 @@ const WorkSchedule = ({ navigation, route }) => {
       }
 
 
-    const checkNotification = () => { 
-        PushNotification.localNotificationSchedule({
-            //... You can use all the options from localNotifications
-            message: "My Notification Message", // (required)
-            date: new Date(Date.now() + 5 * 1000), // in 60 secs
-            allowWhileIdle: true, // (optional) set notification to work while on doze, default: false
+    // const checkNotification = () => { 
+    //     PushNotification.localNotificationSchedule({
+    //         //... You can use all the options from localNotifications
+    //         message: "My Notification Message", // (required)
+    //         date: new Date(Date.now() + 5 * 1000), // in 60 secs
+    //         allowWhileIdle: true, // (optional) set notification to work while on doze, default: false
           
-            /* Android Only Properties */
-            repeatTime: 1, // (optional) Increment of configured repeatType. Check 'Repeating Notifications' section for more info.
-          });
-    }
+    //         /* Android Only Properties */
+    //         repeatTime: 1, // (optional) Increment of configured repeatType. Check 'Repeating Notifications' section for more info.
+    //       });
+    // }
 
     const getShift = async() => {
         let rest = await getListing("WorkSchedule", userInfo.uid)

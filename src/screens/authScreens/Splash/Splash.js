@@ -11,21 +11,13 @@ const Splash = ({navigation}) => {
     let dispatch = useDispatch();
     const userInfo = useSelector((state) => state.auth.userdata)
     const user = useSelector((state) => state.auth.user)
+    const splashchk = useSelector((state) => state.auth.SplahStatus )
 
-    console.log("userss", userInfo)
+    console.log("userss", splashchk)
     useEffect(() => {
-        // navigation.replace("Login")
-        // if (userInfo !== null) {
-        // dispatch(setSplash(true)); 
-        // dispatch(setUser(true));   
-        // }
-        // else{
-        // dispatch(setSplash(false));
-        // dispatch(setUser(true));   
-        // }
         setTimeout(() => {
+            dispatch(setSplash(true));
             navigation.replace("Login")
-            dispatch(setSplash(false));
         }, 2000);
     }, []);
 
