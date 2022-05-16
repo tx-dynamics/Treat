@@ -53,7 +53,7 @@ const index = ({ navigation }) => {
         `}
                     </Apptext>
                 </View>
-            </ScrollView>
+           
             <Apptext style={[styles.userTxt, { fontSize: 20 }]}>Subscription Options</Apptext>
             <Apptext style={[styles.userTxt, { fontSize: 13, marginTop: 5, color: DefaultStyles.colors.secondary }]}>(Billed as one payment)</Apptext>
          
@@ -73,6 +73,7 @@ const index = ({ navigation }) => {
                     <Apptext style={[styles.buttonText, {fontSize:12}]}>{"Per Year*"}</Apptext>
                 </TouchableOpacity>
             </View>
+            </ScrollView>
         </View>
     )
 }

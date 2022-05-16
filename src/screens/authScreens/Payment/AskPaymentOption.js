@@ -14,6 +14,8 @@ import PaymentOption from 'src/components/PaymentOption';
 import RadioButtonRN from 'radio-buttons-react-native';
 import { RadioButton } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/AntDesign';
+import stripe from 'tipsi-stripe'
+
 
 const data = [
     {
@@ -48,9 +50,33 @@ const paypal = [
 
 
 const AskPaymentOption = ({ navigation }) => {
-
+    const [loading, setLoading] = useState(false)
+    const [token, setToken] = useState(null)
     const [isShow, setShow] = useState(false);
     const [checked, setChecked] = useState('CreditCard');
+    stripe.setOptions({
+        publishableKey: 'pk_test_51KTR6YC7PK2T7hfAgKRkNdRh6v3Fn8mieeJPOXB2Mhc1C80sdLrq3XQzRClbnDJBdPnzfHsTSAqapgs3ulCRIrUI00VmeYfV7X'
+        })
+      
+    const handleCardPayPress = async () => {
+        console.log('handleCardPayPress()')
+        // const options = {}
+        try {
+          setLoading(true)
+          const token = await stripe.paymentRequestWithCardForm()
+          console.log('Token from Card ', token)
+          setToken(token)
+          setLoading(false)
+    
+        } catch (error) {
+          console.log('handleCardPayPress Error ', error)
+          setLoading(false)
+        }
+    
+    
+      }
+    
+    
     console.log(checked)
     return (
         <View style={styles.container}>
@@ -72,7 +98,8 @@ const AskPaymentOption = ({ navigation }) => {
                    
                 )}
             /> */}
-                    <TouchableOpacity
+                    <TouchableOpacity 
+                     onPress={handleCardPayPress}
                         style={styles.SightingContainer}>
                         <View style={styles.DirectionView}>
                             <View style={styles.boxWidth}>

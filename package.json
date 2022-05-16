@@ -44,6 +44,7 @@
     "react-redux": "^7.2.6",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
+    "tipsi-stripe": "^9.2.0",
     "toggle-switch-react-native": "^3.3.0"
   },
   "devDependencies": {

@@ -78,7 +78,7 @@ const Home = ({ navigation }) => {
 
     const FavItems = useSelector((state) => state.auth.ItemLikes)
 
-    // console.log("works",works)
+     console.log("works",userInfo)
 
     const chkData = async () => {
         let res = await getAllOfCollection("home")
@@ -358,7 +358,8 @@ const Home = ({ navigation }) => {
         return (
             <View style={[styles.container]}>
                 <HomeHeader
-                    headrImg={profilePath ? { uri: profilePath } : require('../../../../assets/empty-image.png')}
+                    // headrImg={profilePath ? { uri: profilePath } : require('../../../../assets/empty-image.png')}
+                    headrImg={profilePath ? require('../../../../assets/Logo.png'): require('../../../../assets/Logo.png')}
                     headerTitle={"Welcome"}
                     leftOnPress={() => navigation.navigate('withoutBottomTabnavigator', { screen: 'ProfileView' })}
                     rightHeaderImg={require('../../../../assets/settingIcon.png')}
@@ -438,7 +439,7 @@ const Home = ({ navigation }) => {
                         iconContainer={{flex: 0.1,color:'transparent',}}
                     /> */}
                     </View>
-                </ScrollView>
+              
                 <View style={styles.DirectionView}>
                     <Apptext style={styles.PrsnlTxt}>Your Personal Library</Apptext>
                     <TouchableOpacity>
@@ -480,7 +481,7 @@ const Home = ({ navigation }) => {
 
 
 
-                {/* </ScrollView> */}
+                </ScrollView>
             </View>
         )
     }

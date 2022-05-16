@@ -40,7 +40,7 @@ const ZoomLive = ({ navigation, route }) => {
     const chkData = async () => {
         let res = await getAllOfCollection("meeting")
         setMeetingLink([res])
-        console.log("res", res.description)
+        console.log("res", res)
     }
 
     useEffect(() => {
@@ -75,7 +75,8 @@ const ZoomLive = ({ navigation, route }) => {
                 keyExtractor={(item) => item.link}
                 renderItem={({ item, index }) => (
                     <SelectBox
-                    onPress={() => navigation.navigate("JoinMeeting", {joinmeeting : item})}
+                    onPress={() => navigation.navigate("JoinMeeting",
+                    {joinmeeting : item})}
                     // onPress={() => Linking.openURL(item.link)}
                     // onPress={() => {
                     //     addCategories(item)

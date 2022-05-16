@@ -322,12 +322,12 @@ const Audios = ({ navigation, route }) => {
                 onPressRight={() => 
                     navigation.navigate("Settings")
                 }
-
+ 
             />
             <ScrollView>
                 <View style={{ marginTop: wp('8%') }}>
                     <AudioCard
-                        // backImg={require('../../../../assets/TreatCover.png')}
+                       //  backImg={require('../../../../assets/TreatCover.png')}
                         backImg={{ uri: audiodata.thumbnail }}
                         // audioCntrl={audioCntrl ? require('../../../../assets/pause1.png') : require('../../../../assets/videoIcon.png')}
                         audioCntrl={playbackState === State.Playing ? require('../../../../assets/pause1.png') : require('../../../../assets/videoIcon.png')}

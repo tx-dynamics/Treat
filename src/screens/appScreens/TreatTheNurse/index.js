@@ -15,46 +15,6 @@ import { getAllOfCollection,getData, getListing} from "src/firebase/utility";
 
 const TreatTheNurse = ({ navigation, route }) => {
 
-    const DATA = [
-        {
-            id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-            count: "+5",
-            label: "Introduction",
-            msg: "Lorem ipsum",
-            Img: require("../../../../assets/treat1.png"),
-            dt: "5 minutes ago",
-            move: "Detail"
-        },
-        {
-            id: 'bd7acbewweea-c1b1-46c2-aed5-3ad53abb28ba',
-            count: "",
-            label: 'Implementation',
-            msg: "Will do, super, thank you",
-            Img: require("../../../../assets/treat2.png"),
-            dt: "2 hours ago",
-            move: "Detail"
-        },
-        {
-            id: 'bd7acbea-c1bewew1-46c2-aed5-3ad53abb28ba',
-            count: "+3",
-            label: "Outline",
-            msg: "Lorem ipsum",
-            Img: require("../../../../assets/treat3.png"),
-            dt: "3 hours ago",
-            move: "Detail"
-        },
-        {
-            id: 'bd7acbea-c1b1-4efwffde6c2-aed5-3ad53abb28ba',
-            count: "+22",
-            label: "Education",
-            msg: "Lorem ipsum",
-            Img: require("../../../../assets/treat4.png"),
-            dt: "01 Feb",
-            move: "Detail"
-        },
-  
-
-    ];
 
     const [coverImg, setCoverImg] = useState('');
     const [islistingData, setListingData] = useState([]);
@@ -88,7 +48,7 @@ const TreatTheNurse = ({ navigation, route }) => {
         
 
         
-            <Apptext style={styles.monthTxt}>Intro</Apptext>
+            <Apptext style={[styles.monthTxt,{color:'black'}]}>Introduction</Apptext>
             <View style={{marginTop:wp('7%')}}>
                 <HomeWideCard 
                 // backImg={require('../../../../assets/frameBack.png')}

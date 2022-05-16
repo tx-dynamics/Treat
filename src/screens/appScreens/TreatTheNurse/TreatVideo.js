@@ -170,7 +170,7 @@ const chkPreviousAudio = () => {
             <TreatHeader
                 leftIcon={"arrow-back"}
                 onPressLeft={() => navigation.goBack()}
-                onPressRight={() => navigation.navigate("Settings")}
+               onPressRight={() => navigation.navigate("Settings")}
             />
             <ScrollView>
                 <Apptext style={styles.monthTxt}>{videodata.title ? videodata.title : null}</Apptext>

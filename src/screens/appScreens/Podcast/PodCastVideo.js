@@ -101,6 +101,7 @@ const PodCastVideo = ({ navigation, route }) => {
             }
             <View style={{marginTop:wp('8%')}}>
             <FlatList   
+                style={{marginBottom:wp('11%')}}
                 data={islistingData}
                 keyExtractor={(item, index) => index}
                 ListEmptyComponent={() => {

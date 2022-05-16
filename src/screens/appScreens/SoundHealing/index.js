@@ -101,6 +101,7 @@ const SoundHealing = ({ navigation, route }) => {
 
             <View>
             <FlatList   
+                style={{marginBottom:wp(75)}}
                 data={islistingData}
                 numColumns={2}
                 horizontal={false}
@@ -127,7 +128,8 @@ export default SoundHealing;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: DefaultStyles.colors.white
+        backgroundColor: DefaultStyles.colors.white,
+        //height:hp(100)
     },
     headerLogo: {
         alignItems: 'center',

@@ -91,7 +91,7 @@ const Settings = ({ navigation }) => {
                         </View>
                         <View style={styles.bottomDirectionView}>
                             <Apptext style={styles.SightingText}>
-                                {"Favourite"}
+                                {"Favorite"}
                             </Apptext>
                         </View>
                     </View>

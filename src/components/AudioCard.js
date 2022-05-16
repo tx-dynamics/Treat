@@ -33,15 +33,17 @@ const AudioCard = ({ count, leftTitle, myStl, backImg, audioCntrl, onPress, ...r
 
     return (
 
-        <View>
+       
 
-            <View>
+          
                 <ImageBackground
                     source={backImg}
                     imageStyle={{ borderRadius: 12 }}
                     style={{
-                        width: wp('88%'),
-                        alignSelf: 'center', height: wp('57%')
+                        width: wp('100%'),
+                       // height:wp('100%'),
+                        alignSelf: 'center', 
+                        height: hp('40%')
                     }}>
                         <TouchableOpacity
                             onPress={onPress}
@@ -81,8 +83,8 @@ const AudioCard = ({ count, leftTitle, myStl, backImg, audioCntrl, onPress, ...r
 
                     )} */}
                 </ImageBackground>
-            </View>
-        </View>
+           
+       
 
 
     );

@@ -12,7 +12,7 @@ const HomeHeader = ({headrImg,headerTitle,rightHeaderImg,onPress, leftOnPress, r
         <View style={styles.MainContainer}>
             <View style={{flexDirection:'row',}}>
            <TouchableOpacity onPress={leftOnPress}>
-            <ImageBackground imageStyle={{borderRadius:50 }}  style={styles.imgBox} source={headrImg}>
+            <ImageBackground imageStyle={{  marginTop:wp('3.2%'),borderRadius:0,width:56,height:35,alignSelf:'center' }}  style={styles.imgBox} source={headrImg}>
             </ImageBackground>
            </TouchableOpacity>
            <Apptext style={styles.headerTxt}>{headerTitle}</Apptext>

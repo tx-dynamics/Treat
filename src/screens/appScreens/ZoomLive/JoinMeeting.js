@@ -89,7 +89,7 @@ const ZoomLive = ({ navigation, route }) => {
     return (
         <View style={styles.container}>
             <TreatHeader
-                isback={true}
+                 isback={true}
                 onPressRight={() => navigation.navigate("Settings")}
                 onPressLeft={() => navigation.goBack()}
             />

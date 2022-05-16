@@ -233,53 +233,33 @@ const MyTabs = () => {
             <Tab.Screen name="GeneralNavigator" component={GeneralNavigator}
                 options={{
                     tabBarLabel: ({ focused }) => (
-                        <Apptext style={{ fontSize: wp('2%'), fontFamily: "Poppins-Regular", color: focused ? DefaultStyles.colors.secondary : DefaultStyles.colors.primary }}>Home</Apptext>
+                        <Apptext style={{ fontSize: wp('1.5%'), fontFamily: "Poppins-Regular", color: focused ? DefaultStyles.colors.secondary : DefaultStyles.colors.primary }}>Home</Apptext>
                     ),
                     tabBarIcon: ({ focused }) => (
                         focused ?
                             <View style={styles.tabBox1}>
                                 <Image
                                     source={require('../../assets/home.png')}
-                                    resizeMode={"contain"} />
+                                    resizeMode={"contain"}
+                                    style={styles.bottomImage}
+                                    />
                             </View>
                             :
                             
                             <View style={styles.tabBox}>
                                 <Image
                                     source={require('../../assets/home.png')}
-                                    resizeMode={"contain"} />
+                                    resizeMode={"contain"}
+                                    style={styles.bottomImage}
+                                    />
                             </View>
                     )
                 }} />
-            <Tab.Screen name="Treat The Nurse" component={TreatNavigator}
+                <Tab.Screen name="FrameWorkNavigator" component={FrameWorkNavigator}
                 options={{
                     tabBarLabel: ({ focused }) => (
                         <Apptext style={{
-                            fontSize: wp('2%'), fontFamily: "Poppins-Regular",
-                            color: focused ? DefaultStyles.colors.secondary : DefaultStyles.colors.primary
-                        }}>Treat The Nurse</Apptext>
-                    ),
-                    tabBarIcon: ({ focused }) => (
-                        focused ?
-                            <View style={styles.tabBox1}>
-                                <Image
-                                    source={require('../../assets/tab2.png')}
-                                    resizeMode={"contain"} />
-                            </View>
-                            :
-                            <View style={styles.tabBox}>
-                                <Image
-                                    source={require('../../assets/tab2.png')}
-                                    resizeMode={"contain"} />
-                            </View>
-
-                    )
-                }} />
-            <Tab.Screen name="FrameWorkNavigator" component={FrameWorkNavigator}
-                options={{
-                    tabBarLabel: ({ focused }) => (
-                        <Apptext style={{
-                            fontSize: wp('2%'), fontFamily: "Poppins-Regular",
+                            fontSize: wp('1.5%'), fontFamily: "Poppins-Regular",
                             color: focused ? DefaultStyles.colors.secondary : DefaultStyles.colors.primary
                         }}>FrameWork</Apptext>
                     ),
@@ -287,14 +267,70 @@ const MyTabs = () => {
                         focused ?
                             <View style={styles.tabBox1}>
                                 <Image
+                                style={styles.bottomImage}
                                     source={require('../../assets/tab3.png')}
                                     resizeMode={"contain"} />
                             </View>
                             :
                             <View style={styles.tabBox}>
                                 <Image
+                                style={styles.bottomImage}
                                     source={require('../../assets/tab3.png')}
                                     resizeMode={"contain"} />
+                            </View>
+                    )
+                }} />
+            <Tab.Screen name="Daily Debrief" component={TreatNavigator}
+                options={{
+                    tabBarLabel: ({ focused }) => (
+                        <Apptext style={{
+                            fontSize: wp('1.5%'), fontFamily: "Poppins-Regular",
+                            color: focused ? DefaultStyles.colors.secondary : DefaultStyles.colors.primary
+                        }}>Daily Debrief</Apptext>
+                    ),
+                    tabBarIcon: ({ focused }) => (
+                        focused ?
+                            <View style={styles.tabBox1}>
+                                <Image
+                                style={styles.bottomImage}
+                                    source={require('../../assets/tab2.png')}
+                                    resizeMode={"contain"} />
+                            </View>
+                            :
+                            <View style={styles.tabBox}>
+                                <Image
+                                style={styles.bottomImage}
+                                    source={require('../../assets/tab2.png')}
+                                    resizeMode={"contain"} />
+                            </View>
+
+                    )
+                }} />
+            <Tab.Screen name="SoundHealingNavigator" component={SoundHealingNavigator}
+                options={{
+                    tabBarLabel: ({ focused }) => (
+                        <Apptext style={{
+                            fontSize: wp('1.5%'), fontFamily: "Poppins-Regular",
+                            color: focused ? DefaultStyles.colors.secondary : DefaultStyles.colors.primary
+                        }}>Sound Healing</Apptext>
+                    ),
+                    tabBarIcon: ({ focused }) => (
+                        focused ?
+                            <View style={styles.tabBox1}>
+                                <Image
+                                style={styles.bottomImage}
+                                    source={require('../../assets/tab6.png')}
+                                    resizeMode={"contain"}
+                                   
+                                     />
+                            </View>
+                            :
+                            <View style={styles.tabBox}>
+                                <Image
+                                style={styles.bottomImage}
+                                    source={require('../../assets/tab6.png')}
+                                    resizeMode={"contain"} 
+                                    />
                             </View>
                     )
                 }} />
@@ -302,20 +338,22 @@ const MyTabs = () => {
                 options={{
                     tabBarLabel: ({ focused }) => (
                         <Apptext style={{
-                            fontSize: wp('2%'), fontFamily: "Poppins-Regular",
+                            fontSize:wp('1.5%'), fontFamily: "Poppins-Regular",
                             color: focused ? DefaultStyles.colors.secondary : DefaultStyles.colors.primary
-                        }}>Podcast</Apptext>
+                        }}>Headphones</Apptext>
                     ),
                     tabBarIcon: ({ focused }) => (
                         focused ?
                             <View style={styles.tabBox1}>
                                 <Image
+                                style={styles.bottomImage}
                                     source={require('../../assets/tab4.png')}
                                     resizeMode={"contain"} />
                             </View>
                             :
                             <View style={styles.tabBox}>
                                 <Image
+                                style={styles.bottomImage}
                                     source={require('../../assets/tab4.png')}
                                     resizeMode={"contain"} />
                             </View>
@@ -325,7 +363,7 @@ const MyTabs = () => {
                 options={{
                     tabBarLabel: ({ focused }) => (
                         <Apptext style={{
-                            fontSize: wp('2%'), fontFamily: "Poppins-Regular",
+                            fontSize: wp('1.5%'), fontFamily: "Poppins-Regular",
                             color: focused ? DefaultStyles.colors.secondary : DefaultStyles.colors.primary
                         }}>Zoom Live</Apptext>
                     ),
@@ -333,40 +371,20 @@ const MyTabs = () => {
                         focused ?
                             <View style={styles.tabBox1}>
                                 <Image
+                                style={styles.bottomImage}
                                     source={require('../../assets/tab5.png')}
                                     resizeMode={"contain"} />
                             </View>
                             :
                             <View style={styles.tabBox}>
                                 <Image
+                                style={styles.bottomImage}
                                     source={require('../../assets/tab5.png')}
                                     resizeMode={"contain"} />
                             </View>
                     )
                 }} />
-            <Tab.Screen name="SoundHealingNavigator" component={SoundHealingNavigator}
-                options={{
-                    tabBarLabel: ({ focused }) => (
-                        <Apptext style={{
-                            fontSize: wp('2%'), fontFamily: "Poppins-Regular",
-                            color: focused ? DefaultStyles.colors.secondary : DefaultStyles.colors.primary
-                        }}>Sound Healing</Apptext>
-                    ),
-                    tabBarIcon: ({ focused }) => (
-                        focused ?
-                            <View style={styles.tabBox1}>
-                                <Image
-                                    source={require('../../assets/tab6.png')}
-                                    resizeMode={"contain"} />
-                            </View>
-                            :
-                            <View style={styles.tabBox}>
-                                <Image
-                                    source={require('../../assets/tab6.png')}
-                                    resizeMode={"contain"} />
-                            </View>
-                    )
-                }} />
+            
 
         </Tab.Navigator>
     );
@@ -412,7 +430,9 @@ const styles = StyleSheet.create({
         width: wp('10%'),
         borderRadius: 20,
         backgroundColor: DefaultStyles.colors.secondary
-    }
+    },
+    bottomImage:
+    {width:20,height:20},
 
 
 });

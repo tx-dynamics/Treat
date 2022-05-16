@@ -36,7 +36,9 @@ function TreatHeader({
         }
       </TouchableOpacity>
       <View>
-      <Image style={{width:87,height:47,}} source={require('../../assets/Logo.png')} />
+      <Image 
+      style={{width:120,height:47,marginLeft:-15}} 
+      source={require('../../assets/TheDailyDebriefing.png')} />
       </View>
    
     <TouchableOpacity style={styles.rightView} onPress={onPressRight}>
@@ -66,9 +68,10 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   rightView:{
-    width:wp('32%'),
+    width:wp('30%'),
     flexDirection:'row',
     justifyContent:'flex-end',
+    marginTop:3,
   },
 });
 
