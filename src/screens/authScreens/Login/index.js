@@ -4,7 +4,7 @@ import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
+import { AccessToken, LoginManager } from "react-native-fbsdk";
 import Apptext from 'src/components/Apptext';
 import DefaultStyles from "src/config/Styles";
 import HumanHeader from 'src/components/HumanHeader';
@@ -184,8 +184,8 @@ const SignIn = ({ navigation }) => {
 
     const onfbButtonPress = async () => {
         let info = await fbSign();
-        console.log("fbinfo", info)
-        if (typeof info === "undefined") {
+        console.log("fbinfo", JSON.stringify(info))
+        if (typeof info == "undefined") {
             console.log("Action Cancelled")
         }
         else{
@@ -242,10 +242,12 @@ const SignIn = ({ navigation }) => {
 
     const onGoogleButtonPress = async () => {
         let info = await GoogleSign();
+        console.log("GoogleInfo", JSON.stringify(info))
         if (typeof info === "undefined") {
             console.log("Action Cancelled")
         }
         else{
+
             const google = auth.GoogleAuthProvider.credential(info.idToken);
             auth().signInWithCredential(google)
                 .then(async() => {
